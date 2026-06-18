@@ -104,7 +104,7 @@ export function SiteHeader() {
               ))}
             </ul>
             <Link
-              href="#consultation"
+              href="/consultation"
               className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold text-sm px-5 py-2.5 rounded-md transition-colors"
             >
               Free Estimate
@@ -159,7 +159,7 @@ export function SiteHeader() {
             </ul>
             <div className="mt-6 flex flex-col gap-3">
               <Link
-                href="#consultation"
+                href="/consultation"
                 onClick={() => setOpen(false)}
                 className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-5 py-3 rounded-md transition-colors"
               >
