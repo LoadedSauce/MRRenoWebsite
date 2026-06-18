@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { submitLead } from "@/app/actions/submit-lead";
+import { readAttribution } from "@/lib/attribution";
 
 const steps = [
   { id: 1, label: "Project" },
@@ -26,11 +28,25 @@ const timelines = [
 
 const budgets = [
   "Under $25K",
-  "$25K – $75K",
-  "$75K – $150K",
+  "$25K \u2013 $75K",
+  "$75K \u2013 $150K",
   "$150K+",
   "Not sure yet",
 ];
+
+const contactPrefs = ["Phone", "Email", "Either is fine"];
+
+function packDetails(opts: {
+  timeline: string;
+  budget: string;
+  notes: string;
+}): string | null {
+  const lines: string[] = [];
+  if (opts.timeline) lines.push(`Timeline: ${opts.timeline}`);
+  if (opts.budget) lines.push(`Budget: ${opts.budget}`);
+  if (opts.notes) lines.push("", opts.notes);
+  return lines.length > 0 ? lines.join("\n") : null;
+}
 
 export function LeadFormShell() {
   const [step, setStep] = useState(1);
@@ -40,18 +56,63 @@ export function LeadFormShell() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [preferred, setPreferred] = useState("");
   const [notes, setNotes] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
-  const goNext = () => setStep((s) => Math.min(s + 1, steps.length + 1));
+  const goNext = () => setStep((s) => Math.min(s + 1, steps.length));
   const goBack = () => setStep((s) => Math.max(s - 1, 1));
+
+  const reset = () => {
+    setStep(1);
+    setService("");
+    setTimeline("");
+    setBudget("");
+    setName("");
+    setEmail("");
+    setPhone("");
+    setPreferred("");
+    setNotes("");
+    setSubmitted(false);
+    setErrorMsg(null);
+  };
+
+  const handleSubmit = () => {
+    setErrorMsg(null);
+    if (!name.trim() || name.trim().length < 2) {
+      setErrorMsg("Please enter your full name.");
+      return;
+    }
+    if (!email.trim() && !phone.trim()) {
+      setErrorMsg("Please provide an email or phone number so we can reach you.");
+      return;
+    }
+    const attribution = readAttribution();
+    startTransition(async () => {
+      const result = await submitLead({
+        form_type: "consultation",
+        full_name: name,
+        email: email || null,
+        phone: phone || null,
+        project_type: service || null,
+        project_details: packDetails({ timeline, budget, notes }),
+        preferred_contact: preferred || null,
+        ...attribution,
+      });
+      if (result.ok) {
+        setSubmitted(true);
+      } else {
+        setErrorMsg(result.error ?? "Submission failed. Please try again.");
+      }
+    });
+  };
 
   const fieldBase =
     "w-full rounded-md border border-faint bg-paper px-4 py-3 text-base text-ink placeholder:text-muted focus:border-navy focus:outline-none focus:ring-2 focus:ring-orange/40 transition-colors";
-
   const labelBase = "block text-sm font-display font-semibold text-ink mb-2";
   const helpBase = "mt-1.5 text-xs text-muted";
-
   const optionBase =
     "flex items-center gap-3 rounded-md border border-faint bg-paper px-4 py-3 cursor-pointer hover:border-navy/40 transition-colors";
   const optionSelected = "border-navy bg-soft-navy/60";
@@ -74,10 +135,7 @@ export function LeadFormShell() {
         </p>
         <button
           type="button"
-          onClick={() => {
-            setSubmitted(false);
-            setStep(1);
-          }}
+          onClick={reset}
           className="mt-6 text-sm text-navy underline underline-offset-4 hover:text-orange transition-colors"
         >
           Submit another request
@@ -88,7 +146,6 @@ export function LeadFormShell() {
 
   return (
     <div className="rounded-xl bg-paper border border-faint shadow-md overflow-hidden">
-      {/* Step indicator */}
       <div className="bg-soft-navy/60 border-b border-faint px-6 sm:px-8 py-4">
         <ol className="flex items-center justify-between gap-2">
           {steps.map((s, idx) => {
@@ -129,7 +186,6 @@ export function LeadFormShell() {
         </ol>
       </div>
 
-      {/* Step content */}
       <div className="p-6 sm:p-8">
         {step === 1 ? (
           <div>
@@ -247,14 +303,13 @@ export function LeadFormShell() {
                 className={fieldBase}
                 placeholder="Jane Doe"
                 autoComplete="name"
+                required
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="email" className={labelBase}>
-                  Email
-                </label>
+                <label htmlFor="email" className={labelBase}>Email</label>
                 <input
                   id="email"
                   type="email"
@@ -266,9 +321,7 @@ export function LeadFormShell() {
                 />
               </div>
               <div>
-                <label htmlFor="phone" className={labelBase}>
-                  Phone
-                </label>
+                <label htmlFor="phone" className={labelBase}>Phone</label>
                 <input
                   id="phone"
                   type="tel"
@@ -282,9 +335,32 @@ export function LeadFormShell() {
             </div>
 
             <div>
-              <label htmlFor="notes" className={labelBase}>
-                Anything else we should know?
-              </label>
+              <p className={labelBase}>Preferred contact method</p>
+              <div className="grid grid-cols-3 gap-2.5">
+                {contactPrefs.map((c) => {
+                  const selected = preferred === c;
+                  return (
+                    <label
+                      key={c}
+                      className={`${optionBase} ${selected ? optionSelected : ""}`}
+                    >
+                      <input
+                        type="radio"
+                        name="preferred"
+                        value={c}
+                        checked={selected}
+                        onChange={() => setPreferred(c)}
+                        className="accent-orange"
+                      />
+                      <span className="text-sm font-medium text-ink">{c}</span>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="notes" className={labelBase}>Anything else we should know?</label>
               <textarea
                 id="notes"
                 value={notes}
@@ -295,11 +371,8 @@ export function LeadFormShell() {
               />
             </div>
 
-            {/* Review summary */}
             <div className="rounded-md bg-soft-navy/60 border border-faint p-4">
-              <p className="text-xs font-display font-semibold uppercase tracking-[0.08em] text-navy mb-2">
-                Review
-              </p>
+              <p className="text-xs font-display font-semibold uppercase tracking-[0.08em] text-navy mb-2">Review</p>
               <dl className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
                 <div>
                   <dt className="text-muted text-xs">Project</dt>
@@ -315,15 +388,23 @@ export function LeadFormShell() {
                 </div>
               </dl>
             </div>
+
+            {errorMsg ? (
+              <div
+                role="alert"
+                className="rounded-md border border-orange/40 bg-soft-orange/60 px-4 py-3 text-sm text-ink"
+              >
+                {errorMsg}
+              </div>
+            ) : null}
           </div>
         ) : null}
 
-        {/* Navigation */}
         <div className="mt-8 flex items-center justify-between gap-3 border-t border-faint pt-6">
           <button
             type="button"
             onClick={goBack}
-            disabled={step === 1}
+            disabled={step === 1 || isPending}
             className="inline-flex items-center justify-center px-5 py-2.5 rounded-md font-display font-semibold text-sm text-navy border border-faint hover:bg-soft-navy disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             Back
@@ -340,10 +421,12 @@ export function LeadFormShell() {
           ) : (
             <button
               type="button"
-              onClick={() => setSubmitted(true)}
-              className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold text-sm px-6 py-2.5 rounded-md transition-colors"
+              onClick={handleSubmit}
+              disabled={isPending}
+              aria-busy={isPending}
+              className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold text-sm px-6 py-2.5 rounded-md transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Request my estimate
+              {isPending ? "Sending\u2026" : "Request my estimate"}
             </button>
           )}
         </div>

@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
-import { LeadFormShell } from "@/components/lead-form-shell";
 
 const services = [
   {
@@ -154,7 +153,7 @@ export default function Home() {
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Link
-                href="#consultation"
+                href="/consultation"
                 className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-6 py-3.5 rounded-md transition-colors"
               >
                 Get a Free Estimate
@@ -456,50 +455,6 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* ── LEAD FORM ───────────────────────────────────────── */}
-      <section id="consultation" className="bg-paper border-t border-faint">
-        <Container width="wide" className="py-20 lg:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-            <div className="lg:col-span-5 lg:sticky lg:top-32">
-              <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">Free Estimate</p>
-              <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink leading-[1.1]">
-                Start with a <span className="accent">no-gimmick estimate.</span>
-              </h2>
-              <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed">
-                Tell us about your project. We&rsquo;ll get back to you within one business day with next steps &mdash; no pressure, no obligation.
-              </p>
-
-              <ul className="mt-8 space-y-4">
-                {[
-                  "No high-pressure sales calls",
-                  "No bait-and-switch pricing",
-                  "Scheduled outline before work begins",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <span
-                      className="mt-1 inline-flex items-center justify-center w-5 h-5 rounded-full bg-orange/15 text-orange text-xs font-bold shrink-0"
-                      aria-hidden="true"
-                    >
-                      &#10003;
-                    </span>
-                    <span className="text-sm text-ink leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <p className="mt-8 text-sm text-muted leading-relaxed">
-                Prefer to talk first? Call{" "}
-                <a href="tel:7639002024" className="text-navy font-semibold underline underline-offset-4">763-900-2024</a>.
-              </p>
-            </div>
-
-            <div className="lg:col-span-7">
-              <LeadFormShell />
-            </div>
-          </div>
-        </Container>
-      </section>
-
       {/* ── FINAL CTA ───────────────────────────────────────── */}
       <section className="bg-navy text-paper">
         <Container width="wide" className="py-20 lg:py-24 text-center">
@@ -513,7 +468,7 @@ export default function Home() {
 
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              href="#consultation"
+              href="/consultation"
               className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-6 py-3.5 rounded-md transition-colors"
             >
               Start your free estimate
