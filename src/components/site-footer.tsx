@@ -110,7 +110,7 @@ export function SiteFooter() {
       <div className="border-t border-paper/15">
         <Container width="wide" className="py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <p className="text-xs text-soft-navy/70">
-            &copy; {new Date().getFullYear()} M.&nbsp;R. Renovations, LLC. MN License #BCXXXXXX
+            &copy; {new Date().getFullYear()} M.&nbsp;R. Renovations, LLC. MN License #BC809200
           </p>
           <div className="flex items-center gap-5">
             <Link href="#privacy" className="text-xs text-soft-navy/70 hover:text-paper transition-colors">
