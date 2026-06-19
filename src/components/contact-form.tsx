@@ -7,7 +7,8 @@ import { readAttribution } from "@/lib/attribution";
 const contactPrefs = ["Phone", "Email", "Either is fine"];
 
 export function ContactForm() {
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [preferred, setPreferred] = useState("");
@@ -17,7 +18,8 @@ export function ContactForm() {
   const [isPending, startTransition] = useTransition();
 
   const reset = () => {
-    setName("");
+    setFirstName("");
+    setLastName("");
     setEmail("");
     setPhone("");
     setPreferred("");
@@ -30,8 +32,12 @@ export function ContactForm() {
     e.preventDefault();
     setErrorMsg(null);
 
-    if (!name.trim() || name.trim().length < 2) {
-      setErrorMsg("Please enter your full name.");
+    if (!firstName.trim()) {
+      setErrorMsg("Please enter your first name.");
+      return;
+    }
+    if (!lastName.trim()) {
+      setErrorMsg("Please enter your last name.");
       return;
     }
     if (!email.trim() && !phone.trim()) {
@@ -44,7 +50,8 @@ export function ContactForm() {
     startTransition(async () => {
       const result = await submitLead({
         form_type: "contact",
-        full_name: name,
+        first_name: firstName,
+        last_name: lastName,
         email: email || null,
         phone: phone || null,
         project_details: message || null,
@@ -96,20 +103,38 @@ export function ContactForm() {
       className="rounded-xl bg-paper border border-faint shadow-md p-6 sm:p-8 space-y-5"
       noValidate
     >
-      <div>
-        <label htmlFor="cf-name" className={labelBase}>
-          Full name
-        </label>
-        <input
-          id="cf-name"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className={fieldBase}
-          placeholder="Jane Doe"
-          autoComplete="name"
-          required
-        />
+      {/* Name — split into First / Last */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="cf-first-name" className={labelBase}>
+            First name <span className="text-orange">*</span>
+          </label>
+          <input
+            id="cf-first-name"
+            type="text"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className={fieldBase}
+            placeholder="Jane"
+            autoComplete="given-name"
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="cf-last-name" className={labelBase}>
+            Last name <span className="text-orange">*</span>
+          </label>
+          <input
+            id="cf-last-name"
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            className={fieldBase}
+            placeholder="Doe"
+            autoComplete="family-name"
+            required
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
