@@ -2,6 +2,8 @@
 
 import type { LeadSubmission, SubmitResult } from "@/lib/lead-types";
 
+const SOURCE_CHANNEL = "Website" as const;
+
 /**
  * Server Action: insert a single lead into public.leads via the Supabase REST API.
  *
@@ -15,6 +17,16 @@ import type { LeadSubmission, SubmitResult } from "@/lib/lead-types";
  *    the full new row including id natively to Zapier). This keeps the
  *    service-role key out of the app entirely.
  *  - Uses native fetch — no @supabase/supabase-js dependency added (Rule 5).
+ *
+ * SCHEMA-002 / Phase 1.2b changes:
+ *  - Accepts first_name + last_name instead of full_name.
+ *  - Composes full_name server-side (`${first} ${last}`) to satisfy the
+ *    legacy NOT-NULL column until migration 0003 drops it.
+ *  - Inserts street_address, city, state, zip (required on consultation,
+ *    optional on contact — enforced at the form layer; validated here for
+ *    consultation submissions).
+ *  - source_channel is always "Website" (DB default already set; also set
+ *    explicitly here so the value is unambiguous in server logs).
  */
 export async function submitLead(payload: LeadSubmission): Promise<SubmitResult> {
   // ── Server-side validation ─────────────────────────────────────────
@@ -24,9 +36,17 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
   if (payload.form_type !== "consultation" && payload.form_type !== "contact") {
     return { ok: false, error: "Invalid form type." };
   }
-  if (!payload.full_name || payload.full_name.trim().length < 2) {
-    return { ok: false, error: "Please enter your full name." };
+
+  const firstName = payload.first_name?.trim() ?? "";
+  const lastName = payload.last_name?.trim() ?? "";
+
+  if (firstName.length < 1) {
+    return { ok: false, error: "Please enter your first name." };
   }
+  if (lastName.length < 1) {
+    return { ok: false, error: "Please enter your last name." };
+  }
+
   // Schema allows email or phone to be null individually, but we require at
   // least one means of contact for the lead to be actionable.
   const hasEmail = !!(payload.email && payload.email.trim());
@@ -35,11 +55,25 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
     return { ok: false, error: "Please provide an email or phone number." };
   }
   if (hasEmail) {
-    // Liberal email pattern; the column accepts text either way and final
-    // validation is downstream in the CRM.
     const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email!.trim());
     if (!emailOk) {
       return { ok: false, error: "Please enter a valid email address." };
+    }
+  }
+
+  // Address required on consultation; optional on contact.
+  if (payload.form_type === "consultation") {
+    if (!payload.street_address?.trim()) {
+      return { ok: false, error: "Please enter your street address." };
+    }
+    if (!payload.city?.trim()) {
+      return { ok: false, error: "Please enter your city." };
+    }
+    if (!payload.state?.trim()) {
+      return { ok: false, error: "Please enter your state." };
+    }
+    if (!payload.zip?.trim()) {
+      return { ok: false, error: "Please enter your ZIP code." };
     }
   }
 
@@ -47,12 +81,11 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) {
-    // Fail closed and log to the server. The client gets a generic message.
     console.error("[submitLead] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY.");
     return { ok: false, error: "Submission temporarily unavailable. Please call 763-900-2024." };
   }
 
-  // ── Build the row (only set fields with content; null otherwise) ───
+  // ── Build the row ──────────────────────────────────────────────────
   const clean = (v: unknown): string | null => {
     if (typeof v !== "string") return null;
     const trimmed = v.trim();
@@ -61,13 +94,23 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
 
   const row = {
     form_type: payload.form_type,
-    full_name: payload.full_name.trim(),
+    // Legacy NOT-NULL column — composed server-side; dropped in migration 0003.
+    full_name: `${firstName} ${lastName}`,
+    // SCHEMA-002 split-name columns
+    first_name: firstName,
+    last_name: lastName,
     email: clean(payload.email),
     phone: clean(payload.phone),
     project_type: clean(payload.project_type),
     project_details: clean(payload.project_details),
     preferred_contact: clean(payload.preferred_contact),
-    source_channel: clean(payload.source_channel),
+    // SCHEMA-002 address columns
+    street_address: clean(payload.street_address),
+    city: clean(payload.city),
+    state: clean(payload.state),
+    zip: clean(payload.zip),
+    // Attribution
+    source_channel: SOURCE_CHANNEL,
     source_campaign: clean(payload.source_campaign),
     landing_url: clean(payload.landing_url),
     utm_source: clean(payload.utm_source),
@@ -89,7 +132,6 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
         Prefer: "return=minimal",
       },
       body: JSON.stringify(row),
-      // Server Action runs server-side; no need for cors mode hints
       cache: "no-store",
     });
 
@@ -97,7 +139,6 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
       return { ok: true };
     }
 
-    // Non-2xx — read body for server logs but don't leak details to client.
     const errorBody = await res.text().catch(() => "");
     console.error(`[submitLead] Supabase rejected insert (HTTP ${res.status}): ${errorBody}`);
     return {

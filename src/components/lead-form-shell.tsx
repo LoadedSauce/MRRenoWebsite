@@ -36,6 +36,14 @@ const budgets = [
 
 const contactPrefs = ["Phone", "Email", "Either is fine"];
 
+const US_STATES = [
+  "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA",
+  "HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
+  "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+  "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+  "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
+];
+
 function packDetails(opts: {
   timeline: string;
   budget: string;
@@ -53,11 +61,19 @@ export function LeadFormShell() {
   const [service, setService] = useState("");
   const [timeline, setTimeline] = useState("");
   const [budget, setBudget] = useState("");
-  const [name, setName] = useState("");
+  // Split name
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [preferred, setPreferred] = useState("");
   const [notes, setNotes] = useState("");
+  // Address
+  const [streetAddress, setStreetAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
+
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -70,35 +86,66 @@ export function LeadFormShell() {
     setService("");
     setTimeline("");
     setBudget("");
-    setName("");
+    setFirstName("");
+    setLastName("");
     setEmail("");
     setPhone("");
     setPreferred("");
     setNotes("");
+    setStreetAddress("");
+    setCity("");
+    setState("");
+    setZip("");
     setSubmitted(false);
     setErrorMsg(null);
   };
 
   const handleSubmit = () => {
     setErrorMsg(null);
-    if (!name.trim() || name.trim().length < 2) {
-      setErrorMsg("Please enter your full name.");
+    if (!firstName.trim()) {
+      setErrorMsg("Please enter your first name.");
+      return;
+    }
+    if (!lastName.trim()) {
+      setErrorMsg("Please enter your last name.");
       return;
     }
     if (!email.trim() && !phone.trim()) {
       setErrorMsg("Please provide an email or phone number so we can reach you.");
       return;
     }
+    if (!streetAddress.trim()) {
+      setErrorMsg("Please enter your street address so we can schedule the site visit.");
+      return;
+    }
+    if (!city.trim()) {
+      setErrorMsg("Please enter your city.");
+      return;
+    }
+    if (!state) {
+      setErrorMsg("Please select your state.");
+      return;
+    }
+    if (!zip.trim()) {
+      setErrorMsg("Please enter your ZIP code.");
+      return;
+    }
+
     const attribution = readAttribution();
     startTransition(async () => {
       const result = await submitLead({
         form_type: "consultation",
-        full_name: name,
+        first_name: firstName,
+        last_name: lastName,
         email: email || null,
         phone: phone || null,
         project_type: service || null,
         project_details: packDetails({ timeline, budget, notes }),
         preferred_contact: preferred || null,
+        street_address: streetAddress,
+        city,
+        state,
+        zip,
         ...attribution,
       });
       if (result.ok) {
@@ -291,22 +338,41 @@ export function LeadFormShell() {
               </p>
             </div>
 
-            <div>
-              <label htmlFor="name" className={labelBase}>
-                Full name
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className={fieldBase}
-                placeholder="Jane Doe"
-                autoComplete="name"
-                required
-              />
+            {/* Name — split */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="first-name" className={labelBase}>
+                  First name <span className="text-orange">*</span>
+                </label>
+                <input
+                  id="first-name"
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className={fieldBase}
+                  placeholder="Jane"
+                  autoComplete="given-name"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="last-name" className={labelBase}>
+                  Last name <span className="text-orange">*</span>
+                </label>
+                <input
+                  id="last-name"
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className={fieldBase}
+                  placeholder="Doe"
+                  autoComplete="family-name"
+                  required
+                />
+              </div>
             </div>
 
+            {/* Contact */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="email" className={labelBase}>Email</label>
@@ -334,6 +400,80 @@ export function LeadFormShell() {
               </div>
             </div>
 
+            {/* Address — required on consultation */}
+            <div>
+              <label htmlFor="street-address" className={labelBase}>
+                Street address <span className="text-orange">*</span>
+              </label>
+              <input
+                id="street-address"
+                type="text"
+                value={streetAddress}
+                onChange={(e) => setStreetAddress(e.target.value)}
+                className={fieldBase}
+                placeholder="123 Maple St"
+                autoComplete="street-address"
+                required
+              />
+              <p className={helpBase}>Needed to schedule the site visit.</p>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="col-span-2 sm:col-span-2">
+                <label htmlFor="city" className={labelBase}>
+                  City <span className="text-orange">*</span>
+                </label>
+                <input
+                  id="city"
+                  type="text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  className={fieldBase}
+                  placeholder="Maple Grove"
+                  autoComplete="address-level2"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="state" className={labelBase}>
+                  State <span className="text-orange">*</span>
+                </label>
+                <select
+                  id="state"
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                  className={`${fieldBase} appearance-none`}
+                  autoComplete="address-level1"
+                  required
+                >
+                  <option value="">—</option>
+                  {US_STATES.map((abbr) => (
+                    <option key={abbr} value={abbr}>
+                      {abbr}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="zip" className={labelBase}>
+                  ZIP <span className="text-orange">*</span>
+                </label>
+                <input
+                  id="zip"
+                  type="text"
+                  inputMode="numeric"
+                  value={zip}
+                  onChange={(e) => setZip(e.target.value)}
+                  className={fieldBase}
+                  placeholder="55369"
+                  autoComplete="postal-code"
+                  maxLength={10}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Preferred contact */}
             <div>
               <p className={labelBase}>Preferred contact method</p>
               <div className="grid grid-cols-3 gap-2.5">
@@ -367,10 +507,11 @@ export function LeadFormShell() {
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
                 className={fieldBase}
-                placeholder="Optional &mdash; scope, ideas, photos to share"
+                placeholder="Optional — scope, ideas, photos to share"
               />
             </div>
 
+            {/* Review card */}
             <div className="rounded-md bg-soft-navy/60 border border-faint p-4">
               <p className="text-xs font-display font-semibold uppercase tracking-[0.08em] text-navy mb-2">Review</p>
               <dl className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
