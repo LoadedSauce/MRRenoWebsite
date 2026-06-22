@@ -16,11 +16,11 @@ const SOURCE_CHANNEL = "Website" as const;
  *    the INT-001 Zapier trigger (Supabase Database Webhook on INSERT supplies
  *    the full new row including id natively to Zapier). This keeps the
  *    service-role key out of the app entirely.
- *  - Uses native fetch â€” no @supabase/supabase-js dependency added (Rule 5).
+ *  - Uses native fetch — no @supabase/supabase-js dependency added (Rule 5).
  *
  * SCHEMA-002 / Phase 1.2b: split first_name + last_name; structured address.
  * Phase 1.2c: address validation applies to both consultation and contact.
- * Phase 1.2d: full_name composition removed â€” first_name / last_name are now
+ * Phase 1.2d: full_name composition removed — first_name / last_name are now
  *   the canonical name fields. Column drop follows in migration 0003.
  */
 export async function submitLead(payload: LeadSubmission): Promise<SubmitResult> {
