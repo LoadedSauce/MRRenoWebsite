@@ -1,9 +1,9 @@
 /**
  * Per-area content data shape.
  *
- * Used to hydrate service x area landing pages with locally
- * relevant copy. Implemented as a static TypeScript module â€”
- * not a CMS, database table, or remote API call.
+ * Used to hydrate service x area landing pages (Tier 3) with locally
+ * relevant copy. Implemented as a static TypeScript module — not a CMS,
+ * database table, or remote API call.
  */
 
 export interface RecentProjectExample {
@@ -56,7 +56,7 @@ export interface ServiceAreaData {
    */
   serviceNotes?: Record<string, string>;
   /**
-   * 1â€“3 recent projects completed in this city.
+   * 1–3 recent projects completed in this city.
    * Displayed in the "Recent work nearby" section of the service x area page.
    */
   recentProjectExamples: RecentProjectExample[];
