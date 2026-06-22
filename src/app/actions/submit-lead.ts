@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import type { LeadSubmission, SubmitResult } from "@/lib/lead-types";
 
@@ -16,7 +16,7 @@ const SOURCE_CHANNEL = "Website" as const;
  *    the INT-001 Zapier trigger (Supabase Database Webhook on INSERT supplies
  *    the full new row including id natively to Zapier). This keeps the
  *    service-role key out of the app entirely.
- *  - Uses native fetch â€” no @supabase/supabase-js dependency added (Rule 5).
+ *  - Uses native fetch — no @supabase/supabase-js dependency added (Rule 5).
  *
  * SCHEMA-002 / Phase 1.2b changes:
  *  - Accepts first_name + last_name instead of full_name.

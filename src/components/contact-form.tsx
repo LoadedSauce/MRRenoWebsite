@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useTransition } from "react";
 import { submitLead } from "@/app/actions/submit-lead";
@@ -254,7 +254,7 @@ export function ContactForm() {
             autoComplete="address-level1"
             required
           >
-            <option value="">â€”</option>
+            <option value="">—</option>
             {US_STATES.map((abbr) => (
               <option key={abbr} value={abbr}>
                 {abbr}
