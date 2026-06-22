@@ -6,6 +6,14 @@ import { readAttribution } from "@/lib/attribution";
 
 const contactPrefs = ["Phone", "Email", "Either is fine"];
 
+const US_STATES = [
+  "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA",
+  "HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
+  "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+  "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+  "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
+];
+
 export function ContactForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -13,6 +21,12 @@ export function ContactForm() {
   const [phone, setPhone] = useState("");
   const [preferred, setPreferred] = useState("");
   const [message, setMessage] = useState("");
+  // Address
+  const [streetAddress, setStreetAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
+
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -24,6 +38,10 @@ export function ContactForm() {
     setPhone("");
     setPreferred("");
     setMessage("");
+    setStreetAddress("");
+    setCity("");
+    setState("");
+    setZip("");
     setSubmitted(false);
     setErrorMsg(null);
   };
@@ -44,6 +62,22 @@ export function ContactForm() {
       setErrorMsg("Please provide an email or phone number so we can reach you.");
       return;
     }
+    if (!streetAddress.trim()) {
+      setErrorMsg("Please enter your street address.");
+      return;
+    }
+    if (!city.trim()) {
+      setErrorMsg("Please enter your city.");
+      return;
+    }
+    if (!state) {
+      setErrorMsg("Please select your state.");
+      return;
+    }
+    if (!zip.trim()) {
+      setErrorMsg("Please enter your ZIP code.");
+      return;
+    }
 
     const attribution = readAttribution();
 
@@ -56,6 +90,10 @@ export function ContactForm() {
         phone: phone || null,
         project_details: message || null,
         preferred_contact: preferred || null,
+        street_address: streetAddress,
+        city,
+        state,
+        zip,
         ...attribution,
       });
       if (result.ok) {
@@ -69,6 +107,7 @@ export function ContactForm() {
   const fieldBase =
     "w-full rounded-md border border-faint bg-paper px-4 py-3 text-base text-ink placeholder:text-muted focus:border-navy focus:outline-none focus:ring-2 focus:ring-orange/40 transition-colors";
   const labelBase = "block text-sm font-display font-semibold text-ink mb-2";
+  const helpBase = "mt-1.5 text-xs text-muted";
 
   if (submitted) {
     return (
@@ -103,7 +142,7 @@ export function ContactForm() {
       className="rounded-xl bg-paper border border-faint shadow-md p-6 sm:p-8 space-y-5"
       noValidate
     >
-      {/* Name — split into First / Last */}
+      {/* Name */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="cf-first-name" className={labelBase}>
@@ -137,6 +176,7 @@ export function ContactForm() {
         </div>
       </div>
 
+      {/* Contact */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="cf-email" className={labelBase}>
@@ -168,6 +208,80 @@ export function ContactForm() {
         </div>
       </div>
 
+      {/* Address */}
+      <div>
+        <label htmlFor="cf-street-address" className={labelBase}>
+          Street address <span className="text-orange">*</span>
+        </label>
+        <input
+          id="cf-street-address"
+          type="text"
+          value={streetAddress}
+          onChange={(e) => setStreetAddress(e.target.value)}
+          className={fieldBase}
+          placeholder="123 Maple St"
+          autoComplete="street-address"
+          required
+        />
+        <p className={helpBase}>Helps us serve your area and schedule follow-up.</p>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="col-span-2 sm:col-span-2">
+          <label htmlFor="cf-city" className={labelBase}>
+            City <span className="text-orange">*</span>
+          </label>
+          <input
+            id="cf-city"
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            className={fieldBase}
+            placeholder="Maple Grove"
+            autoComplete="address-level2"
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="cf-state" className={labelBase}>
+            State <span className="text-orange">*</span>
+          </label>
+          <select
+            id="cf-state"
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+            className={`${fieldBase} appearance-none`}
+            autoComplete="address-level1"
+            required
+          >
+            <option value="">—</option>
+            {US_STATES.map((abbr) => (
+              <option key={abbr} value={abbr}>
+                {abbr}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="cf-zip" className={labelBase}>
+            ZIP <span className="text-orange">*</span>
+          </label>
+          <input
+            id="cf-zip"
+            type="text"
+            inputMode="numeric"
+            value={zip}
+            onChange={(e) => setZip(e.target.value)}
+            className={fieldBase}
+            placeholder="55369"
+            autoComplete="postal-code"
+            maxLength={10}
+            required
+          />
+        </div>
+      </div>
+
+      {/* Preferred contact */}
       <div>
         <p className={labelBase}>Preferred contact method</p>
         <div className="grid grid-cols-3 gap-2.5">
@@ -227,7 +341,7 @@ export function ContactForm() {
           aria-busy={isPending}
           className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold text-sm px-6 py-3 rounded-md transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {isPending ? "Sending\u2026" : "Send message"}
+          {isPending ? "Sending..." : "Send message"}
         </button>
       </div>
 

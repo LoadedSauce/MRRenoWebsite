@@ -20,16 +20,15 @@ const SOURCE_CHANNEL = "Website" as const;
  *
  * SCHEMA-002 / Phase 1.2b changes:
  *  - Accepts first_name + last_name instead of full_name.
- *  - Composes full_name server-side (`${first} ${last}`) to satisfy the
- *    legacy NOT-NULL column until migration 0003 drops it.
- *  - Inserts street_address, city, state, zip (required on consultation,
- *    optional on contact — enforced at the form layer; validated here for
- *    consultation submissions).
- *  - source_channel is always "Website" (DB default already set; also set
- *    explicitly here so the value is unambiguous in server logs).
+ *  - Composes full_name server-side to satisfy the legacy NOT-NULL column
+ *    until migration 0003 drops it.
+ *  - Inserts street_address, city, state, zip.
+ *  - source_channel is always "Website".
+ *
+ * Phase 1.2c change:
+ *  - Address validation now applies to both consultation and contact.
  */
 export async function submitLead(payload: LeadSubmission): Promise<SubmitResult> {
-  // ── Server-side validation ─────────────────────────────────────────
   if (!payload || typeof payload !== "object") {
     return { ok: false, error: "Invalid submission." };
   }
@@ -47,8 +46,6 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
     return { ok: false, error: "Please enter your last name." };
   }
 
-  // Schema allows email or phone to be null individually, but we require at
-  // least one means of contact for the lead to be actionable.
   const hasEmail = !!(payload.email && payload.email.trim());
   const hasPhone = !!(payload.phone && payload.phone.trim());
   if (!hasEmail && !hasPhone) {
@@ -61,23 +58,20 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
     }
   }
 
-  // Address required on consultation; optional on contact.
-  if (payload.form_type === "consultation") {
-    if (!payload.street_address?.trim()) {
-      return { ok: false, error: "Please enter your street address." };
-    }
-    if (!payload.city?.trim()) {
-      return { ok: false, error: "Please enter your city." };
-    }
-    if (!payload.state?.trim()) {
-      return { ok: false, error: "Please enter your state." };
-    }
-    if (!payload.zip?.trim()) {
-      return { ok: false, error: "Please enter your ZIP code." };
-    }
+  // Address required on both consultation and contact (Phase 1.2c).
+  if (!payload.street_address?.trim()) {
+    return { ok: false, error: "Please enter your street address." };
+  }
+  if (!payload.city?.trim()) {
+    return { ok: false, error: "Please enter your city." };
+  }
+  if (!payload.state?.trim()) {
+    return { ok: false, error: "Please enter your state." };
+  }
+  if (!payload.zip?.trim()) {
+    return { ok: false, error: "Please enter your ZIP code." };
   }
 
-  // ── Env vars ───────────────────────────────────────────────────────
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) {
@@ -85,7 +79,6 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
     return { ok: false, error: "Submission temporarily unavailable. Please call 763-900-2024." };
   }
 
-  // ── Build the row ──────────────────────────────────────────────────
   const clean = (v: unknown): string | null => {
     if (typeof v !== "string") return null;
     const trimmed = v.trim();
@@ -94,9 +87,7 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
 
   const row = {
     form_type: payload.form_type,
-    // Legacy NOT-NULL column — composed server-side; dropped in migration 0003.
     full_name: `${firstName} ${lastName}`,
-    // SCHEMA-002 split-name columns
     first_name: firstName,
     last_name: lastName,
     email: clean(payload.email),
@@ -104,12 +95,10 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
     project_type: clean(payload.project_type),
     project_details: clean(payload.project_details),
     preferred_contact: clean(payload.preferred_contact),
-    // SCHEMA-002 address columns
     street_address: clean(payload.street_address),
     city: clean(payload.city),
     state: clean(payload.state),
     zip: clean(payload.zip),
-    // Attribution
     source_channel: SOURCE_CHANNEL,
     source_campaign: clean(payload.source_campaign),
     landing_url: clean(payload.landing_url),
@@ -120,7 +109,6 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
     utm_content: clean(payload.utm_content),
   };
 
-  // ── POST to Supabase REST ──────────────────────────────────────────
   try {
     const endpoint = `${url.replace(/\/$/, "")}/rest/v1/leads`;
     const res = await fetch(endpoint, {
