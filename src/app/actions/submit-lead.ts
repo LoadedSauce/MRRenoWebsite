@@ -16,17 +16,12 @@ const SOURCE_CHANNEL = "Website" as const;
  *    the INT-001 Zapier trigger (Supabase Database Webhook on INSERT supplies
  *    the full new row including id natively to Zapier). This keeps the
  *    service-role key out of the app entirely.
- *  - Uses native fetch — no @supabase/supabase-js dependency added (Rule 5).
+ *  - Uses native fetch â€” no @supabase/supabase-js dependency added (Rule 5).
  *
- * SCHEMA-002 / Phase 1.2b changes:
- *  - Accepts first_name + last_name instead of full_name.
- *  - Composes full_name server-side to satisfy the legacy NOT-NULL column
- *    until migration 0003 drops it.
- *  - Inserts street_address, city, state, zip.
- *  - source_channel is always "Website".
- *
- * Phase 1.2c change:
- *  - Address validation now applies to both consultation and contact.
+ * SCHEMA-002 / Phase 1.2b: split first_name + last_name; structured address.
+ * Phase 1.2c: address validation applies to both consultation and contact.
+ * Phase 1.2d: full_name composition removed â€” first_name / last_name are now
+ *   the canonical name fields. Column drop follows in migration 0003.
  */
 export async function submitLead(payload: LeadSubmission): Promise<SubmitResult> {
   if (!payload || typeof payload !== "object") {
@@ -58,7 +53,6 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
     }
   }
 
-  // Address required on both consultation and contact (Phase 1.2c).
   if (!payload.street_address?.trim()) {
     return { ok: false, error: "Please enter your street address." };
   }
@@ -87,7 +81,6 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
 
   const row = {
     form_type: payload.form_type,
-    full_name: `${firstName} ${lastName}`,
     first_name: firstName,
     last_name: lastName,
     email: clean(payload.email),
