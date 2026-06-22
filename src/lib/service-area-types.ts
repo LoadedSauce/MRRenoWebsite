@@ -2,7 +2,7 @@
  * Per-area content data shape.
  *
  * Used to hydrate service x area landing pages (Tier 3) with locally
- * relevant copy. Implemented as a static TypeScript module â€” not a CMS,
+ * relevant copy. Implemented as a static TypeScript module — not a CMS,
  * database table, or remote API call.
  */
 
@@ -42,13 +42,28 @@ export interface ServiceAreaData {
    */
   neighborhoods: string[];
   /**
-   * 1â€“3 recent projects completed in this city.
+   * Notable landmarks or local identifiers (parks, corridors, arenas).
+   * Optional. Used for additional local copy signal on service x area pages.
+   * Added Phase 1.4.
+   */
+  nearbyLandmarks?: string[];
+  /**
+   * Per-service hero sub-copy override, keyed by service slug.
+   * When present for a given service slug, overrides
+   * ServiceData.heroDefaultSubcopy on the service x area page.
+   * If absent, the service-level default copy renders unchanged.
+   * Added Phase 1.4.
+   */
+  serviceNotes?: Record<string, string>;
+  /**
+   * 1–3 recent projects completed in this city.
    * Displayed in the "Recent work nearby" section of the service x area page.
    */
   recentProjectExamples: RecentProjectExample[];
   /**
    * One or two sentences for the hero sub-copy, specific to this city.
    * Must mention the city by name and reference local knowledge.
+   * Used as generic area sub-copy when no serviceNotes entry exists.
    */
   heroBlurb: string;
   /**
