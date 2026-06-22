@@ -1,26 +1,163 @@
 @import "tailwindcss";
 
 @theme {
+  /* ── Brand palette ─────────────────────────────────────── */
   --color-navy: #1F3A6B;
   --color-navy-deep: #152849;
   --color-orange: #E86A1C;
+  --color-orange-deep: #C8581A;
   --color-soft-navy: #EAF0F8;
   --color-soft-orange: #FDECE0;
   --color-ink: #0E1D3A;
   --color-muted: #6B7280;
   --color-faint: #C9CCD3;
   --color-paper: #FFFFFF;
+  --color-cream: #F4EDDF;
+  --color-cream-deep: #ECE3D0;
 
+  /* ── Semantic surfaces ─────────────────────────────────── */
+  --color-surface: #FFFFFF;
+  --color-surface-tinted: #F8FAFC;
+  --color-surface-cream: #F4EDDF;
+  --color-surface-navy: #1F3A6B;
+  --color-surface-navy-deep: #152849;
+
+  /* ── Text hierarchy ────────────────────────────────────── */
+  --color-text-strong: #0E1D3A;
+  --color-text-body: #1F2937;
+  --color-text-muted: #6B7280;
+  --color-text-on-navy: #FFFFFF;
+  --color-text-on-navy-muted: #A8B5CC;
+
+  /* ── Borders ───────────────────────────────────────────── */
+  --color-border-faint: #E5E7EB;
+  --color-border-default: #C9CCD3;
+  --color-border-strong: #9AA1AC;
+  --color-border-on-navy: rgb(255 255 255 / 0.15);
+
+  /* ── Container widths ──────────────────────────────────── */
+  --container-narrow: 42rem;
+  --container-default: 72rem;
+  --container-wide: 80rem;
+
+  /* ── Radii ─────────────────────────────────────────────── */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+
+  /* ── Shadows ───────────────────────────────────────────── */
+  --shadow-xs: 0 1px 2px 0 rgb(15 29 58 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(15 29 58 / 0.08), 0 1px 2px -1px rgb(15 29 58 / 0.05);
+  --shadow-md: 0 4px 12px -2px rgb(15 29 58 / 0.08), 0 2px 6px -2px rgb(15 29 58 / 0.04);
+  --shadow-lg: 0 10px 30px -8px rgb(15 29 58 / 0.12), 0 4px 10px -4px rgb(15 29 58 / 0.06);
+
+  /* ── Z-index layers ────────────────────────────────────── */
+  --z-base: 1;
+  --z-sticky: 40;
+  --z-overlay: 50;
+  --z-modal: 60;
+
+  /* ── Transitions ───────────────────────────────────────── */
+  --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition-fast: 120ms;
+  --transition-base: 200ms;
+  --transition-slow: 320ms;
+
+  /* ── Typography ────────────────────────────────────────── */
   --font-display: var(--font-dm-sans), system-ui, sans-serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
+
+  /* Display sizes */
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1rem;
+  --text-eyebrow--letter-spacing: 0.14em;
+  --text-eyebrow--font-weight: 600;
+
+  --text-hero: 3.75rem;
+  --text-hero--line-height: 1;
+  --text-hero--letter-spacing: -0.02em;
+  --text-hero--font-weight: 700;
+
+  --text-display: 2.5rem;
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -0.015em;
+  --text-display--font-weight: 700;
+
+  --text-section: 1.875rem;
+  --text-section--line-height: 1.15;
+  --text-section--letter-spacing: -0.01em;
+  --text-section--font-weight: 700;
+
+  --text-card-title: 1.125rem;
+  --text-card-title--line-height: 1.35;
+  --text-card-title--font-weight: 600;
+
+  /* Body sizes */
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.6;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.55;
+  --text-legal: 0.8125rem;
+  --text-legal--line-height: 1.5;
 }
 
 html {
   font-family: var(--font-body);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background: var(--color-surface);
+  color: var(--color-text-body);
   font-family: var(--font-body);
+  font-feature-settings: "kern", "liga", "ss01";
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: var(--color-text-strong);
+  }
+}
+
+/* Orange-italic accent motif used inside headings. Heading itself stays in DM Sans;
+   the accent phrase shifts to italic + orange. */
+.accent {
+  color: var(--color-orange);
+  font-style: italic;
+  font-weight: 700;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* Hero photo placeholder treatment — abstract architectural gradient.
+   Real photography drops in here in a later phase. */
+.hero-photo-placeholder {
+  background-color: #1a2a44;
+  background-image:
+    radial-gradient(at 20% 30%, rgb(232 106 28 / 0.18) 0%, transparent 45%),
+    radial-gradient(at 80% 20%, rgb(31 58 107 / 0.65) 0%, transparent 50%),
+    radial-gradient(at 70% 85%, rgb(14 29 58 / 0.85) 0%, transparent 55%),
+    linear-gradient(135deg, #1a2a44 0%, #0e1d3a 60%, #152849 100%);
+}
+
+.project-photo-placeholder {
+  background-color: var(--color-navy);
+  background-image:
+    linear-gradient(180deg, rgb(255 255 255 / 0.05) 0%, transparent 40%),
+    linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-deep) 100%);
 }
