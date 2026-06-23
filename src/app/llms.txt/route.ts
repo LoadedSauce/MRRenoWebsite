@@ -2,13 +2,13 @@
 //
 // Advisory map for AI crawlers. Lists priority URLs with one-line
 // descriptions per https://llmstxt.org/. This is NOT a substitute for
-// robots.ts or sitemap.ts â€” it's a hint layer for LLM-based agents that
+// robots.ts or sitemap.ts -- it is a hint layer for LLM-based agents that
 // choose to respect it. Treat as advisory only.
 //
-// Scope note (P1.5): mirrors sitemap.ts â€” only the home page and live
-// service Ã— area pages are listed. Service hubs and service-area hubs are
-// omitted until those route templates exist and return 200, so we never
-// point crawlers at URLs that 404.
+// Scope note: mirrors sitemap.ts -- only the home page and launched
+// service-area (Tier 3) pages are listed. Service hubs and service-area hubs
+// are omitted until those route templates exist and return 200, and thin
+// Tier 3 pages are withheld until their content ships (see LIVE_TIER3).
 
 import { SITE } from "@/lib/seo/site";
 import { canonical } from "@/lib/seo/canonical";
@@ -17,13 +17,17 @@ import { getAllServices, getAllServiceAreas } from "@/lib/data/services";
 export const dynamic = "force-static";
 export const revalidate = 3600;
 
+// Tier 3 "service/area" keys with real, launched content. Format:
+// "<serviceSlug>/<areaSlug>". Keep in sync with LIVE_TIER3 in src/app/sitemap.ts.
+const LIVE_TIER3 = new Set<string>(["kitchens/rogers"]);
+
 function link(url: string, summary: string): string {
   return `- [${url}](${url}): ${summary}`;
 }
 
 export function GET(): Response {
   const services = getAllServices();
-  const activeAreas = getAllServiceAreas().filter((a) => a.isActive !== false);
+  const areas = getAllServiceAreas().filter((a) => a.isActive !== false);
 
   const lines: string[] = [];
 
@@ -45,13 +49,13 @@ export function GET(): Response {
   );
   lines.push("");
 
-  // Top Tier 3 pages â€” the workhorses
-  lines.push("## Top service Ã— area pages");
+  // Launched service-area pages
+  lines.push("## Top service-area pages");
   for (const s of services) {
-    for (const a of activeAreas) {
-      lines.push(
-        link(canonical(`/services/${s.slug}/${a.slug}`), `${s.name} in ${a.name}, MN.`)
-      );
+    for (const a of areas) {
+      const key = `${s.slug}/${a.slug}`;
+      if (!LIVE_TIER3.has(key)) continue;
+      lines.push(link(canonical(`/services/${key}`), `${s.name} in ${a.name}, MN.`));
     }
   }
   lines.push("");
