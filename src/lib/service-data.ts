@@ -23,9 +23,9 @@ export type ServiceData = {
   slug:
     | "kitchens"
     | "additions"
-    | "whole-home-renovations"
-    | "basement-finishing"
-    | "bathroom-remodels";
+    | "whole-home"
+    | "basements"
+    | "bathrooms";
   displayName: string;
   heroDefaultSubcopy: string;
   galleryImages: ServiceGalleryImage[];
@@ -95,17 +95,17 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     faqItems: [],
   },
 
-  "whole-home-renovations": {
-    slug: "whole-home-renovations",
-    displayName: "Whole Home Renovations",
+  "whole-home": {
+    slug: "whole-home",
+    displayName: "Whole Home Remodeling",
     heroDefaultSubcopy:
       "Transforming an entire home requires a contractor you can trust through every phase. M.R. Renovations has managed whole-home renovations across the Twin Cities metro for over four decades.",
     galleryImages: [],
     faqItems: [],
   },
 
-  "basement-finishing": {
-    slug: "basement-finishing",
+  "basements": {
+    slug: "basements",
     displayName: "Basement Finishing",
     heroDefaultSubcopy:
       "Turn your unfinished basement into livable space. M.R. Renovations handles framing, egress, mechanical rough-ins, insulation, drywall, and finish work â€” permitted and built to last.",
@@ -113,9 +113,9 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     faqItems: [],
   },
 
-  "bathroom-remodels": {
-    slug: "bathroom-remodels",
-    displayName: "Bathroom Remodeling",
+  "bathrooms": {
+    slug: "bathrooms",
+    displayName: "Bathroom Remodels",
     heroDefaultSubcopy:
       "From master bath overhauls to powder room updates, M.R. Renovations delivers bathroom remodels on schedule with transparent pricing.",
     galleryImages: [],

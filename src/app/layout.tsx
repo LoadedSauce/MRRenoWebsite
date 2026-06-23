@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans, Inter } from "next/font/google";
 import "./globals.css";
+import { buildRootMetadata } from "@/lib/seo/routes";
+import { JsonLd, buildGlobalGraph } from "@/lib/seo/schema";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -16,11 +18,7 @@ const inter = Inter({
   weight: ["400", "500", "600", "700"],
 });
 
-export const metadata: Metadata = {
-  title: "M.R. Renovations — Maple Grove, MN",
-  description:
-    "Family-owned residential renovation contractor serving the northwest Twin Cities for 40 years. Kitchens, bathrooms, basements, additions, whole-home, and exterior.",
-};
+export const metadata: Metadata = buildRootMetadata();
 
 export default function RootLayout({
   children,
@@ -31,6 +29,7 @@ export default function RootLayout({
       className={`${dmSans.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-body bg-paper text-ink">
+        <JsonLd data={buildGlobalGraph()} />
         {children}
       </body>
     </html>

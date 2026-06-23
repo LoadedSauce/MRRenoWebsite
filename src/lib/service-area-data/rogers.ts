@@ -38,7 +38,7 @@ export const rogers: ServiceAreaData = {
         "Custom cherry cabinetry, quartz countertops, and full electrical update in a 1990s two-story.",
     },
     {
-      serviceSlug: "basement-finishing",
+      serviceSlug: "basements",
       title: "Rogers Lower Level Finish",
       summary:
         "Egress window addition, full bath rough-in, and home theater framing for a growing family.",

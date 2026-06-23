@@ -2,6 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
+import type { Metadata } from "next";
+import { buildHomeMetadata } from "@/lib/seo/routes";
+
+export const metadata: Metadata = buildHomeMetadata();
 
 const services = [
   {

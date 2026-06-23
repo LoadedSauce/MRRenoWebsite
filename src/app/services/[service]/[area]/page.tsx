@@ -1,17 +1,24 @@
 import { notFound } from "next/navigation";
 import { serviceRegistry } from "@/lib/service-data";
-import { rogers } from "@/lib/service-area-data/rogers";
+import { serviceAreaRegistry } from "@/lib/service-area-data";
 import {
   ServicePageTemplate,
   type TestimonialProps,
 } from "@/components/templates/ServicePageTemplate";
+import type { Metadata } from "next";
+import { buildServiceAreaMetadata } from "@/lib/seo/routes";
+import {
+  JsonLd,
+  buildBreadcrumbListSchema,
+  buildServiceSchema,
+  buildPageGraph,
+} from "@/lib/seo/schema";
+import { getService, getServiceArea } from "@/lib/data/services";
 
 // â”€â”€ Area registry â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Expand as new city files are added to src/lib/service-area-data/.
 
-const areaRegistry = {
-  rogers,
-} as const;
+const areaRegistry = serviceAreaRegistry;
 
 type ServiceSlug = keyof typeof serviceRegistry;
 type AreaSlug    = keyof typeof areaRegistry;
@@ -27,6 +34,14 @@ export function generateStaticParams() {
 
 interface PageProps {
   params: Promise<{ service: string; area: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { service: sSlug, area: aSlug } = await params;
+  const service = getService(sSlug);
+  const area = getServiceArea(aSlug);
+  if (!service || !area) return {};
+  return buildServiceAreaMetadata(service, area);
 }
 
 export default async function ServiceAreaPage({ params }: PageProps) {
@@ -61,11 +76,31 @@ export default async function ServiceAreaPage({ params }: PageProps) {
     starCount: 5,
   };
 
+  const seoService = getService(serviceParam);
+  const seoArea = getServiceArea(areaParam);
+  const graph =
+    seoService && seoArea
+      ? buildPageGraph([
+          buildBreadcrumbListSchema([
+            { name: "Home", path: "/" },
+            { name: seoService.name, path: `/services/${seoService.slug}` },
+            {
+              name: `${seoService.name} in ${seoArea.name}, MN`,
+              path: `/services/${seoService.slug}/${seoArea.slug}`,
+            },
+          ]),
+          buildServiceSchema(seoService, seoArea),
+        ])
+      : null;
+
   return (
-    <ServicePageTemplate
-      service={service}
-      area={area}
-      testimonial={testimonial}
-    />
+    <>
+      {graph ? <JsonLd data={graph} /> : null}
+      <ServicePageTemplate
+        service={service}
+        area={area}
+        testimonial={testimonial}
+      />
+    </>
   );
 }
