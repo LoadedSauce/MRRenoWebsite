@@ -9,7 +9,8 @@ const serviceLinks = [
   { label: "Bathroom Remodeling",    href: "/services/bathrooms"  },
   { label: "Basement Finishing",     href: "/services/basements"  },
   { label: "Home Additions",         href: "/services/additions"  },
-  { label: "Whole Home Remodeling",  href: "/services/whole-home" },
+  { label: "Whole Home Remodeling",     href: "/services/whole-home" },
+  { label: "Roofing, Siding & Exterior", href: "/services/exterior"  },
 ];
 
 const navLinks = [
@@ -95,7 +96,7 @@ function ServicesDropdown() {
       {open && (
         <ul
           role="menu"
-          className="absolute left-0 top-full mt-2 w-56 rounded-lg bg-paper border border-faint shadow-lg py-1 z-50"
+          className="absolute left-0 top-full mt-2 w-60 rounded-lg bg-paper border border-faint shadow-lg py-1 z-50"
         >
           {serviceLinks.map((s) => (
             <li key={s.href} role="none">
