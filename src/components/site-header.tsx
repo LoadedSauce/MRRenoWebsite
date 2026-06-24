@@ -1,21 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Container } from "./container";
 
+const serviceLinks = [
+  { label: "Kitchen Remodeling",     href: "/services/kitchens"   },
+  { label: "Bathroom Remodeling",    href: "/services/bathrooms"  },
+  { label: "Basement Finishing",     href: "/services/basements"  },
+  { label: "Home Additions",         href: "/services/additions"  },
+  { label: "Whole Home Remodeling",  href: "/services/whole-home" },
+];
+
 const navLinks = [
-  { label: "Home", href: "/" },
+  { label: "Home",     href: "/"        },
   { label: "Projects", href: "#projects" },
-  { label: "Services", href: "#services" },
   { label: "Warranty", href: "#warranty" },
-  { label: "About", href: "#about" },
-  { label: "Reviews", href: "#reviews" },
+  { label: "About",    href: "#about"   },
+  { label: "Reviews",  href: "#reviews" },
 ];
 
 function BrandMark() {
   return (
-    <Link href="/" className="flex items-center gap-3" aria-label="M.R. Renovations — Home">
+    <Link href="/" className="flex items-center gap-3" aria-label="M.R. Renovations -- Home">
       {/* MR badge */}
       <span
         className="inline-flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-md bg-navy text-paper font-display font-bold text-base shrink-0"
@@ -35,8 +42,84 @@ function BrandMark() {
   );
 }
 
+// -- Services dropdown -------------------------------------------------------
+
+function ServicesDropdown() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [open]);
+
+  return (
+    <li ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-haspopup="true"
+        className="flex items-center gap-1 text-sm font-medium text-ink hover:text-navy transition-colors"
+      >
+        Services
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+          className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        >
+          <polyline points="2 4 6 8 10 4" />
+        </svg>
+      </button>
+
+      {open && (
+        <ul
+          role="menu"
+          className="absolute left-0 top-full mt-2 w-56 rounded-lg bg-paper border border-faint shadow-lg py-1 z-50"
+        >
+          {serviceLinks.map((s) => (
+            <li key={s.href} role="none">
+              <Link
+                href={s.href}
+                role="menuitem"
+                onClick={() => setOpen(false)}
+                className="block px-4 py-2.5 text-sm text-ink hover:bg-soft-navy hover:text-navy transition-colors"
+              >
+                {s.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
+// -- Main header -------------------------------------------------------------
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -102,6 +185,7 @@ export function SiteHeader() {
                   </Link>
                 </li>
               ))}
+              <ServicesDropdown />
             </ul>
             <Link
               href="/consultation"
@@ -137,7 +221,7 @@ export function SiteHeader() {
         </Container>
       </div>
 
-      {/* Mobile menu panel (sibling of header — sits outside backdrop-filter containing block) */}
+      {/* Mobile menu panel */}
       {open ? (
         <div
           id="mobile-menu"
@@ -156,7 +240,49 @@ export function SiteHeader() {
                   </Link>
                 </li>
               ))}
+
+              {/* Mobile services accordion */}
+              <li>
+                <button
+                  type="button"
+                  onClick={() => setMobileServicesOpen((v) => !v)}
+                  className="flex items-center justify-between w-full py-3 text-lg font-display font-medium text-ink border-b border-faint hover:text-navy transition-colors"
+                  aria-expanded={mobileServicesOpen}
+                >
+                  Services
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                    className={`transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
+                  >
+                    <polyline points="2 4 6 8 10 4" />
+                  </svg>
+                </button>
+                {mobileServicesOpen && (
+                  <ul className="pl-4 pb-2 border-b border-faint">
+                    {serviceLinks.map((s) => (
+                      <li key={s.href}>
+                        <Link
+                          href={s.href}
+                          onClick={() => setOpen(false)}
+                          className="block py-2.5 text-base font-display font-medium text-muted hover:text-navy transition-colors"
+                        >
+                          {s.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
             </ul>
+
             <div className="mt-6 flex flex-col gap-3">
               <Link
                 href="/consultation"

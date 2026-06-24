@@ -1,4 +1,4 @@
-import type { ServiceData } from "@/lib/service-data";
+import type { ServiceData, ServiceFaqItem } from "@/lib/service-data";
 import type { ServiceAreaData } from "@/lib/service-area-types";
 import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
@@ -9,9 +9,9 @@ import { TestimonialCard } from "@/components/primitives/TestimonialCard";
 import { FaqAccordion } from "@/components/primitives/FaqAccordion";
 import Link from "next/link";
 
-// â”€â”€ Testimonial props â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- Testimonial props -------------------------------------------------------
 //
-// Manual block only â€” no Google embed, no third-party dependency.
+// Manual block only -- no Google embed, no third-party dependency.
 // starCount is locked at 5 for this section; the literal type enforces it.
 //
 // This section is STRUCTURALLY ISOLATED. To swap to a live reviews widget:
@@ -27,20 +27,26 @@ export type TestimonialProps = {
   starCount: 5;
 };
 
-// â”€â”€ Component props â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- Component props ---------------------------------------------------------
 
 export interface ServicePageTemplateProps {
   service: ServiceData;
   area: ServiceAreaData;
   testimonial: TestimonialProps;
+  // P1.7: merged FAQ items (service base + area overrides).
+  // Computed by getVisibleFaqs() in page.tsx and passed down so the template
+  // never has to know about the merge logic or area data shape.
+  // When empty, the FAQ section is omitted from the DOM entirely.
+  faqItems: ServiceFaqItem[];
 }
 
-// â”€â”€ Template â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- Template ----------------------------------------------------------------
 
 export function ServicePageTemplate({
   service,
   area,
   testimonial,
+  faqItems,
 }: ServicePageTemplateProps) {
   // Hero sub-copy: area-specific service note > service default
   const heroCopy =
@@ -57,7 +63,7 @@ export function ServicePageTemplate({
   return (
     <PageShell>
 
-      {/* â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* -- HERO --------------------------------------------------------- */}
       <Hero
         eyebrow={`${area.cityName}, ${area.stateAbbr} \u00b7 ${service.displayName}`}
         headline={
@@ -79,7 +85,7 @@ export function ServicePageTemplate({
         }
       />
 
-      {/* â”€â”€ GALLERY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* -- GALLERY ------------------------------------------------------ */}
       <section id="gallery" className="bg-navy">
         <Container width="wide" className="py-16 lg:py-20">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
@@ -94,7 +100,7 @@ export function ServicePageTemplate({
         </Container>
       </section>
 
-      {/* â”€â”€ BEFORE / AFTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* -- BEFORE / AFTER ----------------------------------------------- */}
       <section className="bg-paper">
         <Container width="wide" className="py-16 lg:py-20">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
@@ -107,11 +113,11 @@ export function ServicePageTemplate({
             <BeforeAfter
               before={{
                 src: "/images/before-after/kitchen-before.jpg",
-                alt: `Kitchen before remodel \u2014 dated cabinetry and laminate countertops`,
+                alt: `Kitchen before remodel -- dated cabinetry and laminate countertops`,
               }}
               after={{
                 src: "/images/before-after/kitchen-after.jpg",
-                alt: `Kitchen after remodel \u2014 custom cabinetry, quartz island, and tile backsplash`,
+                alt: `Kitchen after remodel -- custom cabinetry, quartz island, and tile backsplash`,
               }}
               caption={`${service.displayName} \u00b7 ${area.cityName}, ${area.stateAbbr}`}
             />
@@ -119,7 +125,7 @@ export function ServicePageTemplate({
         </Container>
       </section>
 
-      {/* â”€â”€ TESTIMONIAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* -- TESTIMONIAL -------------------------------------------------- */}
       {/*
         STRUCTURALLY ISOLATED SECTION.
         To swap to a live Google reviews widget:
@@ -140,23 +146,26 @@ export function ServicePageTemplate({
         </Container>
       </section>
 
-      {/* â”€â”€ FAQ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <section aria-labelledby="faq-heading" className="bg-paper">
-        <Container width="default" className="py-16 lg:py-20">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
-            Common questions
-          </p>
-          <h2
-            id="faq-heading"
-            className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink leading-[1.1] mb-8"
-          >
-            Answers before <span className="accent">you call.</span>
-          </h2>
-          <FaqAccordion items={service.faqItems} tone="light" />
-        </Container>
-      </section>
+      {/* -- FAQ ---------------------------------------------------------- */}
+      {/* Section is omitted entirely from the DOM when faqItems is empty. */}
+      {faqItems.length > 0 && (
+        <section aria-labelledby="faq-heading" className="bg-paper">
+          <Container width="default" className="py-16 lg:py-20">
+            <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+              Common questions
+            </p>
+            <h2
+              id="faq-heading"
+              className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink leading-[1.1] mb-8"
+            >
+              Answers before <span className="accent">you call.</span>
+            </h2>
+            <FaqAccordion items={faqItems} tone="light" />
+          </Container>
+        </section>
+      )}
 
-      {/* â”€â”€ CTA BAND â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* -- CTA BAND ----------------------------------------------------- */}
       <section className="bg-navy text-paper">
         <Container width="wide" className="py-16 lg:py-20 text-center">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
