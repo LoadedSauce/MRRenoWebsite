@@ -28,10 +28,15 @@ export type TestimonialProps = {
 };
 
 // -- Component props ---------------------------------------------------------
+//
+// `area` is optional. When omitted the template renders as a city-neutral
+// service hub page (/services/kitchens). When provided it renders as a
+// city-specific landing page (/services/kitchens/maple-grove) with local
+// copy layered on top of the service defaults.
 
 export interface ServicePageTemplateProps {
   service: ServiceData;
-  area: ServiceAreaData;
+  area?: ServiceAreaData;
   testimonial: TestimonialProps;
   // P1.7: merged FAQ items (service base + area overrides).
   // Computed by getVisibleFaqs() in page.tsx and passed down so the template
@@ -48,9 +53,9 @@ export function ServicePageTemplate({
   testimonial,
   faqItems,
 }: ServicePageTemplateProps) {
-  // Hero sub-copy: area-specific service note > service default
+  // Hero sub-copy: area service note > service default
   const heroCopy =
-    area.serviceNotes?.[service.slug] ?? service.heroDefaultSubcopy;
+    (area?.serviceNotes?.[service.slug] ?? service.heroDefaultSubcopy);
 
   // Approved stat strip values (locked)
   const heroStats = [
@@ -60,19 +65,31 @@ export function ServicePageTemplate({
     { label: "Warranty",      value: "\u221e" },
   ];
 
+  // City label used in a few places -- only present when area is provided
+  const cityLabel = area ? `${area.cityName}, ${area.stateAbbr}` : null;
+
   return (
     <PageShell>
 
       {/* -- HERO --------------------------------------------------------- */}
       <Hero
-        eyebrow={`${area.cityName}, ${area.stateAbbr} \u00b7 ${service.displayName}`}
+        eyebrow={
+          cityLabel
+            ? `${cityLabel} \u00b7 ${service.displayName}`
+            : `Twin Cities, MN \u00b7 ${service.displayName}`
+        }
         headline={
-          <>
-            {service.displayName} in{" "}
-            <span className="accent">
-              {area.cityName}, {area.stateAbbr}
-            </span>
-          </>
+          cityLabel ? (
+            <>
+              {service.displayName} in{" "}
+              <span className="accent">{cityLabel}</span>
+            </>
+          ) : (
+            <>
+              {service.displayName} in the{" "}
+              <span className="accent">Twin Cities</span>
+            </>
+          )
         }
         subCopy={heroCopy}
         primaryCta={{ label: "Get a Free Estimate", href: "tel:7639002024" }}
@@ -81,7 +98,7 @@ export function ServicePageTemplate({
         imageSrc={service.galleryImages[0]?.src}
         imageAlt={
           service.galleryImages[0]?.alt ??
-          `${service.displayName} project in ${area.cityName}, ${area.stateAbbr}`
+          `${service.displayName} project${cityLabel ? ` in ${cityLabel}` : " in the Twin Cities"}`
         }
       />
 
@@ -89,10 +106,14 @@ export function ServicePageTemplate({
       <section id="gallery" className="bg-navy">
         <Container width="wide" className="py-16 lg:py-20">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
-            Recent work in {area.cityName}
+            Recent work
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-paper leading-[1.1]">
-            A few <span className="accent">local transformations.</span>
+            {cityLabel ? (
+              <>A few <span className="accent">local transformations.</span></>
+            ) : (
+              <>A few <span className="accent">Twin Cities transformations.</span></>
+            )}
           </h2>
           <div className="mt-10">
             <Gallery images={service.galleryImages} />
@@ -119,7 +140,11 @@ export function ServicePageTemplate({
                 src: "/images/before-after/kitchen-after.jpg",
                 alt: `Kitchen after remodel -- custom cabinetry, quartz island, and tile backsplash`,
               }}
-              caption={`${service.displayName} \u00b7 ${area.cityName}, ${area.stateAbbr}`}
+              caption={
+                cityLabel
+                  ? `${service.displayName} \u00b7 ${cityLabel}`
+                  : service.displayName
+              }
             />
           </div>
         </Container>
@@ -176,7 +201,7 @@ export function ServicePageTemplate({
             <span className="accent">that lasts.</span>
           </h2>
           <p className="mt-5 text-base sm:text-lg text-soft-navy/85 leading-relaxed max-w-lg mx-auto">
-            Tell us about your {area.cityName} project. We&rsquo;ll get back to
+            Tell us about your{cityLabel ? ` ${area!.cityName}` : ""} project. We&rsquo;ll get back to
             you within one business day.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
