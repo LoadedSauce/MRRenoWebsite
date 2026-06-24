@@ -61,7 +61,7 @@ export const rogers: ServiceAreaData = {
     {
       question: "Is M.R. Renovations licensed to work in Rogers, MN?",
       answer:
-        "Yes. We hold a Minnesota Residential Contractor license and carry full general liability and workers' compensation insurance. We are fully licensed and insured to perform renovation work anywhere in Rogers.",
+        "Yes. We hold Minnesota Residential Contractor license BC809200 and carry full General Liability Insurance and Workers' Compensation Insurance. We are fully licensed and insured to perform renovation work anywhere in Rogers.",
     },
   ],
 };
