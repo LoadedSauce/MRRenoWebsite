@@ -150,7 +150,7 @@ export function SiteHeader() {
                 Maple Grove, MN
               </span>
               <span className="hidden sm:inline whitespace-nowrap">Family-owned</span>
-              <span className="hidden sm:inline whitespace-nowrap">40 Years</span>
+              <span className="hidden sm:inline whitespace-nowrap">43+ Years</span>
               <Link
                 href="#warranty"
                 className="hidden md:inline-flex items-center gap-1.5 whitespace-nowrap hover:text-paper transition-colors"
