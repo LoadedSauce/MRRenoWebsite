@@ -41,19 +41,19 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       "From custom cabinetry to full gut renovations, M.R. Renovations brings 43 years of craftsmanship to your kitchen. We handle permits, structural work, and finishing details -- one crew, start to finish.",
     galleryImages: [
       {
-        src: "/images/kitchens/kitchen-01.jpg",
-        alt: "Custom white shaker kitchen with quartz countertops and island",
-        caption: "Custom cabinetry with quartz countertops",
+        src: "/images/kitchen/kitchen-remodel-walnut-cabinets-hex-backsplash-maple-grove-mn.jpg",
+        alt: "Kitchen remodel with custom walnut cabinets and hex tile backsplash in Maple Grove, MN",
+        caption: "Custom walnut cabinetry with hex tile backsplash",
       },
       {
-        src: "/images/kitchens/kitchen-02.jpg",
-        alt: "Open-concept kitchen remodel with large island and pendant lighting",
-        caption: "Open-concept layout with island seating",
+        src: "/images/kitchen/kitchen-remodel-white-shaker-cabinets-quartz-countertops-maple-grove-mn.jpg",
+        alt: "Kitchen remodel with white shaker cabinets and quartz countertops in Maple Grove, MN",
+        caption: "White shaker cabinets with quartz countertops",
       },
       {
-        src: "/images/kitchens/kitchen-03.jpg",
-        alt: "Dark navy kitchen cabinets with brass hardware and tile backsplash",
-        caption: "Navy cabinetry with brass accents",
+        src: "/images/kitchen/kitchen-remodel-brick-backsplash-under-cabinet-lighting-maple-grove-mn.jpg",
+        alt: "Kitchen remodel with brick tile backsplash and under-cabinet lighting in Maple Grove, MN",
+        caption: "Brick tile backsplash with under-cabinet lighting",
       },
     ],
     faqItems: [
@@ -91,7 +91,23 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     displayName: "Home Additions",
     heroDefaultSubcopy:
       "M.R. Renovations designs and builds home additions that match your existing structure and meet Minnesota code -- from single-room additions to full second-story builds.",
-    galleryImages: [],
+    galleryImages: [
+      {
+        src: "/images/addition/home-addition-four-season-sunroom-floor-to-ceiling-windows-maple-grove-mn.jpg",
+        alt: "Home addition four-season sunroom with floor-to-ceiling windows in Maple Grove, MN",
+        caption: "Four-season sunroom addition with floor-to-ceiling windows",
+      },
+      {
+        src: "/images/addition/home-addition-sunroom-exterior-new-construction-maple-grove-mn.jpg",
+        alt: "Home addition sunroom exterior view new construction in Maple Grove, MN",
+        caption: "Sunroom addition exterior -- new construction attached to existing home",
+      },
+      {
+        src: "/images/addition/home-addition-composite-deck-white-railing-coon-rapids-mn.jpg",
+        alt: "Home addition composite deck with white railing in Coon Rapids, MN",
+        caption: "Composite deck addition with white railing in Coon Rapids",
+      },
+    ],
     faqItems: [
       {
         question: "What does a home addition typically include?",
@@ -126,7 +142,23 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     displayName: "Whole Home Remodeling",
     heroDefaultSubcopy:
       "Transforming an entire home requires a contractor you can trust through every phase. M.R. Renovations has managed whole-home renovations across the Twin Cities metro for over four decades.",
-    galleryImages: [],
+    galleryImages: [
+      {
+        src: "/images/whole-home/whole-home-remodel-stone-fireplace-vaulted-ceiling-maple-grove-mn.jpg",
+        alt: "Whole home remodel stone fireplace and vaulted ceiling in Maple Grove, MN",
+        caption: "Stone fireplace with vaulted ceiling -- whole home remodel",
+      },
+      {
+        src: "/images/whole-home/whole-home-remodel-walnut-kitchen-open-concept-maple-grove-mn.jpg",
+        alt: "Whole home remodel walnut kitchen open concept layout in Maple Grove, MN",
+        caption: "Walnut kitchen with open concept layout",
+      },
+      {
+        src: "/images/whole-home/whole-home-remodel-lvp-flooring-open-concept-living-room-maple-grove-mn.jpg",
+        alt: "Whole home remodel LVP flooring and open concept living room in Maple Grove, MN",
+        caption: "LVP flooring throughout open concept living area",
+      },
+    ],
     faqItems: [
       {
         question: "What does a whole home remodel typically include?",
@@ -196,7 +228,23 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     displayName: "Bathroom Remodels",
     heroDefaultSubcopy:
       "From master bath overhauls to powder room updates, M.R. Renovations delivers bathroom remodels on schedule with transparent pricing.",
-    galleryImages: [],
+    galleryImages: [
+      {
+        src: "/images/bathroom/bathroom-remodel-marble-tile-shower-quartz-vanity-maple-grove-mn.jpg",
+        alt: "Bathroom remodel with marble tile shower and quartz vanity in Maple Grove, MN",
+        caption: "Marble tile shower with quartz vanity",
+      },
+      {
+        src: "/images/bathroom/bathroom-remodel-double-vanity-walk-in-shower-maple-grove-mn.jpg",
+        alt: "Bathroom remodel with double vanity and walk-in shower in Maple Grove, MN",
+        caption: "Double vanity with walk-in shower",
+      },
+      {
+        src: "/images/bathroom/bathroom-remodel-white-distressed-vanity-charcoal-quartz-maple-grove-mn.jpg",
+        alt: "Bathroom remodel with white distressed vanity and charcoal quartz countertop in Maple Grove, MN",
+        caption: "White distressed vanity with charcoal quartz countertop",
+      },
+    ],
     faqItems: [
       {
         question: "What does a bathroom remodel typically include?",
@@ -226,3 +274,4 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     ],
   },
 };
+
