@@ -31,7 +31,7 @@ export type TestimonialProps = {
 //
 // `area` is optional. When omitted the template renders as a city-neutral
 // service hub page (/services/kitchens). When provided it renders as a
-// city-specific landing page (/services/kitchens/maple-grove) with local
+// city-specific landing page (/services/kitchens/rogers) with local
 // copy layered on top of the service defaults.
 
 export interface ServicePageTemplateProps {
@@ -58,11 +58,12 @@ export function ServicePageTemplate({
     (area?.serviceNotes?.[service.slug] ?? service.heroDefaultSubcopy);
 
   // Approved stat strip values (locked)
+  // Experience and Google Rating are sitewide constants -- do not vary per page.
   const heroStats = [
-    { label: "Experience",    value: "43 Yrs" },
+    { label: "Experience",    value: "43+ Yrs" },
     { label: "Google Rating", value: "5.0 \u2605" },
-    { label: "Projects",      value: "500+"   },
-    { label: "Warranty",      value: "\u221e" },
+    { label: "Projects",      value: "500+"    },
+    { label: "Warranty",      value: "\u221e"  },
   ];
 
   // City label used in a few places -- only present when area is provided
@@ -76,7 +77,7 @@ export function ServicePageTemplate({
         eyebrow={
           cityLabel
             ? `${cityLabel} \u00b7 ${service.displayName}`
-            : `Twin Cities, MN \u00b7 ${service.displayName}`
+            : service.displayName
         }
         headline={
           cityLabel ? (
@@ -85,10 +86,7 @@ export function ServicePageTemplate({
               <span className="accent">{cityLabel}</span>
             </>
           ) : (
-            <>
-              {service.displayName} in the{" "}
-              <span className="accent">Twin Cities</span>
-            </>
+            <span className="accent">{service.displayName}</span>
           )
         }
         subCopy={heroCopy}
@@ -98,7 +96,7 @@ export function ServicePageTemplate({
         imageSrc={service.galleryImages[0]?.src}
         imageAlt={
           service.galleryImages[0]?.alt ??
-          `${service.displayName} project${cityLabel ? ` in ${cityLabel}` : " in the Twin Cities"}`
+          `${service.displayName} project${cityLabel ? ` in ${cityLabel}` : ""}`
         }
       />
 
@@ -112,7 +110,7 @@ export function ServicePageTemplate({
             {cityLabel ? (
               <>A few <span className="accent">local transformations.</span></>
             ) : (
-              <>A few <span className="accent">Twin Cities transformations.</span></>
+              <>A few <span className="accent">recent transformations.</span></>
             )}
           </h2>
           <div className="mt-10">
