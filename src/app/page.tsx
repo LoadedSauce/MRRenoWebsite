@@ -145,7 +145,7 @@ export default function Home() {
         <Container width="wide" className="relative py-20 sm:py-28 lg:py-36">
           <div className="max-w-3xl">
             <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-soft-orange/95">
-              Maple Grove, MN &middot; Twin Cities &middot; Since 1985
+              Maple Grove, MN &middot; Twin Cities
             </p>
             <h1 className="mt-5 font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-paper">
               Built once. <span className="accent">Built right.</span><br className="hidden sm:block" />
@@ -174,7 +174,7 @@ export default function Home() {
           <dl className="mt-14 lg:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-8 border-t border-paper/15 pt-8">
             <div>
               <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">Years of Craft</dt>
-              <dd className="mt-1 font-display font-bold text-3xl text-paper">40</dd>
+              <dd className="mt-1 font-display font-bold text-3xl text-paper">43+</dd>
             </div>
             <div>
               <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">Twin Cities Homes</dt>
@@ -185,9 +185,9 @@ export default function Home() {
               <dd className="mt-1 font-display font-bold text-3xl text-paper">&infin;</dd>
             </div>
             <div>
-              <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">Verified Reviews</dt>
+              <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">Google Rating</dt>
               <dd className="mt-1 font-display font-bold text-3xl text-paper">
-                <span aria-hidden="true">&#9733;</span> 4.9
+                5.0 <span aria-hidden="true">&#9733;</span>
               </dd>
             </div>
           </dl>
@@ -319,14 +319,14 @@ export default function Home() {
                 A family contractor with the <span className="accent">process of a design firm.</span>
               </h2>
               <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed">
-                Forty years of remodeling experience, run with the calm, written, on-time discipline you&rsquo;d expect from a much bigger firm.
+                43+ years of remodeling experience, run with the calm, written, on-time discipline you&rsquo;d expect from a much bigger firm.
               </p>
 
               <ul className="mt-8 space-y-5">
                 {[
                   {
-                    title: "40 years, one family",
-                    body: "Founded in 1985. Still answering the phone ourselves. Still standing behind every project.",
+                    title: "43+ years, one family",
+                    body: "Founded in Maple Grove. Still answering the phone ourselves. Still standing behind every project.",
                   },
                   {
                     title: "Lifetime Transferable Warranty",

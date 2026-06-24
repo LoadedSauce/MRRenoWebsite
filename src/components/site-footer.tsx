@@ -46,7 +46,7 @@ export function SiteFooter() {
               </p>
             </div>
             <p className="mt-5 text-sm text-soft-navy/85 leading-relaxed max-w-sm">
-              Family-owned design-build serving Maple Grove and the Twin Cities for 40 years.
+              Family-owned design-build serving Maple Grove and the Twin Cities for 43+ years.
             </p>
             <address className="mt-5 not-italic text-sm text-soft-navy/85 leading-relaxed">
               <p>7201 Forestview Lane N., Lower Suite</p>
