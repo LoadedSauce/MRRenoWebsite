@@ -1,7 +1,7 @@
 // src/lib/seo/site.ts
 //
 // Sitewide SEO constants and business facts for M.R. Renovations.
-// This file is the single source of truth â€” do not duplicate these values
+// This file is the single source of truth -- do not duplicate these values
 // elsewhere in the codebase. Update here only.
 
 export const SITE = {
@@ -12,10 +12,9 @@ export const SITE = {
 
   // ----- URL -----------------------------------------------------------------
   // Read from env so previews/staging get the right canonical host.
-  // TODO: confirm production URL and set NEXT_PUBLIC_SITE_URL in prod env.
   // Value must NOT include a trailing slash.
   baseUrl: (
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.mrrenovations.com"
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.m-r-reno.com"
   ).replace(/\/+$/, ""),
 
   // ----- Business location (Maple Grove HQ) ---------------------------------
@@ -24,28 +23,25 @@ export const SITE = {
     region: "MN",
     regionFull: "Minnesota",
     country: "US",
-    // TODO: confirm street address and ZIP before LocalBusiness schema ships.
-    // Leave blank to omit from JSON-LD output.
-    streetAddress: "" as string,
-    postalCode: "" as string,
+    streetAddress: "7201 Forestview Lane N., Lower Suite" as string,
+    postalCode: "55369" as string,
   },
 
-  // Approximate Maple Grove centroid â€” used for areaServed GeoCircle.
-  // TODO: confirm coordinates approved for public schema.
+  // Approximate Maple Grove centroid -- used for areaServed GeoCircle.
   geo: {
     latitude: 45.0725,
     longitude: -93.4558,
   },
 
   // ----- Contact -------------------------------------------------------------
-  // TODO: replace with real values before launch. Blank values are omitted
-  // from JSON-LD and meta tags, never emitted as empty attributes.
-  phone: "" as string,        // E.164 for tel: links, e.g. "+1-763-555-0100"
-  phoneDisplay: "" as string, // visible UI format, e.g. "(763) 555-0100"
-  email: "" as string,        // e.g. "hello@mrrenovations.com"
+  // Blank values are omitted from JSON-LD and meta tags, never emitted as
+  // empty attributes.
+  phone: "+1-763-900-2024" as string,        // E.164 for tel: links
+  phoneDisplay: "(763) 900-2024" as string,  // visible UI format
+  email: "j.walker@mrrenovations-llc.com" as string,
 
   // ----- Service footprint --------------------------------------------------
-  // Operating radius from Maple Grove. The brand guardrail is 25â€“30 mi â€”
+  // Operating radius from Maple Grove. Brand guardrail is 25-30 mi --
   // 30 is the outer bound, used for areaServed GeoCircle radius.
   serviceRadiusMiles: 30,
 
@@ -62,21 +58,20 @@ export const SITE = {
 
   // ----- Social -------------------------------------------------------------
   // Blank entries are omitted from sameAs and twitter:site/creator.
-  // TODO: fill in real handles/URLs.
   social: {
-    twitter: "" as string,   // e.g. "@mrrenovations"
-    facebook: "" as string,  // full URL
-    instagram: "" as string, // full URL
+    twitter: "" as string,
+    facebook: "https://www.facebook.com/p/MR-Renovations-LLC-61575213753141/" as string,
+    instagram: "" as string,
   },
 
   // ----- Default Open Graph image ------------------------------------------
-  // TODO: ship a real 1200x630 asset at /public/og/default.png and confirm
-  // alt text. Used for all OG/Twitter cards that don't supply their own.
+  // TODO: ship a real 1200x630 asset at /public/og/default.png (ticket P1.9).
+  // Used for all OG/Twitter cards that don't supply their own.
   defaultOgImage: {
     url: "/og/default.png",
     width: 1200,
     height: 630,
-    alt: "M.R. Renovations â€” Remodeling Contractor in Maple Grove, MN",
+    alt: "M.R. Renovations - Remodeling Contractor in Maple Grove, MN",
   },
 
   // ----- Canonical trailing-slash policy ------------------------------------
