@@ -92,7 +92,33 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     heroDefaultSubcopy:
       "M.R. Renovations designs and builds home additions that match your existing structure and meet Minnesota code -- from single-room additions to full second-story builds.",
     galleryImages: [],
-    faqItems: [],
+    faqItems: [
+      {
+        question: "What does a home addition typically include?",
+        answer:
+          "A home addition with M.R. Renovations covers design coordination, framing and structural changes (where applicable), rough plumbing and electrical, insulation, drywall, paint, flooring, trim, and all finish work. We handle permits and coordinate all trades under one contract.",
+      },
+      {
+        question: "Do you handle permits for home addition projects?",
+        answer:
+          "Yes. Home additions require building permits in Minnesota, and we pull all required permits and schedule inspections on your behalf. Permitted work protects your investment and ensures the addition meets current building code.",
+      },
+      {
+        question: "How long does a home addition take?",
+        answer:
+          "Most home additions take ten to sixteen weeks from permit approval to final walkthrough, depending on size and scope. We provide a project schedule before work begins and communicate any changes in advance.",
+      },
+      {
+        question: "Is M.R. Renovations licensed and insured in Minnesota?",
+        answer:
+          "Yes. M.R. Renovations holds Minnesota Residential Contractor license BC809200 and carries full General Liability Insurance and Workers' Compensation Insurance. License and insurance documentation is available upon request.",
+      },
+      {
+        question: "Do you offer a warranty on home addition work?",
+        answer:
+          "Yes. M.R. Renovations backs all labor with a lifetime workmanship warranty. Material warranties vary by manufacturer and are passed through to you at project completion.",
+      },
+    ],
   },
 
   "whole-home": {
@@ -101,7 +127,33 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     heroDefaultSubcopy:
       "Transforming an entire home requires a contractor you can trust through every phase. M.R. Renovations has managed whole-home renovations across the Twin Cities metro for over four decades.",
     galleryImages: [],
-    faqItems: [],
+    faqItems: [
+      {
+        question: "What does a whole home remodel typically include?",
+        answer:
+          "A whole home remodel with M.R. Renovations covers full-scope demolition, framing and structural changes (where applicable), rough plumbing and electrical, insulation, drywall, paint, new flooring, cabinetry, fixtures, trim, and all finish work throughout the home. We handle permits and coordinate all trades under one contract.",
+      },
+      {
+        question: "Do you handle permits for whole home remodeling projects?",
+        answer:
+          "Yes. Whole home remodels require multiple permits across trades, and we pull all required building, plumbing, and electrical permits and schedule all inspections on your behalf.",
+      },
+      {
+        question: "How long does a whole home remodel take?",
+        answer:
+          "Most whole home remodels take twelve to twenty weeks from permit approval to final walkthrough, depending on the size of the home and scope of work. We provide a detailed project schedule before work begins and communicate any changes in advance.",
+      },
+      {
+        question: "Is M.R. Renovations licensed and insured in Minnesota?",
+        answer:
+          "Yes. M.R. Renovations holds Minnesota Residential Contractor license BC809200 and carries full General Liability Insurance and Workers' Compensation Insurance. License and insurance documentation is available upon request.",
+      },
+      {
+        question: "Do you offer a warranty on whole home remodeling work?",
+        answer:
+          "Yes. M.R. Renovations backs all labor with a lifetime workmanship warranty. Material warranties vary by manufacturer and are passed through to you at project completion.",
+      },
+    ],
   },
 
   "basements": {
@@ -124,7 +176,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "How long does a basement finishing project take?",
         answer:
-          "Most basement finishing projects take six to ten weeks from permit approval to final walkthrough, depending on scope and mechanical work involved. We provide a project schedule before work begins.",
+          "Most basement finishing projects take six to twelve weeks from permit approval to final walkthrough, depending on scope and mechanical work involved. We provide a project schedule before work begins.",
       },
       {
         question: "Is M.R. Renovations licensed and insured in Minnesota?",
@@ -159,7 +211,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "How long does a bathroom remodel take?",
         answer:
-          "Most bathroom remodels take two to four weeks from demolition to final walkthrough, depending on scope. Larger master bath projects or those with structural changes may take longer. We provide a project schedule before work begins.",
+          "Most bathroom remodels take three to eight weeks from demolition to final walkthrough, depending on scope. Larger master bath projects or those with structural changes may take longer. We provide a project schedule before work begins.",
       },
       {
         question: "Is M.R. Renovations licensed and insured in Minnesota?",
