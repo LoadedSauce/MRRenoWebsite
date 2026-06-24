@@ -13,8 +13,11 @@ const serviceLinks = [
   { label: "Roofing, Siding & Exterior", href: "/services/exterior"  },
 ];
 
-const navLinks = [
-  { label: "Home",     href: "/"        },
+const navLinksLeft = [
+  { label: "Home", href: "/" },
+];
+
+const navLinksRight = [
   { label: "Projects", href: "#projects" },
   { label: "Warranty", href: "#warranty" },
   { label: "About",    href: "#about"   },
@@ -176,7 +179,7 @@ export function SiteHeader() {
           {/* Desktop nav */}
           <div className="hidden lg:flex items-center gap-8">
             <ul className="flex items-center gap-7">
-              {navLinks.map((link) => (
+              {navLinksLeft.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -187,6 +190,16 @@ export function SiteHeader() {
                 </li>
               ))}
               <ServicesDropdown />
+              {navLinksRight.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm font-medium text-ink hover:text-navy transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
             <Link
               href="/consultation"
@@ -230,7 +243,7 @@ export function SiteHeader() {
         >
           <Container width="wide" className="py-6">
             <ul className="flex flex-col">
-              {navLinks.map((link) => (
+              {navLinksLeft.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -282,6 +295,18 @@ export function SiteHeader() {
                   </ul>
                 )}
               </li>
+
+              {navLinksRight.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className="block py-3 text-lg font-display font-medium text-ink border-b border-faint hover:text-navy transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
 
             <div className="mt-6 flex flex-col gap-3">
