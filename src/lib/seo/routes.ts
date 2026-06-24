@@ -5,7 +5,7 @@
 // (or assigned to `metadata` for static routes).
 //
 // Titles and descriptions follow the locked patterns in P1.5. Description
-// strings are clamped to 140â€“160 chars at a word boundary.
+// strings are clamped to 140-160 chars at a word boundary.
 
 import type { Metadata } from "next";
 import { SITE } from "./site";
@@ -99,7 +99,7 @@ export function buildHomeMetadata(): Metadata {
   const title = `${SITE.brandName} | Remodeling Contractor in Maple Grove, MN`;
   const description = clampDescription(
     `Kitchen, bathroom, basement, addition, and whole-home remodeling from ` +
-      `${SITE.brandName} â€” a Maple Grove, MN contractor serving the northwest metro.`
+      `${SITE.brandName} - a Maple Grove, MN contractor serving the northwest metro.`
   );
   return {
     title: { absolute: title },
@@ -136,7 +136,7 @@ export function buildServiceHubMetadata(service: ServiceLike): Metadata {
   };
 }
 
-// ----- Service Ã— area (Tier 3) -------------------------------------------
+// ----- Service x area (Tier 3) -------------------------------------------
 
 export interface ServiceAreaLike {
   slug: string;       // city slug, e.g. "rogers"
@@ -174,7 +174,7 @@ export function buildServiceAreaHubMetadata(area: ServiceAreaLike): Metadata {
   const url = canonical(path("service-areas", area.slug));
   const title = `Home Remodeling in ${area.name}, MN | ${SITE.brandName}`;
   const description = clampDescription(
-    `${SITE.brandName} serves ${area.name}, MN â€” kitchens, baths, basements, ` +
+    `${SITE.brandName} serves ${area.name}, MN - kitchens, baths, basements, ` +
       `additions, and whole home renovations backed by a Lifetime Transferable Warranty.`
   );
   return {
@@ -191,7 +191,7 @@ export function buildServiceAreaHubMetadata(area: ServiceAreaLike): Metadata {
 export interface TopicPage {
   slug: string;
   title: string;          // page topic, e.g. "Galley Kitchen Refresh in Plymouth"
-  description?: string;   // recommended: 140â€“160 char unique meta description
+  description?: string;   // recommended: 140-160 char unique meta description
   collection: "projects" | "guides" | "info";
 }
 
@@ -200,7 +200,7 @@ export function buildTopicMetadata(page: TopicPage): Metadata {
   const title = `${page.title} | ${SITE.brandName}`;
   const description = clampDescription(
     page.description ??
-      `${page.title} â€” from ${SITE.brandName}, a Maple Grove, MN remodeling contractor.`
+      `${page.title} - from ${SITE.brandName}, a Maple Grove, MN remodeling contractor.`
   );
   const ogType = page.collection === "projects" ? "website" : "article";
   return {
