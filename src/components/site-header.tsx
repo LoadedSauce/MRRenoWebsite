@@ -1,14 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Container } from "./container";
 
 const serviceLinks = [
-  { label: "Kitchen Remodeling",     href: "/services/kitchens"   },
-  { label: "Bathroom Remodeling",    href: "/services/bathrooms"  },
-  { label: "Basement Finishing",     href: "/services/basements"  },
-  { label: "Home Additions",         href: "/services/additions"  },
+  { label: "Kitchen Remodeling",        href: "/services/kitchens"   },
+  { label: "Bathroom Remodeling",       href: "/services/bathrooms"  },
+  { label: "Basement Finishing",        href: "/services/basements"  },
+  { label: "Home Additions",            href: "/services/additions"  },
   { label: "Whole Home Remodeling",     href: "/services/whole-home" },
   { label: "Roofing, Siding & Exterior", href: "/services/exterior"  },
 ];
@@ -20,28 +21,21 @@ const navLinksLeft = [
 const navLinksRight = [
   { label: "Projects", href: "#projects" },
   { label: "Warranty", href: "#warranty" },
-  { label: "About",    href: "#about"   },
-  { label: "Reviews",  href: "#reviews" },
+  { label: "About",    href: "#about"    },
+  { label: "Reviews",  href: "#reviews"  },
 ];
 
 function BrandMark() {
   return (
-    <Link href="/" className="flex items-center gap-3" aria-label="M.R. Renovations -- Home">
-      {/* MR badge */}
-      <span
-        className="inline-flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-md bg-navy text-paper font-display font-bold text-base shrink-0"
-        aria-hidden="true"
-      >
-        MR
-      </span>
-      <span className="flex flex-col leading-tight">
-        <span className="font-display font-bold text-navy text-sm sm:text-base tracking-tight">
-          M.R. RENOVATIONS, LLC
-        </span>
-        <span className="font-display font-medium text-orange text-[10px] sm:text-[11px] tracking-[0.16em] uppercase">
-          Design &middot; Build &middot; Renovate
-        </span>
-      </span>
+    <Link href="/" className="flex items-center" aria-label="M.R. Renovations — Home">
+      <Image
+        src="/images/mr-renovations-logo.png"
+        alt="M.R. Renovations, LLC"
+        width={1280}
+        height={1024}
+        priority
+        className="h-12 sm:h-16 w-auto"
+      />
     </Link>
   );
 }
