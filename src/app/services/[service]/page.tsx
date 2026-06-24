@@ -103,6 +103,14 @@ export default async function ServiceHubPage({ params }: PageProps) {
       projectType: "Whole Home Remodel",
       starCount: 5,
     },
+    exterior: {
+      quote:
+        "We had storm damage on the roof and siding and were dreading the whole process. M.R. Renovations coordinated directly with our insurance adjuster, kept us updated throughout, and had everything completed in under three weeks. The house looks better than it did before the storm.",
+      authorName: "Brian K.",
+      city: "Maple Grove, MN",
+      projectType: "Roofing & Siding",
+      starCount: 5,
+    },
   };
 
   const testimonial = testimonialMap[serviceParam as ServiceSlug];

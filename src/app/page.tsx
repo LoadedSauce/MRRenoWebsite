@@ -53,7 +53,7 @@ const services = [
     n: "06",
     name: "Roofing, Siding & Exterior",
     body: "Storm restoration, full exterior packages, windows, doors, and garages. James Hardie, GAF, Marvin, and Trex certified.",
-    href: "#exterior",
+    href: "/services/exterior",
     image: "/images/service-exterior.jpg",
     alt: "Exterior of a craftsman-style home with mature landscaping.",
   },

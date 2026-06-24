@@ -25,7 +25,8 @@ export type ServiceData = {
     | "additions"
     | "whole-home"
     | "basements"
-    | "bathrooms";
+    | "bathrooms"
+    | "exterior";
   displayName: string;
   heroDefaultSubcopy: string;
   galleryImages: ServiceGalleryImage[];
@@ -38,7 +39,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     slug: "kitchens",
     displayName: "Kitchen Remodeling",
     heroDefaultSubcopy:
-      "From custom cabinetry to full gut renovations, M.R. Renovations brings 43 years of craftsmanship to your kitchen. We handle permits, structural work, and finishing details -- one crew, start to finish.",
+      "From custom cabinetry to full gut renovations, M.R. Renovations brings 43+ years of craftsmanship to your kitchen. We handle permits, structural work, and finishing details -- one crew, start to finish.",
     galleryImages: [
       {
         src: "/images/kitchen/kitchen-remodel-walnut-cabinets-hex-backsplash-maple-grove-mn.jpg",
@@ -273,5 +274,35 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       },
     ],
   },
-};
 
+  // -- EXTERIOR --------------------------------------------------------------
+  exterior: {
+    slug: "exterior",
+    displayName: "Roofing, Siding & Exterior",
+    heroDefaultSubcopy:
+      "M.R. Renovations handles full exterior packages -- roofing, siding, windows, doors, and garages -- using James Hardie, GAF, Marvin, and Trex products. Framing and structural changes are included where applicable. We manage permits, coordinate inspections, and back every project with our Lifetime Transferable Workmanship Warranty.",
+    galleryImages: [],
+    faqItems: [
+      {
+        question: "What exterior work does M.R. Renovations handle?",
+        answer:
+          "We handle complete exterior packages including roofing, siding, windows, doors, and garages. We work with James Hardie fiber cement siding, GAF roofing systems, Marvin windows and doors, and Trex composite decking. Framing and structural changes are included where the project requires them.",
+      },
+      {
+        question: "Do you handle permits for exterior projects?",
+        answer:
+          "Yes. We pull all required building permits and schedule inspections on your behalf. Roofing, siding, and structural permits vary by municipality -- we handle the process directly with your city so you do not have to.",
+      },
+      {
+        question: "How long does an exterior project take?",
+        answer:
+          "Roofing and siding projects typically take one to three weeks depending on scope and weather. Full exterior packages that include windows, doors, and structural work typically run three to eight weeks. We provide a project schedule before work begins and communicate any weather-related adjustments in advance.",
+      },
+      {
+        question: "Is M.R. Renovations licensed and insured for exterior work in Minnesota?",
+        answer:
+          "Yes. M.R. Renovations holds Minnesota Residential Contractor license BC809200 and carries full General Liability Insurance and Workers' Compensation Insurance. We are fully licensed and insured to perform roofing, siding, and exterior renovation work throughout our service area.",
+      },
+    ],
+  },
+};
