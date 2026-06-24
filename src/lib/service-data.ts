@@ -60,7 +60,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "What does a kitchen remodel typically include?",
         answer:
-          "A full kitchen remodel with M.R. Renovations covers demolition, framing and structural changes, rough plumbing and electrical, new cabinetry and countertops, flooring, backsplash, drywall, paint, fixtures, and final trim. We handle the permit process and coordinate all trades under one contract.",
+          "A full kitchen remodel with M.R. Renovations covers demolition, framing and structural changes (where applicable), rough plumbing and electrical, new cabinetry and countertops, flooring, backsplash, drywall, paint, fixtures, and final trim. We handle the permit process and coordinate all trades under one contract.",
       },
       {
         question: "Do you handle the permits for kitchen projects?",
@@ -114,7 +114,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "What does a basement finishing project typically include?",
         answer:
-          "A finished basement with M.R. Renovations typically covers framing, insulation, egress window installation if required, mechanical rough-ins, drywall, paint, flooring, trim, and lighting. We handle permits and coordinate all trades under one contract.",
+          "A finished basement with M.R. Renovations typically covers framing and structural changes (where applicable), insulation, egress window installation if required, mechanical rough-ins, drywall, paint, flooring, trim, and lighting. We handle permits and coordinate all trades under one contract.",
       },
       {
         question: "Do you pull permits for basement finishing in Minnesota?",
@@ -125,6 +125,11 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
         question: "How long does a basement finishing project take?",
         answer:
           "Most basement finishing projects take six to ten weeks from permit approval to final walkthrough, depending on scope and mechanical work involved. We provide a project schedule before work begins.",
+      },
+      {
+        question: "Is M.R. Renovations licensed and insured in Minnesota?",
+        answer:
+          "Yes. M.R. Renovations holds Minnesota Residential Contractor license BC809200 and carries full General Liability Insurance and Workers' Compensation Insurance. License and insurance documentation is available upon request.",
       },
       {
         question: "Do you offer a warranty on basement finishing work?",
@@ -144,7 +149,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "What does a bathroom remodel typically include?",
         answer:
-          "A full bathroom remodel with M.R. Renovations covers demolition, waterproofing, rough plumbing and electrical, new tile, fixtures, vanity, drywall, paint, lighting, and finish work. We handle permits and coordinate all trades under one contract.",
+          "A full bathroom remodel with M.R. Renovations covers demolition, framing and structural changes (where applicable), waterproofing, rough plumbing and electrical, new tile, fixtures, vanity, drywall, paint, lighting, and finish work. We handle permits and coordinate all trades under one contract.",
       },
       {
         question: "Do you handle permits for bathroom remodeling projects?",
@@ -155,6 +160,11 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
         question: "How long does a bathroom remodel take?",
         answer:
           "Most bathroom remodels take two to four weeks from demolition to final walkthrough, depending on scope. Larger master bath projects or those with structural changes may take longer. We provide a project schedule before work begins.",
+      },
+      {
+        question: "Is M.R. Renovations licensed and insured in Minnesota?",
+        answer:
+          "Yes. M.R. Renovations holds Minnesota Residential Contractor license BC809200 and carries full General Liability Insurance and Workers' Compensation Insurance. License and insurance documentation is available upon request.",
       },
       {
         question: "Do you offer a warranty on bathroom remodeling work?",
