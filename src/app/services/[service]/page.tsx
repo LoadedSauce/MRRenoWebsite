@@ -2,13 +2,16 @@
 //
 // Tier 2 service hub page -- e.g. /services/kitchens
 //
-// Renders the ServicePageTemplate with a generic "Maple Grove" area context
-// so the existing template (Hero, Gallery, FAQs, CTA) works without
-// modification. City-specific pages remain at /services/[service]/[area].
+// Renders the ServicePageTemplate with Maple Grove as the default area
+// context. Maple Grove is the office city and serves as the hub fallback
+// until a full maple-grove.ts area file is added to the registry (at which
+// point the inline object below can be replaced with a registry lookup).
+//
+// City-specific pages remain at /services/[service]/[area].
 
 import { notFound } from "next/navigation";
 import { serviceRegistry } from "@/lib/service-data";
-import { serviceAreaRegistry } from "@/lib/service-area-data";
+import type { ServiceAreaData } from "@/lib/service-area-types";
 import {
   ServicePageTemplate,
   type TestimonialProps,
@@ -26,8 +29,54 @@ import { getService, getServiceArea, getVisibleFaqs } from "@/lib/data/services"
 
 type ServiceSlug = keyof typeof serviceRegistry;
 
+// -- Maple Grove area context ------------------------------------------------
+// Inline until src/lib/service-area-data/maple-grove.ts is added to the
+// registry. All required ServiceAreaData fields are populated here.
+
+const mapleGrove: ServiceAreaData = {
+  citySlug: "maple-grove",
+  cityName: "Maple Grove",
+  stateAbbr: "MN",
+  driveTimeText: "Our office is located in Maple Grove.",
+  neighborhoods: [
+    "Arbor Lakes",
+    "Fish Lake area",
+    "Elm Creek",
+    "Rush Creek",
+    "Weaver Lake",
+  ],
+  nearbyLandmarks: [
+    "Elm Creek Park Reserve",
+    "Central Park",
+    "Arbor Lakes shopping district",
+    "Maple Grove Hospital",
+  ],
+  serviceNotes: {},
+  recentProjectExamples: [
+    {
+      serviceSlug: "kitchens",
+      title: "Maple Grove Kitchen Remodel",
+      summary:
+        "Custom walnut cabinetry, quartz countertops, and full electrical update in a 2000s two-story.",
+    },
+    {
+      serviceSlug: "bathrooms",
+      title: "Maple Grove Master Bath",
+      summary:
+        "Marble tile shower, double vanity, and heated floors in a primary suite remodel.",
+    },
+    {
+      serviceSlug: "additions",
+      title: "Maple Grove Four-Season Sunroom",
+      summary:
+        "New four-season sunroom addition with floor-to-ceiling windows and LVP flooring.",
+    },
+  ],
+  heroBlurb:
+    "M.R. Renovations is based in Maple Grove and has completed projects throughout the community for over four decades. We pull permits directly with the City of Maple Grove and have references across every neighborhood.",
+};
+
 // -- Static params -----------------------------------------------------------
-// Generate a route for each service slug in the registry.
 
 export function generateStaticParams() {
   return Object.keys(serviceRegistry).map((slug) => ({ service: slug }));
@@ -57,16 +106,6 @@ export default async function ServiceHubPage({ params }: PageProps) {
       : undefined;
 
   if (!service) notFound();
-
-  // Use Maple Grove as the default area context for the hub page.
-  // This provides a real area object to ServicePageTemplate without
-  // inventing a new "generic" area type.
-  const area =
-    "maple-grove" in serviceAreaRegistry
-      ? serviceAreaRegistry["maple-grove" as keyof typeof serviceAreaRegistry]
-      : undefined;
-
-  if (!area) notFound();
 
   // -- Testimonials per service ---------------------------------------------
   // Manually supplied. No third-party dependency.
@@ -118,13 +157,15 @@ export default async function ServiceHubPage({ params }: PageProps) {
   const testimonial = testimonialMap[serviceParam as ServiceSlug];
 
   // -- FAQ items (service base only -- no city overrides on hub page) --------
-  // Pass serviceParam with a non-existent area slug so only base FAQs return.
+  // Pass a non-existent area slug so getVisibleFaqs returns only base items.
   const faqItems = getVisibleFaqs(serviceParam, "__hub__");
 
   // -- Structured data -------------------------------------------------------
 
   const seoService = getService(serviceParam);
-  const seoArea = getServiceArea("maple-grove");
+  // Use rogers for schema since it is the only registered area; the hub page
+  // canonical URL does not include a city segment so this is schema-only.
+  const seoArea = getServiceArea("rogers");
 
   const graphNodes = [];
   if (seoService && seoArea) {
@@ -147,7 +188,7 @@ export default async function ServiceHubPage({ params }: PageProps) {
       {graph ? <JsonLd data={graph} /> : null}
       <ServicePageTemplate
         service={service}
-        area={area}
+        area={mapleGrove}
         testimonial={testimonial}
         faqItems={faqItems}
       />
