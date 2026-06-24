@@ -60,7 +60,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "What does a kitchen remodel typically include?",
         answer:
-          "A full kitchen remodel with M.R. Renovations covers demolition, structural changes, rough plumbing and electrical, new cabinetry and countertops, flooring, backsplash, fixtures, and final trim. We handle the permit process and coordinate all trades under one contract.",
+          "A full kitchen remodel with M.R. Renovations covers demolition, framing and structural changes, rough plumbing and electrical, new cabinetry and countertops, flooring, backsplash, drywall, paint, fixtures, and final trim. We handle the permit process and coordinate all trades under one contract.",
       },
       {
         question: "Do you handle the permits for kitchen projects?",
@@ -70,7 +70,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Is M.R. Renovations licensed and insured in Minnesota?",
         answer:
-          "Yes. M.R. Renovations holds a Minnesota Residential Contractor license and carries full general liability and workers' compensation insurance. License information is available upon request.",
+          "Yes. M.R. Renovations holds Minnesota Residential Contractor license BC809200 and carries full General Liability Insurance and Workers' Compensation Insurance. License and insurance documentation is available upon request.",
       },
       {
         question: "How long does a kitchen remodel take?",
@@ -114,7 +114,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "What does a basement finishing project typically include?",
         answer:
-          "A finished basement with M.R. Renovations typically covers framing, insulation, egress window installation if required, mechanical rough-ins, drywall, flooring, trim, and lighting. We handle permits and coordinate all trades under one contract.",
+          "A finished basement with M.R. Renovations typically covers framing, insulation, egress window installation if required, mechanical rough-ins, drywall, paint, flooring, trim, and lighting. We handle permits and coordinate all trades under one contract.",
       },
       {
         question: "Do you pull permits for basement finishing in Minnesota?",
@@ -144,7 +144,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "What does a bathroom remodel typically include?",
         answer:
-          "A full bathroom remodel with M.R. Renovations covers demolition, waterproofing, rough plumbing and electrical, new tile, fixtures, vanity, lighting, and finish work. We handle permits and coordinate all trades under one contract.",
+          "A full bathroom remodel with M.R. Renovations covers demolition, waterproofing, rough plumbing and electrical, new tile, fixtures, vanity, drywall, paint, lighting, and finish work. We handle permits and coordinate all trades under one contract.",
       },
       {
         question: "Do you handle permits for bathroom remodeling projects?",
