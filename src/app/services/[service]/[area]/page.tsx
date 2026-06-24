@@ -11,11 +11,12 @@ import {
   JsonLd,
   buildBreadcrumbListSchema,
   buildServiceSchema,
+  buildFaqPageSchema,
   buildPageGraph,
 } from "@/lib/seo/schema";
-import { getService, getServiceArea } from "@/lib/data/services";
+import { getService, getServiceArea, getVisibleFaqs } from "@/lib/data/services";
 
-// â”€â”€ Area registry â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- Area registry -----------------------------------------------------------
 // Expand as new city files are added to src/lib/service-area-data/.
 
 const areaRegistry = serviceAreaRegistry;
@@ -23,14 +24,14 @@ const areaRegistry = serviceAreaRegistry;
 type ServiceSlug = keyof typeof serviceRegistry;
 type AreaSlug    = keyof typeof areaRegistry;
 
-// â”€â”€ Static params â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- Static params -----------------------------------------------------------
 // Kitchens x Rogers only for Phase 1.4.
 
 export function generateStaticParams() {
   return [{ service: "kitchens", area: "rogers" }];
 }
 
-// â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- Page --------------------------------------------------------------------
 
 interface PageProps {
   params: Promise<{ service: string; area: string }>;
@@ -61,7 +62,7 @@ export default async function ServiceAreaPage({ params }: PageProps) {
     notFound();
   }
 
-  // â”€â”€ Page-instance testimonial â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // -- Page-instance testimonial -------------------------------------------
   //
   // Manually supplied. No Google embed. No third-party dependency.
   // Swap inner content in ServicePageTemplate when live widget is ready.
@@ -76,22 +77,37 @@ export default async function ServiceAreaPage({ params }: PageProps) {
     starCount: 5,
   };
 
+  // -- P1.7: FAQ merge -------------------------------------------------------
+  // getVisibleFaqs merges service base faqItems + area faqOverrides.
+  // Empty array means no FAQ section renders and no FAQPage node is emitted.
+
+  const faqItems = getVisibleFaqs(serviceParam, areaParam);
+
+  // -- Structured data graph -------------------------------------------------
+
   const seoService = getService(serviceParam);
   const seoArea = getServiceArea(areaParam);
-  const graph =
-    seoService && seoArea
-      ? buildPageGraph([
-          buildBreadcrumbListSchema([
-            { name: "Home", path: "/" },
-            { name: seoService.name, path: `/services/${seoService.slug}` },
-            {
-              name: `${seoService.name} in ${seoArea.name}, MN`,
-              path: `/services/${seoService.slug}/${seoArea.slug}`,
-            },
-          ]),
-          buildServiceSchema(seoService, seoArea),
-        ])
-      : null;
+
+  const graphNodes = [];
+  if (seoService && seoArea) {
+    graphNodes.push(
+      buildBreadcrumbListSchema([
+        { name: "Home", path: "/" },
+        { name: seoService.name, path: `/services/${seoService.slug}` },
+        {
+          name: `${seoService.name} in ${seoArea.name}, MN`,
+          path: `/services/${seoService.slug}/${seoArea.slug}`,
+        },
+      ]),
+      buildServiceSchema(seoService, seoArea)
+    );
+    // FAQPage node only when there are visible questions
+    if (faqItems.length > 0) {
+      graphNodes.push(buildFaqPageSchema(faqItems));
+    }
+  }
+
+  const graph = graphNodes.length > 0 ? buildPageGraph(graphNodes) : null;
 
   return (
     <>
@@ -100,6 +116,7 @@ export default async function ServiceAreaPage({ params }: PageProps) {
         service={service}
         area={area}
         testimonial={testimonial}
+        faqItems={faqItems}
       />
     </>
   );
