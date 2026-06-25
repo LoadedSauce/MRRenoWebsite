@@ -21,11 +21,11 @@ const company = [
 ];
 
 const serviceArea = [
+  "Rogers",
   "Maple Grove",
   "Plymouth",
-  "Wayzata",
-  "Minnetonka",
-  "Edina",
+  "St. Michael",
+  "Coon Rapids",
   "25-mile radius",
 ];
 
