@@ -20,6 +20,7 @@ const navLinksLeft = [
 
 const navLinksRight = [
   { label: "Projects", href: "#projects" },
+  { label: "Process",  href: "/process"  },
   { label: "Warranty", href: "#warranty" },
   { label: "About",    href: "#about"   },
   { label: "Reviews",  href: "#reviews" },
@@ -334,3 +335,4 @@ export function SiteHeader() {
     </>
   );
 }
+
