@@ -12,59 +12,69 @@ export const metadata: Metadata = {
 const steps = [
   {
     number: "01",
-    title: "Check your rate",
-    body: "Fill out a short form on Hearth's platform. Takes about two minutes. Checking your rate does not affect your credit score.",
+    title: "Check your options",
+    body: "Visit the M.R. Renovations Hearth portal and complete a short form to see estimated monthly payment options. Checking your options does not impact your credit score.",
   },
   {
     number: "02",
-    title: "Review your options",
-    body: "Hearth presents loan options from a network of lenders. You compare rates, terms, and monthly payments and choose what fits your budget. No obligation to proceed.",
+    title: "Choose what works",
+    body: "Review financing options from a network of lenders. Terms from 1 to 12 years. Loans up to $250,000. No obligation to proceed.",
   },
   {
     number: "03",
-    title: "Get funded",
-    body: "Once you select a loan and complete the application, funds are typically available within one to three business days. You pay M.R. Renovations directly from your account -- no contractor involvement in the loan.",
+    title: "Get moving",
+    body: "Funds available in as little as 24 hours if approved. You pay M.R. Renovations directly -- no contractor involvement in your loan.",
   },
 ];
 
 const keyDetails = [
-  { label: "Loan Amounts", value: "$1,000 -- $100,000" },
-  { label: "Terms Available", value: "24 -- 144 months" },
-  { label: "Rate Check", value: "Soft pull only" },
-  { label: "Funding Speed", value: "1-3 business days" },
+  { label: "Loans from",     value: "$1,000 -- $250,000" },
+  { label: "Terms",          value: "1 to 12 years"       },
+  { label: "Pre-qualification", value: "No credit impact" },
+  { label: "Prepayment",     value: "No penalties"         },
 ];
 
 export default function FinancingPage() {
   return (
     <main>
-      {/* -- HERO ---------------------------------------------------------- */}
-      <section className="bg-paper border-b border-faint">
+
+      {/* ── HERO ─────────────────────────────────────────────────────────── */}
+      <section className="bg-navy text-paper">
         <Container width="default" className="py-16 lg:py-20">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-soft-orange/90">
             Financing
           </p>
-          <h1 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-tight text-navy leading-[1.05]">
-            Financing your renovation.
+          <h1 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-tight text-paper leading-[1.05]">
+            Flexible financing for your project.
           </h1>
-          <p className="mt-5 text-lg text-muted leading-relaxed max-w-2xl">
-            We partner with Hearth to give you access to home improvement financing from a network of lenders. Check your options in minutes with no impact to your credit score -- no commitment required.
+          <p className="mt-5 text-lg text-paper/75 leading-relaxed max-w-2xl">
+            Your project does not have to wait. M.R. Renovations offers financing options through Hearth, giving you the ability to move forward on your timeline.
           </p>
         </Container>
       </section>
 
-      {/* -- HOW IT WORKS -------------------------------------------------- */}
+      {/* ── INTRO ────────────────────────────────────────────────────────── */}
       <section className="bg-paper">
-        <Container width="default" className="py-16 lg:py-20">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
-            How It Works
+        <Container width="default" className="py-14 lg:py-16">
+          <p className="text-lg text-muted leading-relaxed max-w-2xl">
+            Renovations are a significant investment. Hearth financing lets homeowners make decisions based on what they want, not just what they have available right now.
           </p>
-          <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-navy leading-[1.1]">
+        </Container>
+      </section>
+
+      {/* ── HOW IT WORKS ─────────────────────────────────────────────────── */}
+      <section className="bg-paper border-t border-faint">
+        <Container width="default" className="py-14 lg:py-16">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+            How it works
+          </p>
+          <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-navy">
             Three steps.
           </h2>
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-8">
             {steps.map((step) => (
-              <div key={step.number} className="flex flex-col gap-4">
-                <span className="font-display font-bold text-4xl text-orange/25 tracking-tight select-none">
+              <div key={step.number} className="flex flex-col gap-3">
+                <span className="font-display font-bold text-4xl text-orange/20 tracking-tight select-none">
                   {step.number}
                 </span>
                 <h3 className="font-display font-bold text-lg text-navy">
@@ -79,16 +89,17 @@ export default function FinancingPage() {
         </Container>
       </section>
 
-      {/* -- KEY DETAILS STRIP --------------------------------------------- */}
-      <section className="bg-navy text-paper">
+      {/* ── KEY DETAILS STRIP ────────────────────────────────────────────── */}
+      <section className="bg-soft-navy">
         <Container width="wide" className="py-10">
-          <dl className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 text-center">
+          <dl className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
             {keyDetails.map((detail) => (
               <div key={detail.label}>
-                <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">
+                <div className="mx-auto w-8 h-1 bg-orange rounded-full mb-3" />
+                <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-muted">
                   {detail.label}
                 </dt>
-                <dd className="mt-1 font-display font-bold text-lg sm:text-xl text-paper tracking-tight">
+                <dd className="mt-1 font-display font-bold text-lg text-navy tracking-tight">
                   {detail.value}
                 </dd>
               </div>
@@ -97,46 +108,46 @@ export default function FinancingPage() {
         </Container>
       </section>
 
-      {/* -- CASH ALTERNATIVE ---------------------------------------------- */}
-      <section className="bg-soft-navy">
-        <Container width="default" className="py-12 lg:py-16">
-          <div className="max-w-2xl">
+      {/* ── CASH ALTERNATIVE ─────────────────────────────────────────────── */}
+      <section className="bg-paper">
+        <Container width="default" className="py-14 lg:py-16">
+          <div className="bg-soft-orange rounded-lg p-8 max-w-2xl">
             <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
               Cash Alternative
             </p>
-            <h2 className="mt-3 font-display font-bold text-2xl sm:text-3xl tracking-tight text-navy">
+            <h2 className="mt-3 font-display font-bold text-2xl text-navy tracking-tight">
               Prefer to pay cash?
             </h2>
-            <p className="mt-4 text-base text-muted leading-relaxed">
-              We offer a 2% discount on the total contract price for projects paid in full by cash or check at project start. Ask your project manager for details when you receive your written proposal.
+            <p className="mt-3 text-base text-muted leading-relaxed">
+              M.R. Renovations offers a 2% discount on the full project cost for clients who pay in full by cash or check. Two clear paths -- choose what works for your situation. Ask your project manager for details when you receive your written proposal.
             </p>
           </div>
         </Container>
       </section>
 
-      {/* -- CTA ----------------------------------------------------------- */}
-      <section className="bg-paper">
-        <Container width="default" className="py-16 lg:py-20 text-center">
-          <h2 className="font-display font-bold text-3xl sm:text-4xl tracking-tight text-navy">
+      {/* ── PRIMARY CTA ──────────────────────────────────────────────────── */}
+      <section className="bg-paper border-t border-faint">
+        <Container width="default" className="py-14 lg:py-16 text-center">
+          <h2 className="font-display font-bold text-2xl sm:text-3xl tracking-tight text-navy">
             Check your financing options.
           </h2>
-          <p className="mt-4 text-lg text-muted max-w-xl mx-auto">
+          <p className="mt-3 text-base text-muted max-w-md mx-auto">
             No impact to your credit score. No commitment required.
           </p>
-          <div className="mt-8">
+          <div className="mt-6">
             <a
-              href="https://app.gethearth.com/partners/mr-renovations"
+              href="https://app.gethearth.com/partners/m-r-renovations-llc"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-7 py-3 rounded-md transition-colors"
             >
-              Check Your Rate with Hearth
+              View Financing Options
             </a>
           </div>
 
           {/* Legal disclosure */}
-          <p className="mt-8 text-xs text-muted/70 max-w-2xl mx-auto leading-relaxed">
-            M.R. Renovations, LLC is not a lender. Financing is provided by third-party lenders through the Hearth platform. Loan approval, rates, and terms are determined by the lender based on your creditworthiness and are not guaranteed. All financing products are subject to lender eligibility requirements. M.R. Renovations receives no commission or referral fee from Hearth loan originations. Confirm final disclosure language with Hearth partner agreement before go-live.
+          <p className="mt-8 text-xs text-muted/60 max-w-2xl mx-auto leading-relaxed">
+            Hearth is a technology company licensed as a broker as may be required by state law. Hearth does not accept applications for credit, does not make loans, and does not make credit decisions. Annual percentage rates, terms, and amounts are provided by Hearth's lending partners. NMLS ID# 1628533.
           </p>
 
           {/* Secondary links */}
@@ -150,6 +161,7 @@ export default function FinancingPage() {
           </div>
         </Container>
       </section>
+
     </main>
   );
 }
