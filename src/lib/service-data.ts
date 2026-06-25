@@ -83,6 +83,11 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
         answer:
           "Yes. Every kitchen project is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on cabinetry, countertops, appliances, and fixtures are passed through to you at project completion.",
       },
+      {
+        question: "Do you follow a defined process on every project?",
+        answer:
+          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough -- including how we handle permits, selections timing, inspections, and the punch list before final payment -- is available at m-r-reno.com/process.",
+      },
     ],
   },
 
@@ -135,6 +140,11 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
         answer:
           "Yes. Every addition is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on windows, doors, roofing, siding, and fixtures are passed through at project completion.",
       },
+      {
+        question: "Do you follow a defined process on every project?",
+        answer:
+          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough -- including how we handle permits, selections timing, inspections, and the punch list before final payment -- is available at m-r-reno.com/process.",
+      },
     ],
   },
 
@@ -186,6 +196,11 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
         answer:
           "Yes. The full scope of a whole-home remodel is backed by our Lifetime Transferable Workmanship Warranty -- one warranty covers labor across every room and every trade we performed, for the life of the home, and transfers to future owners if you sell. Manufacturer warranties on materials and fixtures pass through to you at project completion.",
       },
+      {
+        question: "Do you follow a defined process on every project?",
+        answer:
+          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough -- including how we handle permits, selections timing, inspections, and the punch list before final payment -- is available at m-r-reno.com/process.",
+      },
     ],
   },
 
@@ -220,6 +235,11 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
         question: "Do you offer a warranty on basement finishing work?",
         answer:
           "Yes. Every basement finish is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on flooring, fixtures, and egress windows are passed through at project completion.",
+      },
+      {
+        question: "Do you follow a defined process on every project?",
+        answer:
+          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough -- including how we handle permits, selections timing, inspections, and the punch list before final payment -- is available at m-r-reno.com/process.",
       },
     ],
   },
@@ -272,6 +292,11 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
         answer:
           "Yes. Every bathroom remodel is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor, including tile and waterproofing, for the life of the home and transfers to future owners if you sell. Manufacturer warranties on fixtures, vanities, and countertops are passed through at project completion.",
       },
+      {
+        question: "Do you follow a defined process on every project?",
+        answer:
+          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough -- including how we handle permits, selections timing, inspections, and the punch list before final payment -- is available at m-r-reno.com/process.",
+      },
     ],
   },
 
@@ -308,6 +333,12 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
         answer:
           "Yes. Every exterior project is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on James Hardie siding, GAF roofing systems, Marvin windows and doors, and Trex composite materials are passed through to you at project completion.",
       },
+      {
+        question: "Do you follow a defined process on every project?",
+        answer:
+          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough -- including how we handle permits, selections timing, inspections, and the punch list before final payment -- is available at m-r-reno.com/process.",
+      },
     ],
   },
 };
+
