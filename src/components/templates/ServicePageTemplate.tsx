@@ -5,6 +5,7 @@ import { Container } from "@/components/container";
 import { Hero } from "@/components/primitives/Hero";
 import { Gallery } from "@/components/primitives/Gallery";
 import { BeforeAfter } from "@/components/primitives/BeforeAfter";
+import type { BeforeAfterImage } from "@/components/primitives/BeforeAfter";
 import { TestimonialCard } from "@/components/primitives/TestimonialCard";
 import { FaqAccordion } from "@/components/primitives/FaqAccordion";
 import Link from "next/link";
@@ -27,6 +28,18 @@ export type TestimonialProps = {
   starCount: 5;
 };
 
+// -- Before/after images prop ------------------------------------------------
+//
+// Optional. When absent, the Before/After section is omitted from the DOM
+// entirely -- no broken images, no placeholder boxes.
+// When real photos are ready, pass this prop from the route's page.tsx and
+// the section renders automatically. No further changes to the template needed.
+
+export type BeforeAfterImages = {
+  before: BeforeAfterImage;
+  after: BeforeAfterImage;
+};
+
 // -- Component props ---------------------------------------------------------
 //
 // `area` is optional. When omitted the template renders as a city-neutral
@@ -43,6 +56,8 @@ export interface ServicePageTemplateProps {
   // never has to know about the merge logic or area data shape.
   // When empty, the FAQ section is omitted from the DOM entirely.
   faqItems: ServiceFaqItem[];
+  // P1.19: optional before/after image pair. Section hidden when absent.
+  beforeAfterImages?: BeforeAfterImages;
 }
 
 // -- Template ----------------------------------------------------------------
@@ -52,6 +67,7 @@ export function ServicePageTemplate({
   area,
   testimonial,
   faqItems,
+  beforeAfterImages,
 }: ServicePageTemplateProps) {
   // Hero sub-copy: area service note > service default
   const heroCopy =
@@ -120,33 +136,29 @@ export function ServicePageTemplate({
       </section>
 
       {/* -- BEFORE / AFTER ----------------------------------------------- */}
-      <section className="bg-paper">
-        <Container width="wide" className="py-16 lg:py-20">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
-            Transformation
-          </p>
-          <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink leading-[1.1] mb-10">
-            The before and <span className="accent">after.</span>
-          </h2>
-          <div className="max-w-3xl">
-            <BeforeAfter
-              before={{
-                src: "/images/before-after/kitchen-before.jpg",
-                alt: `Kitchen before remodel -- dated cabinetry and laminate countertops`,
-              }}
-              after={{
-                src: "/images/before-after/kitchen-after.jpg",
-                alt: `Kitchen after remodel -- custom cabinetry, quartz island, and tile backsplash`,
-              }}
-              caption={
-                cityLabel
-                  ? `${service.displayName} \u00b7 ${cityLabel}`
-                  : service.displayName
-              }
-            />
-          </div>
-        </Container>
-      </section>
+      {beforeAfterImages && (
+        <section className="bg-paper">
+          <Container width="wide" className="py-16 lg:py-20">
+            <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+              Transformation
+            </p>
+            <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink leading-[1.1] mb-10">
+              The before and <span className="accent">after.</span>
+            </h2>
+            <div className="max-w-3xl">
+              <BeforeAfter
+                before={beforeAfterImages.before}
+                after={beforeAfterImages.after}
+                caption={
+                  cityLabel
+                    ? `${service.displayName} \u00b7 ${cityLabel}`
+                    : service.displayName
+                }
+              />
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* -- TESTIMONIAL -------------------------------------------------- */}
       {/*
