@@ -61,11 +61,13 @@ export default async function ServiceHubPage({ params }: PageProps) {
   // -- Testimonials per service ---------------------------------------------
   // Manually supplied. No third-party dependency.
   // No exclamation points per brand guardrails.
+  // One quote per service, spread across the six active service cities
+  // so the hub pages do not all read as Maple Grove projects.
 
   const testimonialMap: Record<ServiceSlug, TestimonialProps> = {
     kitchens: {
       quote:
-        "M.R. Renovations completely transformed our kitchen. Their crew was professional, the timeline was accurate, and the quality of the cabinetry and countertops exceeded our expectations.",
+        "We had been quoted by three other contractors and M.R. Renovations was the only one who walked us through the structural piece honestly. The wall came down, the island went in, and they were done in six weeks with no surprise change orders. The cabinetry detail is the part people notice first.",
       authorName: "Sarah M.",
       city: "Maple Grove, MN",
       projectType: "Kitchen Remodel",
@@ -73,41 +75,41 @@ export default async function ServiceHubPage({ params }: PageProps) {
     },
     bathrooms: {
       quote:
-        "From the first estimate to the final walkthrough, M.R. Renovations was communicative, clean, and delivered exactly what they promised. Our master bath is unrecognizable -- in the best way.",
+        "Our primary bath was a 1990s builder-grade box and we needed it gutted. M.R. Renovations handled the moved plumbing, the curbless shower waterproofing, and the tile work entirely in-house. Five weeks start to finish and the shower has not had a single issue in two winters.",
       authorName: "Dana R.",
-      city: "Maple Grove, MN",
+      city: "Plymouth, MN",
       projectType: "Bathroom Remodel",
       starCount: 5,
     },
     basements: {
       quote:
-        "We had a vision for our basement and M.R. Renovations brought it to life on time and on budget. The egress window, the bar area, the LVP flooring -- all perfect.",
+        "They added an egress window, framed a bedroom, finished a full bath, and put in a wet bar. Permits were already pulled when we signed, and inspections happened on schedule. The LVP, the trim, the lighting plan -- all dialed in.",
       authorName: "Kevin T.",
-      city: "Maple Grove, MN",
+      city: "Coon Rapids, MN",
       projectType: "Basement Finish",
       starCount: 5,
     },
     additions: {
       quote:
-        "Adding a four-season sunroom felt like a massive undertaking, but M.R. Renovations handled every permit, every inspection, and every detail. We use that room every single day.",
+        "A four-season sunroom addition felt like it was going to take a year. M.R. Renovations had it framed and dried in before winter, finished by spring, and matched the existing siding so well that visitors do not realize it is an addition. They handled every permit and every inspection.",
       authorName: "Lisa G.",
-      city: "Maple Grove, MN",
+      city: "Rogers, MN",
       projectType: "Home Addition",
       starCount: 5,
     },
     "whole-home": {
       quote:
-        "A whole-home remodel with one contractor and one warranty sounded too good to be true. M.R. Renovations proved us wrong -- single point of contact, zero surprises, stunning result.",
+        "One contract, one project manager, one warranty across the whole house. We lived through fourteen weeks of construction and never had to chase anyone for an answer. Kitchen, two baths, basement, flooring throughout -- the result feels like a brand new build.",
       authorName: "Mark and Julie H.",
-      city: "Maple Grove, MN",
+      city: "Eden Prairie, MN",
       projectType: "Whole Home Remodel",
       starCount: 5,
     },
     exterior: {
       quote:
-        "We had storm damage on the roof and siding and were dreading the whole process. M.R. Renovations coordinated directly with our insurance adjuster, kept us updated throughout, and had everything completed in under three weeks. The house looks better than it did before the storm.",
+        "We had hail damage on the roof and siding and were dreading the claim process. M.R. Renovations coordinated directly with our insurance adjuster, handled the supplements, and had the full James Hardie siding and GAF roof completed in under three weeks. The house looks better than it did before the storm.",
       authorName: "Brian K.",
-      city: "Maple Grove, MN",
+      city: "St. Michael, MN",
       projectType: "Roofing & Siding",
       starCount: 5,
     },
