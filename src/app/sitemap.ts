@@ -38,6 +38,20 @@ const LIVE_TIER3 = new Set<string>([
   "additions/coon-rapids",
   "whole-home/coon-rapids",
   "exterior/coon-rapids",
+  // St. Michael
+  "kitchens/st-michael",
+  "bathrooms/st-michael",
+  "basements/st-michael",
+  "additions/st-michael",
+  "whole-home/st-michael",
+  "exterior/st-michael",
+  // Eden Prairie
+  "kitchens/eden-prairie",
+  "bathrooms/eden-prairie",
+  "basements/eden-prairie",
+  "additions/eden-prairie",
+  "whole-home/eden-prairie",
+  "exterior/eden-prairie",
 ]);
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
