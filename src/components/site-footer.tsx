@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Container } from "./container";
 
 const services = [
@@ -35,12 +36,13 @@ export function SiteFooter() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           <div className="lg:col-span-5">
             <div className="flex items-center gap-3">
-              <span
-                className="inline-flex items-center justify-center w-11 h-11 rounded-md bg-orange text-paper font-display font-bold"
-                aria-hidden="true"
-              >
-                MR
-              </span>
+              <Image
+                src="/images/mr-logo-icon.png"
+                alt="M.R. Renovations logo"
+                width={48}
+                height={53}
+                className="shrink-0 brightness-0 invert"
+              />
               <p className="font-display font-bold text-paper text-lg tracking-tight">
                 M.&nbsp;R. Renovations, LLC
               </p>

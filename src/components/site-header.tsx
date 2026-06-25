@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Container } from "./container";
 
@@ -27,13 +28,15 @@ const navLinksRight = [
 function BrandMark() {
   return (
     <Link href="/" className="flex items-center gap-3" aria-label="M.R. Renovations -- Home">
-      {/* MR badge */}
-      <span
-        className="inline-flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-md bg-navy text-paper font-display font-bold text-base shrink-0"
-        aria-hidden="true"
-      >
-        MR
-      </span>
+      {/* Logo icon mark */}
+      <Image
+        src="/images/mr-logo-icon.png"
+        alt="M.R. Renovations logo"
+        width={44}
+        height={48}
+        className="shrink-0"
+        priority
+      />
       <span className="flex flex-col leading-tight">
         <span className="font-display font-bold text-navy text-sm sm:text-base tracking-tight">
           M.R. RENOVATIONS, LLC
