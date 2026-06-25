@@ -378,14 +378,10 @@ export default function Home() {
                 href="#project"
                 className="group block rounded-lg overflow-hidden bg-navy"
               >
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src={p.image}
-                    alt={p.alt}
-                    fill
-                    sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
+                <div className="relative aspect-[4/3] overflow-hidden flex items-center justify-center bg-navy-deep">
+                  <span className="font-display font-bold text-5xl text-paper/15 select-none pointer-events-none tracking-tight" aria-hidden="true">
+                    {p.area}
+                  </span>
                 </div>
                 <div className="p-5 border-t border-paper/15">
                   <p className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-orange">
