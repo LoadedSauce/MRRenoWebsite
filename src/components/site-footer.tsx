@@ -13,10 +13,10 @@ const services = [
 
 const company = [
   { label: "About", href: "#about" },
-  { label: "Process", href: "#process" },
+  { label: "Process", href: "/process" },
   { label: "Warranty", href: "#warranty" },
   { label: "Reviews", href: "#reviews" },
-  { label: "Financing", href: "#financing" },
+  { label: "Financing", href: "/financing" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -130,3 +130,4 @@ export function SiteFooter() {
     </footer>
   );
 }
+
