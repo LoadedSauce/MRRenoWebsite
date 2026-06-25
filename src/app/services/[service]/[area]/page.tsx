@@ -17,14 +17,13 @@ import {
 import { getService, getServiceArea, getVisibleFaqs } from "@/lib/data/services";
 
 // -- Area registry -----------------------------------------------------------
-// Expand as new city files are added to src/lib/service-area-data/.
 
 const areaRegistry = serviceAreaRegistry;
 
 type ServiceSlug = keyof typeof serviceRegistry;
 type AreaSlug    = keyof typeof areaRegistry;
 
-// -- Service slugs (used in generateStaticParams) ----------------------------
+// -- Service slugs -----------------------------------------------------------
 
 const SERVICE_SLUGS = [
   "kitchens",
@@ -36,24 +35,16 @@ const SERVICE_SLUGS = [
 ] as const;
 
 // -- Static params -----------------------------------------------------------
-// P1.17: 6 services x maple-grove + kitchens/rogers = 7 routes.
+// P1.18: 6 services x 4 cities = 24 routes.
 
 export function generateStaticParams() {
-  const mapleGroveRoutes = SERVICE_SLUGS.map((service) => ({
-    service,
-    area: "maple-grove",
-  }));
-  return [
-    ...mapleGroveRoutes,
-    { service: "kitchens", area: "rogers" },
-  ];
+  const cities = ["maple-grove", "rogers", "plymouth", "coon-rapids"] as const;
+  return SERVICE_SLUGS.flatMap((service) =>
+    cities.map((area) => ({ service, area }))
+  );
 }
 
 // -- Testimonials by area ----------------------------------------------------
-//
-// Manually supplied. No Google embed. No third-party dependency.
-// Add an entry here whenever a new city launches.
-// Falls back to `fallbackTestimonial` for any area not explicitly listed.
 
 const testimonialsByArea: Record<string, TestimonialProps> = {
   rogers: {
@@ -69,6 +60,22 @@ const testimonialsByArea: Record<string, TestimonialProps> = {
       "We used M.R. Renovations for our kitchen remodel and could not be more pleased. They are based right here in Maple Grove, which showed immediately -- they knew the permit process, they knew the neighborhood, and they treated our home with real care.",
     authorName: "David R.",
     city: "Maple Grove, MN",
+    projectType: "Kitchen Remodel",
+    starCount: 5,
+  },
+  plymouth: {
+    quote:
+      "M.R. Renovations remodeled our basement and the result is stunning. They stayed on schedule, communicated every change, and their crew treated our home with respect throughout. We would hire them again without question.",
+    authorName: "Lisa T.",
+    city: "Plymouth, MN",
+    projectType: "Basement Finish",
+    starCount: 5,
+  },
+  "coon-rapids": {
+    quote:
+      "From the first estimate to the final walkthrough, M.R. Renovations was professional, transparent, and thorough. Our kitchen looks better than we imagined and the process was far smoother than we expected.",
+    authorName: "Mark H.",
+    city: "Coon Rapids, MN",
     projectType: "Kitchen Remodel",
     starCount: 5,
   },
@@ -114,17 +121,9 @@ export default async function ServiceAreaPage({ params }: PageProps) {
     notFound();
   }
 
-  // -- Testimonial -----------------------------------------------------------
-  // Map lookup; falls back to generic Twin Cities testimonial if area
-  // does not have an entry yet.
-
   const testimonial = testimonialsByArea[areaParam] ?? fallbackTestimonial;
 
-  // -- P1.7: FAQ merge -------------------------------------------------------
-
   const faqItems = getVisibleFaqs(serviceParam, areaParam);
-
-  // -- Structured data graph -------------------------------------------------
 
   const seoService = getService(serviceParam);
   const seoArea = getServiceArea(areaParam);

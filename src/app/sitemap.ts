@@ -1,31 +1,43 @@
 // src/app/sitemap.ts
 //
-// App Router sitemap output. Lists only live, indexable routes. Entries are
-// derived from the adapter registries, then gated to Tier 3 pages that have
-// real, launched content (see LIVE_TIER3 below).
-//
-// Scope note: only the home page and launched service-area (Tier 3) pages are
-// emitted. Service hubs (/services/[service]) and service-area hubs
-// (/service-areas/[area]) are intentionally NOT listed yet -- those route
-// templates do not exist on this branch, so emitting them would advertise URLs
-// that return 404. Thin Tier 3 pages (no gallery/FAQ content yet) are withheld
-// until their content ships; add them to LIVE_TIER3 as they go live.
+// App Router sitemap output. Lists only live, indexable routes.
 
 import type { MetadataRoute } from "next";
 import { canonical } from "@/lib/seo/canonical";
 import { getAllServices, getAllServiceAreas } from "@/lib/data/services";
 
-// Tier 3 "service/area" keys with real, launched content. Add entries here as
-// each page's content ships. Format: "<serviceSlug>/<areaSlug>".
+// Tier 3 "service/area" keys with real, launched content.
+// Format: "<serviceSlug>/<areaSlug>".
 // Keep in sync with LIVE_TIER3 in src/app/llms.txt/route.ts.
 const LIVE_TIER3 = new Set<string>([
+  // Rogers
   "kitchens/rogers",
+  "bathrooms/rogers",
+  "basements/rogers",
+  "additions/rogers",
+  "whole-home/rogers",
+  "exterior/rogers",
+  // Maple Grove
   "kitchens/maple-grove",
   "bathrooms/maple-grove",
   "basements/maple-grove",
   "additions/maple-grove",
   "whole-home/maple-grove",
   "exterior/maple-grove",
+  // Plymouth
+  "kitchens/plymouth",
+  "bathrooms/plymouth",
+  "basements/plymouth",
+  "additions/plymouth",
+  "whole-home/plymouth",
+  "exterior/plymouth",
+  // Coon Rapids
+  "kitchens/coon-rapids",
+  "bathrooms/coon-rapids",
+  "basements/coon-rapids",
+  "additions/coon-rapids",
+  "whole-home/coon-rapids",
+  "exterior/coon-rapids",
 ]);
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
@@ -45,10 +57,8 @@ const entry = (
 export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
 
-  // Home (Tier 1)
   entries.push(entry("/", 1.0, "weekly"));
 
-  // Service-area (Tier 3) -- only pages whose content has launched.
   const services = getAllServices();
   const areas = getAllServiceAreas();
   for (const service of services) {
