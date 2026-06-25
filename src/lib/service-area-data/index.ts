@@ -11,9 +11,11 @@
 
 import type { ServiceAreaData } from "../service-area-types";
 import { rogers } from "./rogers";
+import { mapleGrove } from "./maple-grove";
 
 export const serviceAreaRegistry = {
   rogers,
+  "maple-grove": mapleGrove,
 } as const satisfies Record<string, ServiceAreaData>;
 
 export type ServiceAreaSlug = keyof typeof serviceAreaRegistry;
