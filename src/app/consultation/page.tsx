@@ -7,7 +7,7 @@ import { LeadFormShell } from "@/components/lead-form-shell";
 export const metadata: Metadata = {
   title: "Free Consultation \u00b7 M. R. Renovations",
   description:
-    "Start with a no-gimmick estimate from M. R. Renovations. Family-owned design-build serving Maple Grove and the Twin Cities for 40 years.",
+    "Start with a no-gimmick estimate from M. R. Renovations. Family-owned design-build serving Maple Grove and the Twin Cities for 43+ years.",
 };
 
 const reassurances = [
@@ -104,9 +104,9 @@ export default function ConsultationPage() {
         <Container width="wide" className="py-14 lg:py-16">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10 text-center sm:text-left">
             <div>
-              <p className="font-display font-bold text-3xl text-orange">40</p>
+              <p className="font-display font-bold text-3xl text-orange">43+</p>
               <p className="mt-2 font-display font-semibold text-ink">Years of craft</p>
-              <p className="mt-1 text-sm text-muted">Family-owned since 1985.</p>
+              <p className="mt-1 text-sm text-muted">Family-owned. Still answering the phone.</p>
             </div>
             <div>
               <p className="font-display font-bold text-3xl text-orange">500+</p>
