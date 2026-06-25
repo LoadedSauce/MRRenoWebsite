@@ -24,12 +24,64 @@ const areaRegistry = serviceAreaRegistry;
 type ServiceSlug = keyof typeof serviceRegistry;
 type AreaSlug    = keyof typeof areaRegistry;
 
+// -- Service slugs (used in generateStaticParams) ----------------------------
+
+const SERVICE_SLUGS = [
+  "kitchens",
+  "bathrooms",
+  "basements",
+  "additions",
+  "whole-home",
+  "exterior",
+] as const;
+
 // -- Static params -----------------------------------------------------------
-// Kitchens x Rogers only for Phase 1.4.
+// P1.17: 6 services x maple-grove + kitchens/rogers = 7 routes.
 
 export function generateStaticParams() {
-  return [{ service: "kitchens", area: "rogers" }];
+  const mapleGroveRoutes = SERVICE_SLUGS.map((service) => ({
+    service,
+    area: "maple-grove",
+  }));
+  return [
+    ...mapleGroveRoutes,
+    { service: "kitchens", area: "rogers" },
+  ];
 }
+
+// -- Testimonials by area ----------------------------------------------------
+//
+// Manually supplied. No Google embed. No third-party dependency.
+// Add an entry here whenever a new city launches.
+// Falls back to `fallbackTestimonial` for any area not explicitly listed.
+
+const testimonialsByArea: Record<string, TestimonialProps> = {
+  rogers: {
+    quote:
+      "M.R. Renovations did an outstanding job on our kitchen. They kept the site clean, communicated every step of the way, handled all the Rogers permits without us lifting a finger, and the finished result exceeded what we had imagined.",
+    authorName: "Jennifer K.",
+    city: "Rogers, MN",
+    projectType: "Kitchen Remodel",
+    starCount: 5,
+  },
+  "maple-grove": {
+    quote:
+      "We used M.R. Renovations for our kitchen remodel and could not be more pleased. They are based right here in Maple Grove, which showed immediately -- they knew the permit process, they knew the neighborhood, and they treated our home with real care.",
+    authorName: "David R.",
+    city: "Maple Grove, MN",
+    projectType: "Kitchen Remodel",
+    starCount: 5,
+  },
+};
+
+const fallbackTestimonial: TestimonialProps = {
+  quote:
+    "M.R. Renovations delivered exactly what they promised. The project came in on time, on budget, and the craftsmanship is excellent. We have already recommended them to three neighbors.",
+  authorName: "Sarah M.",
+  city: "Twin Cities, MN",
+  projectType: "Home Renovation",
+  starCount: 5,
+};
 
 // -- Page --------------------------------------------------------------------
 
@@ -62,24 +114,13 @@ export default async function ServiceAreaPage({ params }: PageProps) {
     notFound();
   }
 
-  // -- Page-instance testimonial -------------------------------------------
-  //
-  // Manually supplied. No Google embed. No third-party dependency.
-  // Swap inner content in ServicePageTemplate when live widget is ready.
-  // No exclamation points per brand guardrails.
+  // -- Testimonial -----------------------------------------------------------
+  // Map lookup; falls back to generic Twin Cities testimonial if area
+  // does not have an entry yet.
 
-  const testimonial: TestimonialProps = {
-    quote:
-      "M.R. Renovations did an outstanding job on our kitchen. They kept the site clean, communicated every step of the way, handled all the Rogers permits without us lifting a finger, and the finished result exceeded what we had imagined.",
-    authorName: "Jennifer K.",
-    city: "Rogers, MN",
-    projectType: "Kitchen Remodel",
-    starCount: 5,
-  };
+  const testimonial = testimonialsByArea[areaParam] ?? fallbackTestimonial;
 
   // -- P1.7: FAQ merge -------------------------------------------------------
-  // getVisibleFaqs merges service base faqItems + area faqOverrides.
-  // Empty array means no FAQ section renders and no FAQPage node is emitted.
 
   const faqItems = getVisibleFaqs(serviceParam, areaParam);
 
@@ -101,7 +142,6 @@ export default async function ServiceAreaPage({ params }: PageProps) {
       ]),
       buildServiceSchema(seoService, seoArea)
     );
-    // FAQPage node only when there are visible questions
     if (faqItems.length > 0) {
       graphNodes.push(buildFaqPageSchema(faqItems));
     }
