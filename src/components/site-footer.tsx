@@ -3,12 +3,12 @@ import Image from "next/image";
 import { Container } from "./container";
 
 const services = [
-  { label: "Kitchens", href: "#kitchen" },
-  { label: "Bathrooms", href: "#bathroom" },
-  { label: "Basements", href: "#basement" },
-  { label: "Additions", href: "#additions" },
-  { label: "Whole-Home", href: "#whole-home" },
-  { label: "Exterior", href: "#exterior" },
+  { label: "Kitchens", href: "/services/kitchens" },
+  { label: "Bathrooms", href: "/services/bathrooms" },
+  { label: "Basements", href: "/services/basements" },
+  { label: "Additions", href: "/services/additions" },
+  { label: "Whole-Home", href: "/services/whole-home" },
+  { label: "Exterior", href: "/services/exterior" },
 ];
 
 const company = [
@@ -21,11 +21,11 @@ const company = [
 ];
 
 const serviceArea = [
+  "Rogers",
   "Maple Grove",
   "Plymouth",
-  "Wayzata",
-  "Minnetonka",
-  "Edina",
+  "St. Michael",
+  "Coon Rapids",
   "25-mile radius",
 ];
 
