@@ -11,12 +11,16 @@ import { rogers } from "./rogers";
 import { mapleGrove } from "./maple-grove";
 import { plymouth } from "./plymouth";
 import { coonRapids } from "./coon-rapids";
+import { stMichael } from "./st-michael";
+import { edenPrairie } from "./eden-prairie";
 
 export const serviceAreaRegistry = {
   rogers,
   "maple-grove": mapleGrove,
   plymouth,
   "coon-rapids": coonRapids,
+  "st-michael": stMichael,
+  "eden-prairie": edenPrairie,
 } as const satisfies Record<string, ServiceAreaData>;
 
 export type ServiceAreaSlug = keyof typeof serviceAreaRegistry;
