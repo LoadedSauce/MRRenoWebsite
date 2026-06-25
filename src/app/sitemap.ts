@@ -18,7 +18,15 @@ import { getAllServices, getAllServiceAreas } from "@/lib/data/services";
 // Tier 3 "service/area" keys with real, launched content. Add entries here as
 // each page's content ships. Format: "<serviceSlug>/<areaSlug>".
 // Keep in sync with LIVE_TIER3 in src/app/llms.txt/route.ts.
-const LIVE_TIER3 = new Set<string>(["kitchens/rogers"]);
+const LIVE_TIER3 = new Set<string>([
+  "kitchens/rogers",
+  "kitchens/maple-grove",
+  "bathrooms/maple-grove",
+  "basements/maple-grove",
+  "additions/maple-grove",
+  "whole-home/maple-grove",
+  "exterior/maple-grove",
+]);
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
 
