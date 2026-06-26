@@ -21,7 +21,7 @@ const navLinksLeft = [
 const navLinksRight = [
   { label: "Projects", href: "#projects" },
   { label: "Process",  href: "/process"  },
-  { label: "Warranty", href: "#warranty" },
+  { label: "Warranty", href: "/warranty" },
   { label: "About",    href: "#about"   },
   { label: "Reviews",  href: "#reviews" },
 ];
@@ -160,7 +160,7 @@ export function SiteHeader() {
               <span className="hidden sm:inline whitespace-nowrap">Family-owned</span>
               <span className="hidden sm:inline whitespace-nowrap">43+ Years</span>
               <Link
-                href="#warranty"
+                href="/warranty"
                 className="hidden md:inline-flex items-center gap-1.5 whitespace-nowrap hover:text-paper transition-colors"
               >
                 <span aria-hidden="true">&infin;</span>
