@@ -68,6 +68,9 @@ export function LeadFormShell() {
   const [phone, setPhone] = useState("");
   const [preferred, setPreferred] = useState("");
   const [notes, setNotes] = useState("");
+  // FORM-PHOTOS: optional photo files
+  const [photoFiles, setPhotoFiles] = useState<File[]>([]);
+  const [photoError, setPhotoError] = useState<string | null>(null);
   // Address
   const [streetAddress, setStreetAddress] = useState("");
   const [city, setCity] = useState("");
@@ -98,9 +101,11 @@ export function LeadFormShell() {
     setZip("");
     setSubmitted(false);
     setErrorMsg(null);
+    setPhotoFiles([]);
+    setPhotoError(null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setErrorMsg(null);
     if (!firstName.trim()) {
       setErrorMsg("Please enter your first name.");
@@ -132,6 +137,27 @@ export function LeadFormShell() {
     }
 
     const attribution = readAttribution();
+
+    // Encode photos as base64 data URLs for server action
+    let photoDataUrls: string[] = [];
+    let photoFilenames: string[] = [];
+    if (photoFiles.length > 0) {
+      const encodeFile = (file: File): Promise<string> =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      try {
+        photoDataUrls = await Promise.all(photoFiles.map(encodeFile));
+        photoFilenames = photoFiles.map((f) => f.name);
+      } catch {
+        // Non-fatal -- submit without photos if encoding fails
+        photoDataUrls = [];
+        photoFilenames = [];
+      }
+    }
     startTransition(async () => {
       const result = await submitLead({
         form_type: "consultation",
@@ -147,6 +173,8 @@ export function LeadFormShell() {
         state,
         zip,
         ...attribution,
+        photo_data_urls: photoDataUrls.length > 0 ? photoDataUrls : null,
+        photo_filenames: photoFilenames.length > 0 ? photoFilenames : null,
       });
       if (result.ok) {
         setSubmitted(true);
@@ -507,8 +535,51 @@ export function LeadFormShell() {
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
                 className={fieldBase}
-                placeholder="Optional — scope, ideas, photos to share"
+                placeholder="Optional -- scope, ideas, photos to share"
               />
+            </div>
+
+            {/* FORM-PHOTOS: optional photo upload */}
+            <div>
+              <label htmlFor="photos" className={labelBase}>
+                Photos of your space <span className="text-muted font-normal">(optional)</span>
+              </label>
+              <input
+                id="photos"
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/heic"
+                multiple
+                className="block w-full text-sm text-muted file:mr-3 file:py-2 file:px-3 file:rounded-md file:border file:border-faint file:text-sm file:font-display file:font-semibold file:text-navy file:bg-soft-navy/40 hover:file:bg-soft-navy transition-colors"
+                onChange={(e) => {
+                  setPhotoError(null);
+                  const files = Array.from(e.target.files ?? []);
+                  const tooLarge = files.find((f) => f.size > 10 * 1024 * 1024);
+                  if (tooLarge) {
+                    setPhotoError("That file is too large. Please keep photos under 10MB each.");
+                    e.target.value = "";
+                    setPhotoFiles([]);
+                    return;
+                  }
+                  const capped = files.slice(0, 5);
+                  setPhotoFiles(capped);
+                }}
+              />
+              <p className={helpBase}>
+                Help us understand your project before the discovery visit. JPG, PNG, or HEIC. Up to 5 photos.
+              </p>
+              {photoError && (
+                <p className="mt-1.5 text-xs text-red-600">{photoError}</p>
+              )}
+              {photoFiles.length > 0 && (
+                <ul className="mt-2 space-y-1">
+                  {photoFiles.map((f) => (
+                    <li key={f.name} className="text-xs text-muted flex items-center gap-1.5">
+                      <span aria-hidden="true" className="text-orange">&#9679;</span>
+                      {f.name}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             {/* Review card */}
