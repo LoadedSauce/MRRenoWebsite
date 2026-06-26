@@ -105,7 +105,7 @@ export function LeadFormShell() {
     setPhotoError(null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setErrorMsg(null);
     if (!firstName.trim()) {
       setErrorMsg("Please enter your first name.");
