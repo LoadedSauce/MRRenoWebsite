@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
 
 export const metadata: Metadata = {
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function ProcessPage() {
   return (
-    <main>
+    <PageShell>
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="bg-paper">
@@ -304,6 +305,6 @@ export default function ProcessPage() {
         </Container>
       </section>
 
-    </main>
+    </PageShell>
   );
 }
