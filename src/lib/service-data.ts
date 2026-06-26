@@ -81,7 +81,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you offer a warranty on kitchen remodeling work?",
         answer:
-          "Yes. Every kitchen project is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on cabinetry, countertops, appliances, and fixtures are passed through to you at project completion.",
+          "Yes. Every kitchen project is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on cabinetry, countertops, appliances, and fixtures are passed through to you at project completion. Full warranty terms at m-r-reno.com/warranty.",
       },
       {
         question: "Do you follow a defined process on every project?",
@@ -138,7 +138,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you offer a warranty on home addition work?",
         answer:
-          "Yes. Every addition is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on windows, doors, roofing, siding, and fixtures are passed through at project completion.",
+          "Yes. Every addition is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on windows, doors, roofing, siding, and fixtures are passed through at project completion. Full warranty terms at m-r-reno.com/warranty.",
       },
       {
         question: "Do you follow a defined process on every project?",
@@ -194,7 +194,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you offer a warranty on whole home remodeling work?",
         answer:
-          "Yes. The full scope of a whole-home remodel is backed by our Lifetime Transferable Workmanship Warranty -- one warranty covers labor across every room and every trade we performed, for the life of the home, and transfers to future owners if you sell. Manufacturer warranties on materials and fixtures pass through to you at project completion.",
+          "Yes. The full scope of a whole-home remodel is backed by our Lifetime Transferable Workmanship Warranty -- one warranty covers labor across every room and every trade we performed, for the life of the home, and transfers to future owners if you sell. Manufacturer warranties on materials and fixtures pass through to you at project completion. Full warranty terms at m-r-reno.com/warranty.",
       },
       {
         question: "Do you follow a defined process on every project?",
@@ -234,7 +234,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you offer a warranty on basement finishing work?",
         answer:
-          "Yes. Every basement finish is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on flooring, fixtures, and egress windows are passed through at project completion.",
+          "Yes. Every basement finish is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on flooring, fixtures, and egress windows are passed through at project completion. Full warranty terms at m-r-reno.com/warranty.",
       },
       {
         question: "Do you follow a defined process on every project?",
@@ -290,7 +290,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you offer a warranty on bathroom remodeling work?",
         answer:
-          "Yes. Every bathroom remodel is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor, including tile and waterproofing, for the life of the home and transfers to future owners if you sell. Manufacturer warranties on fixtures, vanities, and countertops are passed through at project completion.",
+          "Yes. Every bathroom remodel is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor, including tile and waterproofing, for the life of the home and transfers to future owners if you sell. Manufacturer warranties on fixtures, vanities, and countertops are passed through at project completion. Full warranty terms at m-r-reno.com/warranty.",
       },
       {
         question: "Do you follow a defined process on every project?",
@@ -331,7 +331,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you offer a warranty on exterior work?",
         answer:
-          "Yes. Every exterior project is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on James Hardie siding, GAF roofing systems, Marvin windows and doors, and Trex composite materials are passed through to you at project completion.",
+          "Yes. Every exterior project is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on James Hardie siding, GAF roofing systems, Marvin windows and doors, and Trex composite materials are passed through to you at project completion. Full warranty terms at m-r-reno.com/warranty.",
       },
       {
         question: "Do you follow a defined process on every project?",
