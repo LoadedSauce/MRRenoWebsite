@@ -24,6 +24,13 @@ import {
   buildPageGraph,
 } from "@/lib/seo/schema";
 import { getService, getServiceArea, getVisibleFaqs } from "@/lib/data/services";
+import {
+  getTestimonialForService,
+  getPortfolioItemsByService,
+} from "@/lib/supabase/queries";
+
+// ADM-5: ISR -- pages regenerate hourly so admin edits surface without a deploy.
+export const revalidate = 3600;
 
 type ServiceSlug = keyof typeof serviceRegistry;
 
@@ -58,64 +65,35 @@ export default async function ServiceHubPage({ params }: PageProps) {
 
   if (!service) notFound();
 
-  // -- Testimonials per service ---------------------------------------------
-  // Manually supplied. No third-party dependency.
-  // No exclamation points per brand guardrails.
-  // One quote per service, spread across the six active service cities
-  // so the hub pages do not all read as Maple Grove projects.
+  // -- Testimonial (live, service-matched with sitewide fallback) -----------
 
-  const testimonialMap: Record<ServiceSlug, TestimonialProps> = {
-    kitchens: {
-      quote:
-        "We had been quoted by three other contractors and M.R. Renovations was the only one who walked us through the structural piece honestly. The wall came down, the island went in, and they were done in six weeks with no surprise change orders. The cabinetry detail is the part people notice first.",
-      authorName: "Sarah M.",
-      city: "Maple Grove, MN",
-      projectType: "Kitchen Remodel",
-      starCount: 5,
-    },
-    bathrooms: {
-      quote:
-        "Our primary bath was a 1990s builder-grade box and we needed it gutted. M.R. Renovations handled the moved plumbing, the curbless shower waterproofing, and the tile work entirely in-house. Five weeks start to finish and the shower has not had a single issue in two winters.",
-      authorName: "Dana R.",
-      city: "Plymouth, MN",
-      projectType: "Bathroom Remodel",
-      starCount: 5,
-    },
-    basements: {
-      quote:
-        "They added an egress window, framed a bedroom, finished a full bath, and put in a wet bar. Permits were already pulled when we signed, and inspections happened on schedule. The LVP, the trim, the lighting plan -- all dialed in.",
-      authorName: "Kevin T.",
-      city: "Coon Rapids, MN",
-      projectType: "Basement Finish",
-      starCount: 5,
-    },
-    additions: {
-      quote:
-        "A four-season sunroom addition felt like it was going to take a year. M.R. Renovations had it framed and dried in before winter, finished by spring, and matched the existing siding so well that visitors do not realize it is an addition. They handled every permit and every inspection.",
-      authorName: "Lisa G.",
-      city: "Rogers, MN",
-      projectType: "Home Addition",
-      starCount: 5,
-    },
-    "whole-home": {
-      quote:
-        "One contract, one project manager, one warranty across the whole house. We lived through fourteen weeks of construction and never had to chase anyone for an answer. Kitchen, two baths, basement, flooring throughout -- the result feels like a brand new build.",
-      authorName: "Mark and Julie H.",
-      city: "Eden Prairie, MN",
-      projectType: "Whole Home Remodel",
-      starCount: 5,
-    },
-    exterior: {
-      quote:
-        "We had hail damage on the roof and siding and were dreading the claim process. M.R. Renovations coordinated directly with our insurance adjuster, handled the supplements, and had the full James Hardie siding and GAF roof completed in under three weeks. The house looks better than it did before the storm.",
-      authorName: "Brian K.",
-      city: "St. Michael, MN",
-      projectType: "Roofing & Siding",
-      starCount: 5,
-    },
-  };
+  const testimonialRow = await getTestimonialForService(serviceParam);
+  const testimonial: TestimonialProps = testimonialRow
+    ? {
+        quote: testimonialRow.quote,
+        authorName: testimonialRow.author_name,
+        city: testimonialRow.city ?? "Twin Cities, MN",
+        projectType: service.displayName,
+        starCount: 5,
+      }
+    : {
+        quote:
+          "M.R. Renovations delivered exactly what they promised. On time, on budget, and the craftsmanship is excellent.",
+        authorName: "Sarah M.",
+        city: "Twin Cities, MN",
+        projectType: service.displayName,
+        starCount: 5,
+      };
 
-  const testimonial = testimonialMap[serviceParam as ServiceSlug];
+  const portfolioItems = await getPortfolioItemsByService(serviceParam);
+  const galleryImages =
+    portfolioItems.length > 0
+      ? portfolioItems.map((item) => ({
+          src: item.photo_url,
+          alt: item.caption ?? `${service.displayName} project`,
+          caption: item.caption ?? undefined,
+        }))
+      : undefined;
 
   // -- FAQ items (service base only -- no city overrides on hub page) --------
   const faqItems = getVisibleFaqs(serviceParam, "__hub__");
@@ -148,6 +126,7 @@ export default async function ServiceHubPage({ params }: PageProps) {
         service={service}
         testimonial={testimonial}
         faqItems={faqItems}
+        portfolioItems={galleryImages}
       />
     </>
   );
