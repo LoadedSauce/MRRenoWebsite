@@ -2,13 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
+import { JsonLd, buildPageGraph, buildWebPageSchema } from "@/lib/seo/schema";
+import { buildWarrantyMetadata } from "@/lib/seo/routes";
 
-export const metadata: Metadata = {
-  title: "Lifetime Transferable Workmanship Warranty | M.R. Renovations",
-  description:
-    "Every M.R. Renovations project is backed by a Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners. Read the full terms.",
-  alternates: { canonical: "https://www.m-r-reno.com/warranty" },
-};
+export const metadata: Metadata = buildWarrantyMetadata();
 
 const faqItems = [
   {
@@ -36,6 +33,14 @@ const faqItems = [
 export default function WarrantyPage() {
   return (
     <PageShell>
+      <JsonLd
+        data={buildPageGraph([
+          buildWebPageSchema(
+            "/warranty",
+            "Lifetime Transferable Workmanship Warranty | M.R. Renovations"
+          ),
+        ])}
+      />
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="bg-navy text-paper">
         <Container width="wide" className="py-20 lg:py-28">
