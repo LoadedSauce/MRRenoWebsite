@@ -217,3 +217,50 @@ export function buildTopicMetadata(page: TopicPage): Metadata {
 export function buildNoIndexMetadata(): Metadata {
   return { robots: { index: false, follow: false } };
 }
+
+// ----- Legal / utility pages (P1.34b) -------------------------------------
+
+export function buildPrivacyMetadata(): Metadata {
+  const url = canonical("/privacy");
+  const title = "Privacy Policy | M.R. Renovations";
+  const description =
+    "How M.R. Renovations collects, uses, and protects your personal information when you use our website or submit a project inquiry.";
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: url },
+    robots: { index: true, follow: false },
+    openGraph: ogDefaults(url, title, description),
+    twitter: twitterDefaults(title, description),
+  };
+}
+
+export function buildTermsMetadata(): Metadata {
+  const url = canonical("/terms");
+  const title = "Terms of Use | M.R. Renovations";
+  const description =
+    "Terms governing use of the M.R. Renovations website, including inquiry submissions and estimate requests.";
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: url },
+    robots: { index: true, follow: false },
+    openGraph: ogDefaults(url, title, description),
+    twitter: twitterDefaults(title, description),
+  };
+}
+
+export function buildAccessibilityMetadata(): Metadata {
+  const url = canonical("/accessibility");
+  const title = "Accessibility Statement | M.R. Renovations";
+  const description =
+    "M.R. Renovations accessibility commitment and contact information for accessibility feedback.";
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: url },
+    robots: { index: true, follow: false },
+    openGraph: ogDefaults(url, title, description),
+    twitter: twitterDefaults(title, description),
+  };
+}
