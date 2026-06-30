@@ -90,6 +90,14 @@ export function ServicePageTemplate({
   // City label used in a few places -- only present when area is provided
   const cityLabel = area ? `${area.cityName}, ${area.stateAbbr}` : null;
 
+  // P1.33: city-specific content, surfaced on Tier 3 (area) pages only.
+  // Sourced from the ServiceAreaData already passed in via `area` -- the
+  // registry data was always flowing through; it was just never rendered.
+  const areaServiceNote = area?.serviceNotes?.[service.slug];
+  const areaRecentProjects = (area?.recentProjectExamples ?? []).filter(
+    (p) => p.serviceSlug === service.slug
+  );
+
   return (
     <PageShell>
 
@@ -191,6 +199,64 @@ export function ServicePageTemplate({
           />
         </Container>
       </section>
+
+      {/* -- CITY-SPECIFIC CONTENT (Tier 3 area pages only) --------------- */}
+      {area &&
+        (area.heroBlurb || areaServiceNote || areaRecentProjects.length > 0) && (
+          <section className="bg-cream">
+            <Container width="wide" className="py-16 lg:py-20">
+              <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+                {service.displayName} in {area.cityName}
+              </p>
+
+              {area.heroBlurb && (
+                <p className="mt-4 text-base sm:text-lg text-muted leading-relaxed max-w-3xl">
+                  {area.heroBlurb}
+                </p>
+              )}
+
+              {areaServiceNote && (
+                <p className="mt-4 text-base text-muted leading-relaxed max-w-3xl">
+                  {areaServiceNote}
+                </p>
+              )}
+
+              {areaRecentProjects.length > 0 && (
+                <div className="mt-10">
+                  <p className="font-display font-bold text-xl text-ink">
+                    Recent {service.displayName} Work in {area.cityName}
+                  </p>
+                  <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    {areaRecentProjects.map((project) => (
+                      <div
+                        key={project.title}
+                        className="rounded-xl border border-faint bg-paper p-6"
+                      >
+                        <p className="font-display font-bold text-ink">
+                          {project.title}
+                        </p>
+                        <p className="mt-2 text-sm text-muted leading-relaxed">
+                          {project.summary}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {area.neighborhoods && area.neighborhoods.length > 0 && (
+                <p className="mt-8 text-sm text-muted">
+                  We work throughout {area.cityName} including{" "}
+                  {area.neighborhoods.slice(0, 4).join(", ")}.
+                </p>
+              )}
+
+              {area.driveTimeText && (
+                <p className="mt-3 text-sm text-muted">{area.driveTimeText}</p>
+              )}
+            </Container>
+          </section>
+        )}
 
       {/* -- FAQ ---------------------------------------------------------- */}
       {/* Section is omitted entirely from the DOM when faqItems is empty. */}
