@@ -22,7 +22,7 @@ const navLinksRight = [
   { label: "Projects", href: "#projects" },
   { label: "Process",  href: "/process"  },
   { label: "Warranty", href: "/warranty" },
-  { label: "About",    href: "#about"   },
+  { label: "Team",    href: "/team"   },
   { label: "Reviews",  href: "#reviews" },
 ];
 

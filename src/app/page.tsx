@@ -4,10 +4,7 @@ import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
 import type { Metadata } from "next";
 import { buildHomeMetadata } from "@/lib/seo/routes";
-import {
-  getRecentPortfolioItems,
-  getActiveTeamMembers,
-} from "@/lib/supabase/queries";
+import { getRecentPortfolioItems } from "@/lib/supabase/queries";
 
 export const revalidate = 3600;
 
@@ -130,7 +127,6 @@ const offers = [
 
 export default async function Home() {
   const recentProjects = await getRecentPortfolioItems(3);
-  const teamMembers = await getActiveTeamMembers();
 
   return (
     <PageShell>
@@ -302,94 +298,6 @@ export default async function Home() {
               </div>
             ))}
           </div>
-        </Container>
-      </section>
-
-      {/* ── ABOUT ────────────────────────────────────────────── */}
-      <section id="about" className="bg-paper">
-        <Container width="wide" className="py-20 lg:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            <div className="lg:col-span-5">
-              <div className="relative aspect-[4/5] rounded-lg overflow-hidden bg-navy">
-                <Image
-                  src="/images/about-team.jpg"
-                  alt="M.R. Renovations team reviewing project plans."
-                  fill
-                  sizes="(min-width: 1024px) 480px, 100vw"
-                  className="object-cover"
-                />
-              </div>
-            </div>
-            <div className="lg:col-span-7">
-              <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
-                Why M.R.
-              </p>
-              <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink leading-[1.1]">
-                A family contractor with the <span className="accent">process of a design firm.</span>
-              </h2>
-              <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed">
-                43+ years of remodeling experience, run with the calm, written, on-time discipline you&rsquo;d expect from a much bigger firm.
-              </p>
-
-              <ul className="mt-8 space-y-5">
-                {[
-                  {
-                    title: "43+ years, one family",
-                    body: "Founded in Maple Grove. Still answering the phone ourselves. Still standing behind every project.",
-                  },
-                  {
-                    title: "Lifetime Transferable Warranty",
-                    body: "Our workmanship is warrantied for the life of the home &mdash; and it transfers to the next owner. Vanishingly rare in residential construction.",
-                  },
-                  {
-                    title: "Guaranteed pricing, no gimmicks",
-                    body: "Line-itemized contracts, fixed-fee design, transparent allowances. The estimate is the price.",
-                  },
-                  {
-                    title: "One project manager, start to finish",
-                    body: "The same person from the first sketch to the final walkthrough. No handoffs, no excuses.",
-                  },
-                ].map((item) => (
-                  <li key={item.title} className="flex items-start gap-4">
-                    <span className="mt-1.5 inline-block w-2 h-2 rounded-full bg-orange shrink-0" aria-hidden="true" />
-                    <div>
-                      <p className="font-display font-semibold text-ink">{item.title}</p>
-                      <p
-                        className="mt-1 text-sm text-muted leading-relaxed"
-                        dangerouslySetInnerHTML={{ __html: item.body }}
-                      />
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {teamMembers.length > 1 && (
-            <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-              {teamMembers.map((member) => (
-                <div key={member.id} className="text-center">
-                  <div className="w-20 h-20 mx-auto rounded-full overflow-hidden bg-soft-navy">
-                    {member.photo_url ? (
-                      <Image
-                        src={member.photo_url}
-                        alt={member.name}
-                        width={80}
-                        height={80}
-                        className="object-cover w-full h-full"
-                      />
-                    ) : (
-                      <span className="flex items-center justify-center h-full font-display font-bold text-2xl text-muted">
-                        {member.name[0]}
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-3 font-display font-semibold text-sm text-ink">{member.name}</p>
-                  <p className="text-xs text-muted">{member.role}</p>
-                </div>
-              ))}
-            </div>
-          )}
         </Container>
       </section>
 

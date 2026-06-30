@@ -12,7 +12,7 @@ const services = [
 ];
 
 const company = [
-  { label: "About", href: "#about" },
+  { label: "Team", href: "/team" },
   { label: "Process", href: "/process" },
   { label: "Warranty", href: "/warranty" },
   { label: "Reviews", href: "#reviews" },

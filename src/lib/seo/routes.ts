@@ -351,3 +351,20 @@ export function buildFinancingMetadata(): Metadata {
     twitter: twitterDefaults(title, description),
   };
 }
+
+export function buildTeamMetadata(): Metadata {
+  const url = canonical("/team");
+  const title = "Meet the Team | M.R. Renovations";
+  const description = clampDescription(
+    "Meet the family and crew behind M.R. Renovations -- a Maple Grove, MN " +
+      "remodeling contractor with 43+ years of hands-on experience and a " +
+      "Lifetime Transferable Workmanship Warranty."
+  );
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: url },
+    openGraph: ogDefaults(url, title, description),
+    twitter: twitterDefaults(title, description),
+  };
+}
