@@ -3,12 +3,9 @@ import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
 import { LeadFormShell } from "@/components/lead-form-shell";
+import { buildConsultationMetadata } from "@/lib/seo/routes";
 
-export const metadata: Metadata = {
-  title: "Free Consultation \u00b7 M. R. Renovations",
-  description:
-    "Start with a no-gimmick estimate from M. R. Renovations. Family-owned design-build serving Maple Grove and the Twin Cities for 43+ years.",
-};
+export const metadata: Metadata = buildConsultationMetadata();
 
 const reassurances = [
   {
