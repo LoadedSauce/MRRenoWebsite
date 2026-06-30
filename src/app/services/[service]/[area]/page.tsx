@@ -15,6 +15,13 @@ import {
   buildPageGraph,
 } from "@/lib/seo/schema";
 import { getService, getServiceArea, getVisibleFaqs } from "@/lib/data/services";
+import {
+  getTestimonialForArea,
+  getPortfolioItemsByService,
+} from "@/lib/supabase/queries";
+
+// ADM-5: ISR -- pages regenerate hourly so admin edits surface without a deploy.
+export const revalidate = 3600;
 
 // -- Area registry -----------------------------------------------------------
 
@@ -43,52 +50,6 @@ export function generateStaticParams() {
     cities.map((area) => ({ service, area }))
   );
 }
-
-// -- Testimonials by area ----------------------------------------------------
-
-const testimonialsByArea: Record<string, TestimonialProps> = {
-  rogers: {
-    quote:
-      "M.R. Renovations did an outstanding job on our kitchen. They kept the site clean, communicated every step of the way, handled all the Rogers permits without us lifting a finger, and the finished result exceeded what we had imagined.",
-    authorName: "Jennifer K.",
-    city: "Rogers, MN",
-    projectType: "Kitchen Remodel",
-    starCount: 5,
-  },
-  "maple-grove": {
-    quote:
-      "We used M.R. Renovations for our kitchen remodel and could not be more pleased. They are based right here in Maple Grove, which showed immediately -- they knew the permit process, they knew the neighborhood, and they treated our home with real care.",
-    authorName: "David R.",
-    city: "Maple Grove, MN",
-    projectType: "Kitchen Remodel",
-    starCount: 5,
-  },
-  plymouth: {
-    quote:
-      "M.R. Renovations remodeled our basement and the result is stunning. They stayed on schedule, communicated every change, and their crew treated our home with respect throughout. We would hire them again without question.",
-    authorName: "Lisa T.",
-    city: "Plymouth, MN",
-    projectType: "Basement Finish",
-    starCount: 5,
-  },
-  "coon-rapids": {
-    quote:
-      "From the first estimate to the final walkthrough, M.R. Renovations was professional, transparent, and thorough. Our kitchen looks better than we imagined and the process was far smoother than we expected.",
-    authorName: "Mark H.",
-    city: "Coon Rapids, MN",
-    projectType: "Kitchen Remodel",
-    starCount: 5,
-  },
-};
-
-const fallbackTestimonial: TestimonialProps = {
-  quote:
-    "M.R. Renovations delivered exactly what they promised. The project came in on time, on budget, and the craftsmanship is excellent. We have already recommended them to three neighbors.",
-  authorName: "Sarah M.",
-  city: "Twin Cities, MN",
-  projectType: "Home Renovation",
-  starCount: 5,
-};
 
 // -- Page --------------------------------------------------------------------
 
@@ -121,7 +82,33 @@ export default async function ServiceAreaPage({ params }: PageProps) {
     notFound();
   }
 
-  const testimonial = testimonialsByArea[areaParam] ?? fallbackTestimonial;
+  const testimonialRow = await getTestimonialForArea(serviceParam, area.cityName);
+  const testimonial: TestimonialProps = testimonialRow
+    ? {
+        quote: testimonialRow.quote,
+        authorName: testimonialRow.author_name,
+        city: testimonialRow.city ?? `${area.cityName}, ${area.stateAbbr}`,
+        projectType: service.displayName,
+        starCount: 5,
+      }
+    : {
+        quote:
+          "M.R. Renovations delivered exactly what they promised. On time, on budget, and the craftsmanship is excellent.",
+        authorName: "Sarah M.",
+        city: `${area.cityName}, ${area.stateAbbr}`,
+        projectType: service.displayName,
+        starCount: 5,
+      };
+
+  const portfolioItems = await getPortfolioItemsByService(serviceParam);
+  const galleryImages =
+    portfolioItems.length > 0
+      ? portfolioItems.map((item) => ({
+          src: item.photo_url,
+          alt: item.caption ?? `${service.displayName} project`,
+          caption: item.caption ?? undefined,
+        }))
+      : undefined;
 
   const faqItems = getVisibleFaqs(serviceParam, areaParam);
 
@@ -156,6 +143,7 @@ export default async function ServiceAreaPage({ params }: PageProps) {
         area={area}
         testimonial={testimonial}
         faqItems={faqItems}
+        portfolioItems={galleryImages}
       />
     </>
   );
