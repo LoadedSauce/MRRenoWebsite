@@ -72,6 +72,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
 
   entries.push(entry("/", 1.0, "weekly"));
+  entries.push(entry("/careers", 0.7, "monthly"));
 
   const services = getAllServices();
   const areas = getAllServiceAreas();
