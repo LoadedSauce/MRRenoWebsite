@@ -31,6 +31,7 @@ export type ServiceData = {
   heroDefaultSubcopy: string;
   galleryImages: ServiceGalleryImage[];
   faqItems: ServiceFaqItem[];
+  description?: string;
 };
 
 export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
@@ -38,6 +39,8 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
   kitchens: {
     slug: "kitchens",
     displayName: "Kitchen Remodeling",
+    description:
+      "Kitchen remodeling in the Twin Cities from M.R. Renovations -- custom cabinetry, structural work, and finish detail. Licensed MN contractor BC809200. Free estimates, Lifetime Workmanship Warranty.",
     heroDefaultSubcopy:
       "Custom cabinetry, structural work, and finish detail -- backed by 43+ years of craftsmanship. M.R. Renovations runs your kitchen remodel on one contract, with one crew, from demo to final walkthrough.",
     galleryImages: [
@@ -95,6 +98,8 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
   additions: {
     slug: "additions",
     displayName: "Home Additions",
+    description:
+      "Home additions in the Twin Cities from M.R. Renovations -- room additions, primary suites, four-season rooms. Licensed MN contractor BC809200. Free estimates, Lifetime Workmanship Warranty.",
     heroDefaultSubcopy:
       "Single-room bump-outs, primary suite additions, four-season rooms, and full second-story builds. M.R. Renovations engineers each addition to match your existing structure, handles every permit, and ties the work into your home with 43+ years of carpentry behind it.",
     galleryImages: [
@@ -151,6 +156,8 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
   "whole-home": {
     slug: "whole-home",
     displayName: "Whole Home Remodeling",
+    description:
+      "Whole home remodeling from M.R. Renovations -- one contract, one project manager, one Lifetime Workmanship Warranty. Licensed MN contractor BC809200 serving the northwest metro.",
     heroDefaultSubcopy:
       "A whole-home renovation runs through every trade in your house. M.R. Renovations has managed projects of this scale for over four decades -- one contract, one project manager, one Lifetime Transferable Workmanship Warranty covering the entire home.",
     galleryImages: [
@@ -207,6 +214,8 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
   basements: {
     slug: "basements",
     displayName: "Basement Finishing",
+    description:
+      "Basement finishing in the Twin Cities from M.R. Renovations -- egress, framing, electrical, and drywall fully permitted. Licensed MN contractor BC809200. Lifetime Workmanship Warranty.",
     heroDefaultSubcopy:
       "Unfinished space into livable square footage. M.R. Renovations handles framing, egress, mechanical rough-ins, insulation, drywall, paint, and finish carpentry -- fully permitted, code-correct, and backed by our Lifetime Transferable Workmanship Warranty.",
     galleryImages: [],
@@ -247,6 +256,8 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
   bathrooms: {
     slug: "bathrooms",
     displayName: "Bathroom Remodels",
+    description:
+      "Bathroom remodeling from M.R. Renovations -- tile, plumbing, and waterproofing handled in-house. Licensed MN contractor BC809200. Free estimates, Lifetime Workmanship Warranty.",
     heroDefaultSubcopy:
       "Primary baths, family baths, and powder rooms -- delivered on schedule, on a fixed contract, with tile and waterproofing detail that lasts decades. M.R. Renovations handles every trade in-house and pulls every permit.",
     galleryImages: [
@@ -304,6 +315,8 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
   exterior: {
     slug: "exterior",
     displayName: "Roofing, Siding & Exterior",
+    description:
+      "Roofing, siding, and exterior work from M.R. Renovations -- James Hardie, GAF, Marvin certified. Licensed MN contractor BC809200. Storm restoration. Free estimates, Lifetime Workmanship Warranty.",
     heroDefaultSubcopy:
       "Roofing, siding, windows, doors, and garages -- specified with James Hardie, GAF, Marvin, and Trex products rated for Minnesota's climate. M.R. Renovations pulls every permit, coordinates with your insurance adjuster when storms are involved, and backs the work with our Lifetime Transferable Workmanship Warranty.",
     galleryImages: [],
