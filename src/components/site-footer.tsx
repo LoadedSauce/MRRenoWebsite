@@ -18,6 +18,7 @@ const company = [
   { label: "Reviews", href: "#reviews" },
   { label: "Financing", href: "/financing" },
   { label: "Contact", href: "/contact" },
+  { label: "Careers", href: "/careers" },
 ];
 
 const serviceArea = [
