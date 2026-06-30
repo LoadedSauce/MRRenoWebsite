@@ -34,7 +34,7 @@ export interface ServiceArea {
 }
 
 function toService(data: ServiceData): Service {
-  return { slug: data.slug, name: data.displayName };
+  return { slug: data.slug, name: data.displayName, description: data.description };
 }
 
 function toServiceArea(data: ServiceAreaData): ServiceArea {

@@ -3,17 +3,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
+import { JsonLd, buildPageGraph, buildWebPageSchema } from "@/lib/seo/schema";
+import { buildProcessMetadata } from "@/lib/seo/routes";
 
-export const metadata: Metadata = {
-  title: "Our Process | M.R. Renovations",
-  description:
-    "How M.R. Renovations manages your project from first call to final walkthrough -- 9 steps, one project manager, and a Lifetime Transferable Workmanship Warranty at the end.",
-  alternates: { canonical: "https://www.m-r-reno.com/process" },
-};
+export const metadata: Metadata = buildProcessMetadata();
 
 export default function ProcessPage() {
   return (
     <PageShell>
+      <JsonLd
+        data={buildPageGraph([
+          buildWebPageSchema(
+            "/process",
+            "Our Remodeling Process | M.R. Renovations"
+          ),
+        ])}
+      />
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="bg-paper">

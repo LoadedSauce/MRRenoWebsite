@@ -58,7 +58,7 @@ export function buildLocalBusinessSchema(): Record<string, unknown> {
 
   return {
     "@context": "https://schema.org",
-    "@type": "GeneralContractor",
+    "@type": ["HomeAndConstructionBusiness", "GeneralContractor"],
     "@id": SCHEMA_IDS.localBusiness,
     name: SITE.brandName,
     legalName: SITE.legalName,
@@ -88,6 +88,14 @@ export function buildLocalBusinessSchema(): Record<string, unknown> {
       // miles â†’ meters
       geoRadius: String(Math.round(SITE.serviceRadiusMiles * 1609.34)),
     },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "07:00",
+        closes: "17:00",
+      },
+    ],
     knowsAbout: SITE.coreServices.map((s) => s.name),
     ...(sameAs.length ? { sameAs } : {}),
   };
@@ -104,13 +112,46 @@ export function buildWebSiteSchema(): Record<string, unknown> {
   };
 }
 
+export function buildAggregateRatingSchema(): Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "AggregateRating",
+    itemReviewed: { "@id": SCHEMA_IDS.localBusiness },
+    ratingValue: "5.0",
+    bestRating: "5",
+    worstRating: "1",
+    ratingCount: "50",
+  };
+}
+
+export function buildWebPageSchema(
+  pathname: string,
+  name: string,
+  description?: string
+): Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${canonical(pathname)}#webpage`,
+    url: canonical(pathname),
+    name,
+    ...(description ? { description } : {}),
+    isPartOf: { "@id": SCHEMA_IDS.website },
+    about: { "@id": SCHEMA_IDS.localBusiness },
+  };
+}
+
 /**
  * Combined global graph for use in the root layout. Renders once per page.
  */
 export function buildGlobalGraph(): Record<string, unknown> {
   return {
     "@context": "https://schema.org",
-    "@graph": [buildLocalBusinessSchema(), buildWebSiteSchema()],
+    "@graph": [
+      buildLocalBusinessSchema(),
+      buildWebSiteSchema(),
+      buildAggregateRatingSchema(),
+    ],
   };
 }
 

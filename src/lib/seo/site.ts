@@ -50,10 +50,11 @@ export const SITE = {
   // and the registry in src/lib/data/services. Order = nav/sitemap priority.
   coreServices: [
     { slug: "kitchens",   name: "Kitchen Remodeling" },
+    { slug: "bathrooms",  name: "Bathroom Remodeling" },
+    { slug: "basements",  name: "Basement Finishing" },
     { slug: "additions",  name: "Home Additions" },
     { slug: "whole-home", name: "Whole Home Remodeling" },
-    { slug: "basements",  name: "Basement Finishing" },
-    { slug: "bathrooms",  name: "Bathroom Remodels" },
+    { slug: "exterior",   name: "Roofing, Siding & Exterior" },
   ] as const,
 
   // ----- Social -------------------------------------------------------------

@@ -3,12 +3,9 @@ import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
 import { ContactForm } from "@/components/contact-form";
+import { buildContactMetadata } from "@/lib/seo/routes";
 
-export const metadata: Metadata = {
-  title: "Contact \u00b7 M. R. Renovations",
-  description:
-    "Reach M. R. Renovations in Maple Grove, MN. Call 763-900-2024 or send a message. Family-owned design-build serving the Twin Cities for 40 years.",
-};
+export const metadata: Metadata = buildContactMetadata();
 
 const hours = [
   { day: "Monday \u2013 Friday", time: "7:00 AM \u2013 5:00 PM" },
@@ -17,14 +14,12 @@ const hours = [
 ];
 
 const serviceArea = [
+  "Rogers",
   "Maple Grove",
   "Plymouth",
-  "Wayzata",
-  "Minnetonka",
-  "Edina",
-  "Rogers",
   "St. Michael",
   "Coon Rapids",
+  "Eden Prairie",
 ];
 
 export default function ContactPage() {

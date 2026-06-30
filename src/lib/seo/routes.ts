@@ -74,8 +74,9 @@ function twitterDefaults(title: string, description: string): Metadata["twitter"
 export function buildRootMetadata(): Metadata {
   const defaultTitle = `${SITE.brandName} | Remodeling Contractor in Maple Grove, MN`;
   const defaultDescription = clampDescription(
-    `${SITE.brandName} is a remodeling contractor based in Maple Grove, MN. ` +
-      `Kitchen, bath, basement, addition, and whole-home remodeling for the northwest metro.`
+    `${SITE.brandName} -- licensed remodeling contractor in Maple Grove, MN. ` +
+      `Kitchen, bathroom, basement, addition, and whole-home remodeling. ` +
+      `Lifetime Transferable Workmanship Warranty. Free estimates.`
   );
 
   return {
@@ -99,7 +100,8 @@ export function buildHomeMetadata(): Metadata {
   const title = `${SITE.brandName} | Remodeling Contractor in Maple Grove, MN`;
   const description = clampDescription(
     `Kitchen, bathroom, basement, addition, and whole-home remodeling from ` +
-      `${SITE.brandName} - a Maple Grove, MN contractor serving the northwest metro.`
+      `${SITE.brandName}. Minnesota licensed contractor BC809200 serving ` +
+      `Maple Grove and the northwest metro. Free estimates, Lifetime Warranty.`
   );
   return {
     title: { absolute: title },
@@ -156,8 +158,10 @@ export function buildServiceAreaMetadata(
   // is spent on the brand promises and service intent instead. Tuned to fit
   // the mobile SERP cap so both promises render fully on phones.
   const description = clampDescription(
-    `${service.name} in ${area.name}, MN. ` +
-      `Free No-Gimmick Estimates and a Lifetime Transferable Warranty.`
+    `${service.name} contractor in ${area.name}, MN. ` +
+      `${SITE.brandName} serves ${area.name} and the northwest metro with ` +
+      `free estimates and a Lifetime Transferable Workmanship Warranty. ` +
+      `Licensed MN contractor BC809200.`
   );
   return {
     title: { absolute: title },
@@ -260,6 +264,89 @@ export function buildAccessibilityMetadata(): Metadata {
     description,
     alternates: { canonical: url },
     robots: { index: true, follow: false },
+    openGraph: ogDefaults(url, title, description),
+    twitter: twitterDefaults(title, description),
+  };
+}
+
+// ----- Supporting / conversion pages (P1.32) ------------------------------
+
+export function buildContactMetadata(): Metadata {
+  const url = canonical("/contact");
+  const title = "Contact M.R. Renovations | Maple Grove, MN Remodeling Contractor";
+  const description = clampDescription(
+    "Reach M.R. Renovations in Maple Grove, MN. Call (763) 900-2024 or send a message. " +
+      "Family-owned design-build serving the northwest metro for 43+ years."
+  );
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: url },
+    openGraph: ogDefaults(url, title, description),
+    twitter: twitterDefaults(title, description),
+  };
+}
+
+export function buildConsultationMetadata(): Metadata {
+  const url = canonical("/consultation");
+  const title = "Free Estimate | M.R. Renovations -- Maple Grove, MN";
+  const description = clampDescription(
+    "Schedule a no-gimmick, in-home estimate with M.R. Renovations. " +
+      "Licensed Minnesota contractor BC809200. Lifetime Transferable Workmanship Warranty. " +
+      "No pressure, no obligation."
+  );
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: url },
+    openGraph: ogDefaults(url, title, description),
+    twitter: twitterDefaults(title, description),
+  };
+}
+
+export function buildProcessMetadata(): Metadata {
+  const url = canonical("/process");
+  const title = "Our Remodeling Process | M.R. Renovations";
+  const description = clampDescription(
+    "How M.R. Renovations runs your project -- 9 steps from first call to final walkthrough, " +
+      "one project manager, and a Lifetime Transferable Workmanship Warranty at the end."
+  );
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: url },
+    openGraph: ogDefaults(url, title, description),
+    twitter: twitterDefaults(title, description),
+  };
+}
+
+export function buildWarrantyMetadata(): Metadata {
+  const url = canonical("/warranty");
+  const title = "Lifetime Transferable Workmanship Warranty | M.R. Renovations";
+  const description = clampDescription(
+    "Every M.R. Renovations project is backed by a Lifetime Transferable Workmanship Warranty " +
+      "-- it covers our labor for the life of the home and transfers to future owners."
+  );
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: url },
+    openGraph: ogDefaults(url, title, description),
+    twitter: twitterDefaults(title, description),
+  };
+}
+
+export function buildFinancingMetadata(): Metadata {
+  const url = canonical("/financing");
+  const title = "Home Improvement Financing | M.R. Renovations";
+  const description = clampDescription(
+    "M.R. Renovations partners with Hearth to offer home improvement financing. " +
+      "Check your rate in minutes with no impact to your credit score. Loans up to $250,000."
+  );
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: url },
     openGraph: ogDefaults(url, title, description),
     twitter: twitterDefaults(title, description),
   };

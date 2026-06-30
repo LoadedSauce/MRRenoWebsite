@@ -23,7 +23,7 @@ import {
   buildFaqPageSchema,
   buildPageGraph,
 } from "@/lib/seo/schema";
-import { getService, getServiceArea, getVisibleFaqs } from "@/lib/data/services";
+import { getService, getVisibleFaqs } from "@/lib/data/services";
 import {
   getTestimonialForService,
   getPortfolioItemsByService,
@@ -101,16 +101,15 @@ export default async function ServiceHubPage({ params }: PageProps) {
   // -- Structured data -------------------------------------------------------
 
   const seoService = getService(serviceParam);
-  const seoArea = getServiceArea("rogers");
 
   const graphNodes = [];
-  if (seoService && seoArea) {
+  if (seoService) {
     graphNodes.push(
       buildBreadcrumbListSchema([
         { name: "Home", path: "/" },
         { name: seoService.name, path: `/services/${seoService.slug}` },
       ]),
-      buildServiceSchema(seoService, seoArea)
+      buildServiceSchema(seoService)
     );
     if (faqItems.length > 0) {
       graphNodes.push(buildFaqPageSchema(faqItems));
