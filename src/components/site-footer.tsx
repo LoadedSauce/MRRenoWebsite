@@ -116,13 +116,13 @@ export function SiteFooter() {
             &copy; {new Date().getFullYear()} M.&nbsp;R. Renovations, LLC. MN License #BC809200
           </p>
           <div className="flex items-center gap-5">
-            <Link href="#privacy" className="text-xs text-soft-navy/70 hover:text-paper transition-colors">
+            <Link href="/privacy" className="text-xs text-soft-navy/70 hover:text-paper transition-colors">
               Privacy
             </Link>
-            <Link href="#terms" className="text-xs text-soft-navy/70 hover:text-paper transition-colors">
+            <Link href="/terms" className="text-xs text-soft-navy/70 hover:text-paper transition-colors">
               Terms
             </Link>
-            <Link href="#accessibility" className="text-xs text-soft-navy/70 hover:text-paper transition-colors">
+            <Link href="/accessibility" className="text-xs text-soft-navy/70 hover:text-paper transition-colors">
               Accessibility
             </Link>
           </div>
