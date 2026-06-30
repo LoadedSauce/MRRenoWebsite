@@ -4,6 +4,12 @@ import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
 import type { Metadata } from "next";
 import { buildHomeMetadata } from "@/lib/seo/routes";
+import {
+  getRecentPortfolioItems,
+  getActiveTeamMembers,
+} from "@/lib/supabase/queries";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = buildHomeMetadata();
 
@@ -122,7 +128,10 @@ const offers = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const recentProjects = await getRecentPortfolioItems(3);
+  const teamMembers = await getActiveTeamMembers();
+
   return (
     <PageShell>
       {/* ── HERO ─────────────────────────────────────────────── */}
@@ -355,6 +364,32 @@ export default function Home() {
               </ul>
             </div>
           </div>
+
+          {teamMembers.length > 1 && (
+            <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+              {teamMembers.map((member) => (
+                <div key={member.id} className="text-center">
+                  <div className="w-20 h-20 mx-auto rounded-full overflow-hidden bg-soft-navy">
+                    {member.photo_url ? (
+                      <Image
+                        src={member.photo_url}
+                        alt={member.name}
+                        width={80}
+                        height={80}
+                        className="object-cover w-full h-full"
+                      />
+                    ) : (
+                      <span className="flex items-center justify-center h-full font-display font-bold text-2xl text-muted">
+                        {member.name[0]}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-3 font-display font-semibold text-sm text-ink">{member.name}</p>
+                  <p className="text-xs text-muted">{member.role}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </Container>
       </section>
 
@@ -372,26 +407,51 @@ export default function Home() {
           </p>
 
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {projects.map((p) => (
-              <Link
-                key={p.title}
-                href="#project"
-                className="group block rounded-lg overflow-hidden bg-navy"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden flex items-center justify-center bg-navy-deep">
-                  <span className="font-display font-bold text-5xl text-paper/15 select-none pointer-events-none tracking-tight" aria-hidden="true">
-                    {p.area}
-                  </span>
-                </div>
-                <div className="p-5 border-t border-paper/15">
-                  <p className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-orange">
-                    {p.area} &middot; {p.weeks}
-                  </p>
-                  <p className="mt-1 font-display font-bold text-paper text-lg">{p.title}</p>
-                  <p className="text-sm text-soft-navy/85">{p.location}</p>
-                </div>
-              </Link>
-            ))}
+            {recentProjects.length > 0
+              ? recentProjects.map((p) => (
+                  <div
+                    key={p.id}
+                    className="group block rounded-lg overflow-hidden bg-navy"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={p.photo_url}
+                        alt={p.caption ?? "Recent M.R. Renovations project"}
+                        fill
+                        sizes="(min-width: 1024px) 33vw, 50vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-5 border-t border-paper/15">
+                      <p className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-orange">
+                        {[p.service, p.city].filter(Boolean).join(", ") || "Recent work"}
+                      </p>
+                      <p className="mt-1 font-display font-bold text-paper text-lg">
+                        {p.caption ?? "Project"}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              : projects.map((p) => (
+                  <Link
+                    key={p.title}
+                    href="#project"
+                    className="group block rounded-lg overflow-hidden bg-navy"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden flex items-center justify-center bg-navy-deep">
+                      <span className="font-display font-bold text-5xl text-paper/15 select-none pointer-events-none tracking-tight" aria-hidden="true">
+                        {p.area}
+                      </span>
+                    </div>
+                    <div className="p-5 border-t border-paper/15">
+                      <p className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-orange">
+                        {p.area} &middot; {p.weeks}
+                      </p>
+                      <p className="mt-1 font-display font-bold text-paper text-lg">{p.title}</p>
+                      <p className="text-sm text-soft-navy/85">{p.location}</p>
+                    </div>
+                  </Link>
+                ))}
           </div>
 
           <div className="mt-10 flex justify-center">
