@@ -58,6 +58,10 @@ export interface ServicePageTemplateProps {
   faqItems: ServiceFaqItem[];
   // P1.19: optional before/after image pair. Section hidden when absent.
   beforeAfterImages?: BeforeAfterImages;
+  // ADM-5: optional live portfolio items for the Gallery. When provided and
+  // non-empty, they override service.galleryImages; otherwise the static
+  // service-data.ts gallery renders as fallback.
+  portfolioItems?: Array<{ src: string; alt: string; caption?: string }>;
 }
 
 // -- Template ----------------------------------------------------------------
@@ -68,6 +72,7 @@ export function ServicePageTemplate({
   testimonial,
   faqItems,
   beforeAfterImages,
+  portfolioItems,
 }: ServicePageTemplateProps) {
   // Hero sub-copy: area service note > service default
   const heroCopy =
@@ -130,7 +135,13 @@ export function ServicePageTemplate({
             )}
           </h2>
           <div className="mt-10">
-            <Gallery images={service.galleryImages} />
+            <Gallery
+              images={
+                portfolioItems && portfolioItems.length > 0
+                  ? portfolioItems
+                  : service.galleryImages
+              }
+            />
           </div>
         </Container>
       </section>
