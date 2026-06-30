@@ -74,8 +74,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
   entries.push(entry("/", 1.0, "weekly"));
   entries.push(entry("/careers", 0.7, "monthly"));
 
+  // Supporting pages
+  entries.push(entry("/process", 0.7, "monthly"));
+  entries.push(entry("/warranty", 0.7, "monthly"));
+  entries.push(entry("/financing", 0.6, "monthly"));
+  entries.push(entry("/contact", 0.6, "monthly"));
+
   const services = getAllServices();
   const areas = getAllServiceAreas();
+
+  // Tier 2 -- service hubs
+  for (const service of services) {
+    entries.push(entry(`/services/${service.slug}`, 0.85, "monthly"));
+  }
+
+  // Tier 3 -- service x area
   for (const service of services) {
     for (const area of areas) {
       if (area.isActive === false) continue;
