@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/container";
+import { PageShell } from "@/components/page-shell";
+import { buildFinancingMetadata } from "@/lib/seo/routes";
 
-export const metadata: Metadata = {
-  title: "Financing Options | M.R. Renovations",
-  description:
-    "M.R. Renovations partners with Hearth to offer home improvement financing. Check your rate in minutes with no impact to your credit score.",
-  alternates: { canonical: "https://www.m-r-reno.com/financing" },
-};
+export const metadata: Metadata = buildFinancingMetadata();
 
 const steps = [
   {
@@ -36,7 +33,8 @@ const keyDetails = [
 
 export default function FinancingPage() {
   return (
-    <main>
+    <PageShell>
+      <main>
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="bg-navy text-paper">
@@ -162,6 +160,7 @@ export default function FinancingPage() {
         </Container>
       </section>
 
-    </main>
+      </main>
+    </PageShell>
   );
 }
