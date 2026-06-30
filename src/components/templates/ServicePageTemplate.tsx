@@ -119,7 +119,7 @@ export function ServicePageTemplate({
           )
         }
         subCopy={heroCopy}
-        primaryCta={{ label: "Get a Free Estimate", href: "tel:7639002024" }}
+        primaryCta={{ label: "Get a Free Estimate", href: "/consultation" }}
         secondaryCta={{ label: "See Our Work", href: "#gallery" }}
         stats={heroStats}
         imageSrc={service.galleryImages[0]?.src}
@@ -294,7 +294,7 @@ export function ServicePageTemplate({
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/consultation"
-              className="inline-flex items-center justify-center w-full sm:w-auto bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-6 py-3.5 rounded-md transition-colors"
+              className="inline-flex items-center justify-center w-full sm:w-auto bg-orange hover:opacity-90 text-paper font-display font-semibold px-6 py-3.5 rounded-md transition-colors"
             >
               Start your free estimate
             </Link>
