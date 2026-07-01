@@ -30,6 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Supporting pages
   entries.push(entry("/process", 0.7, "monthly"));
   entries.push(entry("/warranty", 0.7, "monthly"));
+  entries.push(entry("/team", 0.7, "monthly"));
   entries.push(entry("/financing", 0.6, "monthly"));
   entries.push(entry("/contact", 0.6, "monthly"));
 
