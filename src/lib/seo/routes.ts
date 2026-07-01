@@ -352,6 +352,42 @@ export function buildFinancingMetadata(): Metadata {
   };
 }
 
+export function buildResourcesMetadata(): Metadata {
+  const url = canonical("/resources");
+  const title = "Remodeling Resources & Cost Guides | M.R. Renovations";
+  const description = clampDescription(
+    "Planning guides and cost breakdowns for kitchen, bathroom, basement, and " +
+      "whole-home remodels from M.R. Renovations, a Maple Grove, MN contractor " +
+      "serving the northwest Twin Cities metro."
+  );
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: url },
+    openGraph: ogDefaults(url, title, description),
+    twitter: twitterDefaults(title, description),
+  };
+}
+
+export interface ResourceLike {
+  slug: string;
+  title: string;
+  dek: string;
+}
+
+export function buildResourceMetadata(resource: ResourceLike): Metadata {
+  const url = canonical(path("resources", resource.slug));
+  const title = `${resource.title} | ${SITE.brandName}`;
+  const description = clampDescription(resource.dek);
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: url },
+    openGraph: ogDefaults(url, title, description, "article"),
+    twitter: twitterDefaults(title, description),
+  };
+}
+
 export function buildTeamMetadata(): Metadata {
   const url = canonical("/team");
   const title = "Meet the Team | M.R. Renovations";

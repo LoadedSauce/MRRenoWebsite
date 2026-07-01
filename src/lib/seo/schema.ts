@@ -229,6 +229,38 @@ export function buildFaqPageSchema(faqs: FaqEntry[]): Record<string, unknown> {
   };
 }
 
+// ----- Article / BlogPosting ---------------------------------------------
+
+/**
+ * BlogPosting (an Article subtype) for a Resources hub post. Author and
+ * publisher both reference the global LocalBusiness node so the entity graph
+ * stays consistent. `image` falls back to the default OG asset.
+ */
+export function buildArticleSchema(article: {
+  slug: string;
+  title: string;
+  description: string;
+  datePublished: string;
+  dateModified?: string;
+}): Record<string, unknown> {
+  const url = canonical(`/resources/${article.slug}`);
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${url}#article`,
+    headline: article.title,
+    description: article.description,
+    url,
+    mainEntityOfPage: url,
+    datePublished: article.datePublished,
+    dateModified: article.dateModified ?? article.datePublished,
+    author: { "@id": SCHEMA_IDS.localBusiness },
+    publisher: { "@id": SCHEMA_IDS.localBusiness },
+    image: `${SITE.baseUrl}${SITE.defaultOgImage.url}`,
+    isPartOf: { "@id": SCHEMA_IDS.website },
+  };
+}
+
 // ----- Per-page graph helper ---------------------------------------------
 
 /**
