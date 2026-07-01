@@ -13,13 +13,10 @@
 import { SITE } from "@/lib/seo/site";
 import { canonical } from "@/lib/seo/canonical";
 import { getAllServices, getAllServiceAreas } from "@/lib/data/services";
+import { LIVE_TIER3 } from "@/lib/seo/live-tier3";
 
 export const dynamic = "force-static";
 export const revalidate = 3600;
-
-// Tier 3 "service/area" keys with real, launched content. Format:
-// "<serviceSlug>/<areaSlug>". Keep in sync with LIVE_TIER3 in src/app/sitemap.ts.
-const LIVE_TIER3 = new Set<string>(["kitchens/rogers"]);
 
 function link(url: string, summary: string): string {
   return `- [${url}](${url}): ${summary}`;
