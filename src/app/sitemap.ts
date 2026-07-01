@@ -5,54 +5,7 @@
 import type { MetadataRoute } from "next";
 import { canonical } from "@/lib/seo/canonical";
 import { getAllServices, getAllServiceAreas } from "@/lib/data/services";
-
-// Tier 3 "service/area" keys with real, launched content.
-// Format: "<serviceSlug>/<areaSlug>".
-// Keep in sync with LIVE_TIER3 in src/app/llms.txt/route.ts.
-const LIVE_TIER3 = new Set<string>([
-  // Rogers
-  "kitchens/rogers",
-  "bathrooms/rogers",
-  "basements/rogers",
-  "additions/rogers",
-  "whole-home/rogers",
-  "exterior/rogers",
-  // Maple Grove
-  "kitchens/maple-grove",
-  "bathrooms/maple-grove",
-  "basements/maple-grove",
-  "additions/maple-grove",
-  "whole-home/maple-grove",
-  "exterior/maple-grove",
-  // Plymouth
-  "kitchens/plymouth",
-  "bathrooms/plymouth",
-  "basements/plymouth",
-  "additions/plymouth",
-  "whole-home/plymouth",
-  "exterior/plymouth",
-  // Coon Rapids
-  "kitchens/coon-rapids",
-  "bathrooms/coon-rapids",
-  "basements/coon-rapids",
-  "additions/coon-rapids",
-  "whole-home/coon-rapids",
-  "exterior/coon-rapids",
-  // St. Michael
-  "kitchens/st-michael",
-  "bathrooms/st-michael",
-  "basements/st-michael",
-  "additions/st-michael",
-  "whole-home/st-michael",
-  "exterior/st-michael",
-  // Eden Prairie
-  "kitchens/eden-prairie",
-  "bathrooms/eden-prairie",
-  "basements/eden-prairie",
-  "additions/eden-prairie",
-  "whole-home/eden-prairie",
-  "exterior/eden-prairie",
-]);
+import { LIVE_TIER3 } from "@/lib/seo/live-tier3";
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
 
