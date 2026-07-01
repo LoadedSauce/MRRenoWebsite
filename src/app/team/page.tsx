@@ -5,6 +5,7 @@ import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
 import { JsonLd, buildPageGraph, buildWebPageSchema } from "@/lib/seo/schema";
 import { buildTeamMetadata } from "@/lib/seo/routes";
+import { CandidateForm } from "@/components/candidate-form";
 
 export const metadata: Metadata = buildTeamMetadata();
 
@@ -285,6 +286,25 @@ export default function TeamPage() {
         >
           Get in Touch
         </Link>
+      </section>
+
+      {/* ── CANDIDATE APPLICATION (Ticket D) ─────────────────── */}
+      <section id="apply" className="bg-paper px-6 py-16 lg:py-20">
+        <div className="mx-auto max-w-xl text-center">
+          <p className="font-display text-xs font-medium uppercase tracking-[0.22em] text-orange">
+            Apply Now
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-bold text-ink">
+            Send Us Your Resume
+          </h2>
+          <p className="mt-4 font-body text-base leading-relaxed text-muted">
+            Tell us a little about yourself and the work you do. Attach a resume
+            and we will reach out if there is a fit.
+          </p>
+        </div>
+        <div className="mt-8">
+          <CandidateForm />
+        </div>
       </section>
     </PageShell>
   );
