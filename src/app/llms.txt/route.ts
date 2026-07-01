@@ -14,6 +14,7 @@ import { SITE } from "@/lib/seo/site";
 import { canonical } from "@/lib/seo/canonical";
 import { getAllServices, getAllServiceAreas } from "@/lib/data/services";
 import { LIVE_TIER3 } from "@/lib/seo/live-tier3";
+import { getPublishedResources } from "@/lib/resources";
 
 export const dynamic = "force-static";
 export const revalidate = 3600;
@@ -59,6 +60,19 @@ export function GET(): Response {
     }
   }
   lines.push("");
+
+  // Resources hub + published posts
+  const resources = getPublishedResources();
+  if (resources.length > 0) {
+    lines.push("## Resources");
+    lines.push(
+      link(canonical("/resources"), "Remodeling planning guides and cost breakdowns.")
+    );
+    for (const r of resources) {
+      lines.push(link(canonical(`/resources/${r.slug}`), `${r.title}. ${r.category}.`));
+    }
+    lines.push("");
+  }
 
   return new Response(lines.join("\n"), {
     headers: {

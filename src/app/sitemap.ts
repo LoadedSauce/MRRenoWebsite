@@ -6,6 +6,7 @@ import type { MetadataRoute } from "next";
 import { canonical } from "@/lib/seo/canonical";
 import { getAllServices, getAllServiceAreas } from "@/lib/data/services";
 import { LIVE_TIER3 } from "@/lib/seo/live-tier3";
+import { getPublishedResources } from "@/lib/resources";
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
 
@@ -50,6 +51,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       if (!LIVE_TIER3.has(key)) continue;
       entries.push(entry(`/services/${key}`, 0.9, "monthly"));
     }
+  }
+
+  // Resources hub + published posts
+  entries.push(entry("/resources", 0.6, "monthly"));
+  for (const r of getPublishedResources()) {
+    entries.push(entry(`/resources/${r.slug}`, 0.6, "monthly"));
   }
 
   return entries;

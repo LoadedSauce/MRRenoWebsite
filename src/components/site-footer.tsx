@@ -15,6 +15,7 @@ const company = [
   { label: "Team", href: "/team" },
   { label: "Process", href: "/process" },
   { label: "Warranty", href: "/warranty" },
+  { label: "Resources", href: "/resources" },
   { label: "Reviews", href: "#reviews" },
   { label: "Financing", href: "/financing" },
   { label: "Contact", href: "/contact" },
