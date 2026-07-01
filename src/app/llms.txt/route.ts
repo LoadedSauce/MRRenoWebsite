@@ -5,7 +5,7 @@
 // robots.ts or sitemap.ts -- it is a hint layer for LLM-based agents that
 // choose to respect it. Treat as advisory only.
 //
-// Scope note: mirrors sitemap.ts -- only the home page and launched
+// Scope note: mirrors sitemap.ts -- the home page, the team page, and launched
 // service-area (Tier 3) pages are listed. Service hubs and service-area hubs
 // are omitted until those route templates exist and return 200, and thin
 // Tier 3 pages are withheld until their content ships (see LIVE_TIER3).
@@ -43,6 +43,9 @@ export function GET(): Response {
   lines.push("## Start here");
   lines.push(
     link(canonical("/"), "Overview of services, service area, and how to start a project.")
+  );
+  lines.push(
+    link(canonical("/team"), "Meet the family and crew behind M.R. Renovations.")
   );
   lines.push("");
 
