@@ -373,12 +373,16 @@ export interface ResourceLike {
   slug: string;
   title: string;
   dek: string;
+  /** Override the derived <title>; already includes the brand suffix. */
+  metaTitle?: string;
+  /** Override the meta description (defaults to `dek`). */
+  metaDescription?: string;
 }
 
 export function buildResourceMetadata(resource: ResourceLike): Metadata {
   const url = canonical(path("resources", resource.slug));
-  const title = `${resource.title} | ${SITE.brandName}`;
-  const description = clampDescription(resource.dek);
+  const title = resource.metaTitle ?? `${resource.title} | ${SITE.brandName}`;
+  const description = clampDescription(resource.metaDescription ?? resource.dek);
   return {
     title: { absolute: title },
     description,
