@@ -8,7 +8,7 @@ export interface TestimonialCardProps {
   avatarSrc?: string;
   avatarAlt?: string;
   /**
-   * 1â€“5 stars. Omit to render no stars.
+   * 1–5 stars. Omit to render no stars.
    * Only pass when the attribution source supports a verified rating.
    */
   starCount?: 1 | 2 | 3 | 4 | 5;
@@ -20,7 +20,7 @@ export interface TestimonialCardProps {
  * Quote-first testimonial card.
  *
  * Matches the review section treatment in page.tsx:
- * optional stars â†’ decorative opening quote mark â†’ quote text â†’ attribution.
+ * optional stars → decorative opening quote mark → quote text → attribution.
  * Dense and readable. Appropriate for single-quote hero treatment
  * or as a repeating card in a testimonial grid.
  */
@@ -45,6 +45,10 @@ export function TestimonialCard({
   const quoteTextClass   = tone === "navy" ? "text-paper"           : "text-ink";
   const attributeClass   = tone === "navy" ? "text-on-navy-muted"   : "text-muted";
   const nameClass        = tone === "navy" ? "text-paper"           : "text-ink";
+  // Orange text needs to stay light-mode "orange" on the dark navy card (where it
+  // already clears contrast) but drop to the darker "orange-deep" token on the
+  // light cream/paper cards, where the base orange fails AA for small text.
+  const orangeClass      = tone === "navy" ? "text-orange"          : "text-orange-deep";
   const alignClass       = align === "center" ? "text-center" : "text-left";
   const itemsClass       = align === "center" ? "items-center" : "items-start";
   const captionJustify   = align === "center" ? "justify-center" : "";
@@ -55,11 +59,8 @@ export function TestimonialCard({
     <figure className={`rounded-xl p-7 sm:p-8 flex flex-col gap-3 ${surfaceClass} ${alignClass} ${itemsClass}`}>
       {/* Stars */}
       {starCount !== undefined && (
-        <p
-          className="text-orange text-base leading-none"
-          aria-label={`${starCount} out of 5 stars`}
-        >
-          {"&#9733;".repeat(0).padEnd(0)}
+        <p className={`${orangeClass} text-base leading-none`}>
+          <span className="sr-only">{`${starCount} out of 5 stars`}</span>
           {Array.from({ length: starCount }, (_, i) => (
             <span key={i} aria-hidden="true">&#9733;</span>
           ))}
@@ -68,7 +69,7 @@ export function TestimonialCard({
 
       {/* Decorative opening quote mark */}
       <span
-        className="font-display font-bold text-5xl text-orange leading-none select-none"
+        className={`font-display font-bold text-5xl ${orangeClass} leading-none select-none`}
         aria-hidden="true"
       >
         &ldquo;
@@ -99,7 +100,7 @@ export function TestimonialCard({
           {attribution && (
             <>
               {" "}
-              <span className="text-orange">&middot;</span>{" "}
+              <span className={orangeClass}>&middot;</span>{" "}
               <span className={attributeClass}>{attribution}</span>
             </>
           )}

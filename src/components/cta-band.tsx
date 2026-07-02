@@ -35,7 +35,10 @@ export function CTABand({
     ? "bg-soft-navy text-ink"
     : "bg-paper text-ink";
 
-  const eyebrowClass = isNavy ? "text-orange" : "text-orange";
+  // "tinted" (soft-navy) and "paper" (white) are both light surfaces where the
+  // base orange token fails AA for small text -- drop to orange-deep there.
+  // "navy" keeps the base orange, which already clears contrast on that surface.
+  const eyebrowClass = isNavy ? "text-orange" : "text-orange-deep";
   const titleClass = isNavy ? "text-paper" : "text-ink";
   const descClass = isNavy ? "text-soft-navy" : "text-muted";
 
