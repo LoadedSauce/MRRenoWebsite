@@ -230,7 +230,7 @@ export default async function Home() {
       {/* ── SERVICES ─────────────────────────────────────────── */}
       <section id="services" className="bg-paper">
         <Container width="wide" className="py-20 lg:py-24">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-deep">
             What we build
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink max-w-3xl leading-[1.1]">
@@ -259,14 +259,14 @@ export default async function Home() {
                     ) : null}
                   </div>
                   <div className="mt-4 flex items-baseline gap-3">
-                    <span className="font-display font-semibold text-orange text-sm">{s.n}</span>
+                    <span className="font-display font-semibold text-orange-deep text-sm">{s.n}</span>
                     {s.badge ? <span className="text-xs text-muted">{s.badge}</span> : null}
                   </div>
                   <h3 className="mt-1 font-display font-bold text-xl text-ink group-hover:text-navy transition-colors">
                     {s.name}
                   </h3>
                   <p className="mt-2 text-sm text-muted leading-relaxed">{s.body}</p>
-                  <p className="mt-3 text-sm font-display font-semibold text-orange">
+                  <p className="mt-3 text-sm font-display font-semibold text-orange-deep">
                     View {s.name.toLowerCase().split(",")[0]} &rarr;
                   </p>
                 </Link>
@@ -279,7 +279,7 @@ export default async function Home() {
       {/* ── PROCESS ─────────────────────────────────────────── */}
       <section id="process" className="bg-cream">
         <Container width="wide" className="py-20 lg:py-24">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-deep">
             How we move
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink max-w-3xl leading-[1.1]">
@@ -292,7 +292,7 @@ export default async function Home() {
           <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-x-12 gap-y-10 lg:divide-x lg:divide-cream-deep">
             {processSteps.map((step, i) => (
               <div key={step.n} className={i > 0 ? "lg:pl-12" : ""}>
-                <p className="font-display font-bold text-4xl text-orange">{step.n}</p>
+                <p className="font-display font-bold text-4xl text-orange-deep">{step.n}</p>
                 <p className="mt-4 font-display font-bold text-xl text-ink">{step.title}</p>
                 <p className="mt-3 text-sm text-muted leading-relaxed">{step.body}</p>
               </div>
@@ -376,7 +376,7 @@ export default async function Home() {
       {/* ── REVIEWS ─────────────────────────────────────────── */}
       <section id="reviews" className="bg-cream">
         <Container width="narrow" className="py-20 lg:py-24 text-center">
-          <p className="text-orange text-lg" aria-hidden="true">
+          <p className="text-orange-deep text-lg" aria-hidden="true">
             &#9733; &#9733; &#9733; &#9733; &#9733;
           </p>
           <blockquote className="mt-6">
@@ -385,7 +385,7 @@ export default async function Home() {
             </p>
             <footer className="mt-6 text-sm">
               <p className="font-display font-semibold text-ink tracking-[0.08em] uppercase text-xs">
-                Sarah Miller <span className="text-orange">&middot;</span> Kitchen Remodel <span className="text-orange">&middot;</span> Maple Grove
+                Sarah Miller <span className="text-orange-deep">&middot;</span> Kitchen Remodel <span className="text-orange-deep">&middot;</span> Maple Grove
               </p>
             </footer>
           </blockquote>
@@ -404,7 +404,7 @@ export default async function Home() {
       {/* ── CURRENT OFFERS ──────────────────────────────────── */}
       <section id="offers" className="bg-paper">
         <Container width="wide" className="py-20 lg:py-24">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-deep">
             Current offers
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink max-w-3xl leading-[1.1]">
@@ -414,7 +414,7 @@ export default async function Home() {
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-5">
             {offers.map((o) => (
               <div key={o.title} className="rounded-xl bg-cream border border-cream-deep p-7">
-                <p className="font-display font-bold text-3xl text-orange">{o.label}</p>
+                <p className="font-display font-bold text-3xl text-orange-deep">{o.label}</p>
                 <p className="mt-4 font-display font-bold text-lg text-ink">{o.title}</p>
                 <p className="mt-2 text-sm text-muted leading-relaxed">{o.body}</p>
               </div>
