@@ -8,6 +8,8 @@ import { BeforeAfter } from "@/components/primitives/BeforeAfter";
 import type { BeforeAfterImage } from "@/components/primitives/BeforeAfter";
 import { TestimonialCard } from "@/components/primitives/TestimonialCard";
 import { FaqAccordion } from "@/components/primitives/FaqAccordion";
+import { CTABand } from "@/components/cta-band";
+import { getResource } from "@/lib/resources/index";
 import Link from "next/link";
 
 // -- Testimonial props -------------------------------------------------------
@@ -97,6 +99,11 @@ export function ServicePageTemplate({
   const areaRecentProjects = (area?.recentProjectExamples ?? []).filter(
     (p) => p.serviceSlug === service.slug
   );
+
+  // P1.44: related cost guide nudge. Slug-to-slug lookup against the resources
+  // registry -- services without a published guide (whole-home, exterior) get
+  // undefined and the section renders nothing. No exclusion list to maintain.
+  const relatedGuide = getResource(service.slug);
 
   return (
     <PageShell>
@@ -275,6 +282,20 @@ export function ServicePageTemplate({
             <FaqAccordion items={faqItems} tone="light" />
           </Container>
         </section>
+      )}
+
+      {/* -- RELATED COST GUIDE (renders only when a matching guide exists) */}
+      {relatedGuide && relatedGuide.published && (
+        <CTABand
+          tone="tinted"
+          eyebrow="Free Resource"
+          title={relatedGuide.title}
+          description={relatedGuide.dek}
+          primary={{
+            label: "Read the Guide",
+            href: `/resources/${relatedGuide.slug}`,
+          }}
+        />
       )}
 
       {/* -- CTA BAND ----------------------------------------------------- */}
