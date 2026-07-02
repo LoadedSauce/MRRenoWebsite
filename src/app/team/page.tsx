@@ -281,7 +281,7 @@ export default function TeamPage() {
           hear from you.
         </p>
         <Link
-          href="/contact"
+          href="/careers"
           className="mt-7 inline-block rounded-md bg-orange px-8 py-3.5 font-display text-xs font-medium uppercase tracking-wider text-paper transition-opacity hover:opacity-90"
         >
           Get in Touch
