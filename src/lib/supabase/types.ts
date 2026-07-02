@@ -42,3 +42,16 @@ export interface JobListing {
   active: boolean;
   display_order: number;
 }
+
+/** Matches public.candidates schema (migration 0008) */
+export interface Candidate {
+  id: string;
+  created_at: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  role_interest: string | null;
+  experience_summary: string | null;
+  resume_storage_path: string | null;
+  status: string | null;
+}

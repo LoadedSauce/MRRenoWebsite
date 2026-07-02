@@ -6,6 +6,7 @@ const navItems = [
   { label: "Project Photos",href: "/admin/portfolio" },
   { label: "Testimonials",  href: "/admin/testimonials" },
   { label: "Now Hiring",    href: "/admin/jobs" },
+  { label: "Candidates",    href: "/admin/candidates" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
