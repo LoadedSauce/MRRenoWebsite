@@ -66,7 +66,7 @@ export const SITE = {
   },
 
   // ----- Default Open Graph image ------------------------------------------
-  // TODO: ship a real 1200x630 asset at /public/og/default.png (ticket P1.9).
+  // 1200x630 brand card (full M.R. Renovations logo centered on white) at /public/og/default.png.
   // Used for all OG/Twitter cards that don't supply their own.
   defaultOgImage: {
     url: "/og/default.png",
