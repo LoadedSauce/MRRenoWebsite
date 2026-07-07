@@ -8,6 +8,7 @@ import {
   type GuideRequestRow,
   type Bucket,
 } from "@/lib/admin/reports";
+import { CampaignReconciliation } from "./campaign-reconciliation";
 
 // Ticket D (Phase A): read-only business-KPI dashboard sourced from Supabase.
 // Distinct from GA4/Clarity (on-site behavior) -- these are lead/business
@@ -16,7 +17,7 @@ import {
 export const dynamic = "force-dynamic";
 
 const LEAD_SELECT =
-  "id,created_at,form_type,project_type,source_channel,source_campaign,utm_source,utm_medium,utm_campaign,status,city,state,zip";
+  "id,created_at,form_type,project_type,source_channel,source_campaign,utm_source,utm_medium,utm_campaign,gclid,fbclid,status,city,state,zip";
 
 function StatCard({
   label,
@@ -142,6 +143,12 @@ export default async function AdminReportsPage() {
   const byZip = countBy(leads, (l) => l.zip);
   const byGuide = countBy(guides, (g) => g.guide_slug);
 
+  const reconLeads = leads.map((l) => ({
+    campaign: l.utm_campaign,
+    created_at: l.created_at,
+    hasClickId: Boolean(l.gclid || l.fbclid),
+  }));
+
   const leadsThisWeek = countSince(leads, 7);
   const leadsPrev7 = countSince(leads, 14) - leadsThisWeek;
 
@@ -242,6 +249,11 @@ export default async function AdminReportsPage() {
           buckets={byGuide}
           total={guides.length}
         />
+      </div>
+
+      {/* Ticket E — pixel reconciliation */}
+      <div className="mt-6">
+        <CampaignReconciliation leads={reconLeads} />
       </div>
     </div>
   );

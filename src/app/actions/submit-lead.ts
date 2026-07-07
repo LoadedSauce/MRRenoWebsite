@@ -109,6 +109,8 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
     utm_campaign: clean(payload.utm_campaign),
     utm_term: clean(payload.utm_term),
     utm_content: clean(payload.utm_content),
+    gclid: clean(payload.gclid),
+    fbclid: clean(payload.fbclid),
   };
 
   let leadId: string | null = null;
