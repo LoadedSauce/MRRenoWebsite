@@ -22,7 +22,7 @@ export default async function CareersPage() {
       {/* Hero */}
       <section className="bg-navy text-paper">
         <Container width="wide" className="py-20 lg:py-28">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
             Join the team
           </p>
           <h1 className="mt-4 font-display font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05] text-paper max-w-2xl">
@@ -74,7 +74,7 @@ export default async function CareersPage() {
                   <div className="mt-6">
                     <Link
                       href="/contact"
-                      className="inline-flex items-center justify-center bg-orange hover:opacity-90 text-paper font-display font-semibold text-sm px-5 py-2.5 rounded-md transition-colors"
+                      className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold text-sm px-5 py-2.5 rounded-md transition"
                     >
                       Apply via contact form
                     </Link>

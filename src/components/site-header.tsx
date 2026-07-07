@@ -208,7 +208,7 @@ export function SiteHeader() {
             </ul>
             <Link
               href="/consultation"
-              className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold text-sm px-5 py-2.5 rounded-md transition-colors"
+              className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold text-sm px-5 py-2.5 rounded-md transition"
             >
               Free Estimate
             </Link>
@@ -318,7 +318,7 @@ export function SiteHeader() {
               <Link
                 href="/consultation"
                 onClick={() => setOpen(false)}
-                className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-5 py-3 rounded-md transition-colors"
+                className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-5 py-3 rounded-md transition"
               >
                 Free Estimate
               </Link>

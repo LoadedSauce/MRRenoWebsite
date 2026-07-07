@@ -35,7 +35,7 @@ export default function ResourcesPage() {
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="bg-navy">
         <Container width="wide" className="py-16 lg:py-20 text-center">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
             Resources
           </p>
           <h1 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-tight text-paper leading-[1.05]">

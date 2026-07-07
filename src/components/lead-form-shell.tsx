@@ -636,7 +636,7 @@ export function LeadFormShell() {
               onClick={handleSubmit}
               disabled={isPending}
               aria-busy={isPending}
-              className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold text-sm px-6 py-2.5 rounded-md transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold text-sm px-6 py-2.5 rounded-md transition disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isPending ? "Sending\u2026" : "Request my estimate"}
             </button>

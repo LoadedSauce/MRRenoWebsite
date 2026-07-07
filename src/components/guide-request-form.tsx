@@ -115,7 +115,7 @@ export function GuideRequestForm({ guideSlug }: { guideSlug: string }) {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-5 inline-flex w-full items-center justify-center rounded-md bg-orange px-6 py-3 font-display font-semibold text-sm text-paper transition-opacity hover:opacity-90 disabled:opacity-60"
+        className="mt-5 inline-flex w-full items-center justify-center rounded-md bg-orange px-6 py-3 font-display font-semibold text-sm text-ink transition hover:brightness-105 disabled:opacity-60"
       >
         {status === "submitting" ? "Sending..." : "Send me the guide"}
       </button>

@@ -137,7 +137,7 @@ export default function FinancingPage() {
               href="https://app.gethearth.com/partners/m-r-renovations-llc"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-7 py-3 rounded-md transition-colors"
+              className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-7 py-3 rounded-md transition"
             >
               View Financing Options
             </a>

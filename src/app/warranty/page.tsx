@@ -44,7 +44,7 @@ export default function WarrantyPage() {
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="bg-navy text-paper">
         <Container width="wide" className="py-20 lg:py-28">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
             Our commitment
           </p>
           <h1 className="mt-4 font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-paper max-w-3xl">
@@ -56,7 +56,7 @@ export default function WarrantyPage() {
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Link
               href="/consultation"
-              className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-6 py-3.5 rounded-md transition-colors"
+              className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-6 py-3.5 rounded-md transition"
             >
               Request a Free Consultation
             </Link>
@@ -222,7 +222,7 @@ export default function WarrantyPage() {
               </a>
               <a
                 href="tel:7634150654"
-                className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold text-sm px-5 py-2.5 rounded-md transition-colors whitespace-nowrap"
+                className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold text-sm px-5 py-2.5 rounded-md transition whitespace-nowrap"
               >
                 763-415-0654
               </a>
@@ -270,7 +270,7 @@ export default function WarrantyPage() {
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
             <Link
               href="/consultation"
-              className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-6 py-3.5 rounded-md transition-colors whitespace-nowrap"
+              className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-6 py-3.5 rounded-md transition whitespace-nowrap"
             >
               Request a Free Consultation
             </Link>

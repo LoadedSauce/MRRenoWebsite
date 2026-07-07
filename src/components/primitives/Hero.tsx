@@ -58,7 +58,7 @@ export function Hero({
           {/* â”€â”€ Text column â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <div>
             {eyebrow && (
-              <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+              <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
                 {eyebrow}
               </p>
             )}
@@ -72,7 +72,7 @@ export function Hero({
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Link
                 href={primaryCta.href}
-                className="inline-flex items-center justify-center w-full sm:w-auto bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-6 py-3.5 rounded-md transition-colors"
+                className="inline-flex items-center justify-center w-full sm:w-auto bg-orange hover:brightness-105 text-ink font-display font-semibold px-6 py-3.5 rounded-md transition"
               >
                 {primaryCta.label}
               </Link>

@@ -6,6 +6,10 @@
   --color-navy-deep: #152849;
   --color-orange: #E86A1C;
   --color-orange-deep: #C8581A;
+  /* Lighter orange for small text on navy/dark surfaces: the base orange only
+     hits 3.47:1 on navy (fails AA), this clears 4.5:1. Use text-orange-on-dark
+     for eyebrows/labels over bg-navy / bg-navy-deep. */
+  --color-orange-on-dark: #F5A65C;
   --color-soft-navy: #EAF0F8;
   --color-soft-orange: #FDECE0;
   --color-ink: #0E1D3A;

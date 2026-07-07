@@ -48,7 +48,7 @@ export function TestimonialCard({
   // Orange text needs to stay light-mode "orange" on the dark navy card (where it
   // already clears contrast) but drop to the darker "orange-deep" token on the
   // light cream/paper cards, where the base orange fails AA for small text.
-  const orangeClass      = tone === "navy" ? "text-orange"          : "text-orange-deep";
+  const orangeClass      = tone === "navy" ? "text-orange-on-dark"          : "text-orange-deep";
   const alignClass       = align === "center" ? "text-center" : "text-left";
   const itemsClass       = align === "center" ? "items-center" : "items-start";
   const captionJustify   = align === "center" ? "justify-center" : "";
