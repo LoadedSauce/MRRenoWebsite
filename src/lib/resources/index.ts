@@ -652,6 +652,155 @@ const RESOURCES: Resource[] = [
       },
     ],
   },
+
+  // ── EXTERIOR ────────────────────────────────────────────────────────────
+  // NOTE: dollar ranges below are MN-market starting figures pending Chris's
+  // confirmation against M.R.'s actual exterior pricing. Timeline + licensing
+  // mirror the already-published /services/exterior page (no new claims).
+  {
+    slug: "exterior",
+    title: "How Much Does Exterior Work Cost in Minnesota?",
+    dek: "Roofing, siding, window, and deck cost ranges for the northwest Twin Cities metro -- broken out by service, since exterior work covers four very different projects with their own budgets and timelines.",
+    category: "Cost Guide",
+    gated: false,
+    published: true,
+    datePublished: "2026-07-07",
+    metaTitle: "Roofing, Siding & Exterior Cost in Minnesota | M.R. Renovations",
+    metaDescription:
+      "Real roofing, siding, window, and deck cost ranges from a Maple Grove, MN contractor with 43+ years experience. Storm restoration, free no-gimmick estimates, lifetime warranty.",
+    cta: {
+      label: "See our roofing, siding & exterior work",
+      href: "/services/exterior",
+    },
+    body: [
+      {
+        type: "prose",
+        paragraphs: [
+          "M.R. Renovations' exterior projects in the northwest metro generally run from about $9,000 for a straightforward roof replacement to $60,000 or more for a full exterior package that combines roofing, siding, windows, and a deck. Because \"exterior work\" spans four very different services, the ranges below are broken out by service rather than by a single scope ladder.",
+        ],
+      },
+      {
+        type: "costTiers",
+        heading: "Cost by service",
+        tiers: [
+          {
+            label: "Roofing",
+            range: "$9,000--$28,000",
+            description:
+              "Tear-off and full replacement of an asphalt shingle roof on a typical northwest-metro home, including underlayment, flashing, and ventilation. Steep or complex rooflines, added stories, and premium or metal systems run higher.",
+          },
+          {
+            label: "Siding",
+            range: "$18,000--$50,000",
+            description:
+              "Full-house James Hardie fiber cement or engineered lap siding with new house wrap, trim, soffit, and fascia. Larger two-story homes and full ColorPlus packages run toward the top of the range.",
+          },
+          {
+            label: "Windows & Doors",
+            range: "$12,000--$40,000+",
+            description:
+              "Full-house replacement of roughly 10 to 20 Marvin windows rated for Minnesota's climate, plus entry or patio doors. Custom sizes and specialty shapes run higher.",
+          },
+          {
+            label: "Decks",
+            range: "$12,000--$45,000+",
+            description:
+              "A new Trex composite deck with aluminum or cable railing and code-compliant framing and footings. Elevated, multi-level, or large decks run toward the top of the range.",
+          },
+        ],
+        note: "Most homeowners bundle two or more of these -- roof and siding together after a storm is the most common exterior package we complete. Storm damage is often covered by insurance, and we coordinate directly with your adjuster.",
+      },
+      {
+        type: "cta",
+        heading: "Get a Free No-Gimmick Estimate",
+        body: "Talk through your roof, siding, windows, or deck with a team that has been protecting northwest metro homes for over 40 years.",
+        label: "Schedule a free consultation",
+        href: "/consultation",
+        phone: PHONE,
+      },
+      {
+        type: "prose",
+        heading: "What drives the price",
+        paragraphs: [
+          "Material tier is the single biggest lever -- James Hardie versus vinyl, Marvin versus builder-grade, GAF architectural versus 3-tab, Trex versus pressure-treated. After that, the size and complexity of the surface moves the budget most: roof pitch and stories, wall square footage, window count, and deck elevation. Tear-off and disposal of the old material, hidden repairs found once the old surface is off (rotted sheathing, fascia, or rim joists), and permit requirements round out the number. Storm-damage projects are frequently offset by an insurance claim.",
+        ],
+      },
+      {
+        type: "breakdown",
+        heading: "Where the money goes",
+        note: "Directional shares of a typical exterior project -- roofing skews toward labor and disposal, while windows and Hardie siding skew toward materials.",
+        items: [
+          { label: "Materials", share: "40--50%" },
+          { label: "Labor", share: "30--40%" },
+          { label: "Tear-off & disposal", share: "5--10%" },
+          { label: "Permits & inspections", share: "3--5%" },
+          { label: "Contingency (hidden repairs)", share: "8--12%" },
+        ],
+      },
+      {
+        type: "prose",
+        heading: "Timeline",
+        paragraphs: [
+          "Single-trade exterior projects -- a roof, siding, windows, or a deck on their own -- typically run one to three weeks, weather permitting. A full exterior package that combines several of these, plus any structural repair uncovered along the way, typically runs three to eight weeks. You receive a written schedule before work begins, and weather-related adjustments are communicated in advance.",
+        ],
+      },
+      {
+        type: "gallery",
+        heading: "Recent exterior projects",
+        images: [
+          {
+            src: "/images/exterior/mr-renovations-exterior-01.jpg",
+            alt: "Complete roof replacement with architectural asphalt shingles on a two-story home",
+          },
+          {
+            src: "/images/exterior/mr-renovations-exterior-02.jpg",
+            alt: "James Hardie fiber cement siding installation with new trim and fascia",
+          },
+          {
+            src: "/images/exterior/mr-renovations-exterior-03.jpg",
+            alt: "Trex composite deck with aluminum railing off the back of a home",
+          },
+        ],
+      },
+      {
+        type: "prose",
+        heading: "The M.R. difference",
+        paragraphs: [MR_DIFFERENCE],
+      },
+      {
+        type: "faq",
+        heading: "Frequently asked questions",
+        items: [
+          {
+            question: "How much does exterior work cost in Minnesota?",
+            answer:
+              "It depends on the service: roughly $9,000 to $28,000 for a roof, $18,000 to $50,000 for full siding, $12,000 to $40,000 or more for windows and doors, and $12,000 to $45,000 or more for a composite deck.",
+          },
+          {
+            question: "Will insurance cover my roof or siding?",
+            answer:
+              "Storm damage is often covered. We coordinate directly with your insurance adjuster and can provide certificates of insurance for the claim. M.R. Renovations holds Minnesota Residential Contractor license BC809200.",
+          },
+          {
+            question: "How long does an exterior project take?",
+            answer:
+              "Single-trade projects -- a roof, siding, windows, or a deck on their own -- typically run one to three weeks, weather permitting. A full exterior package runs three to eight weeks.",
+          },
+          {
+            question: "Do exterior projects require a permit in Minnesota?",
+            answer:
+              "Roofing, siding, window, and structural work typically require building permits, which vary by municipality. A licensed contractor pulls the required permits and schedules the inspections.",
+          },
+          {
+            question:
+              "How do I verify an exterior contractor is licensed in Minnesota?",
+            answer:
+              "Use the Minnesota DLI license lookup to confirm an active Residential Building Contractor license -- M.R. Renovations holds BC809200 -- and that the legal business name matches your contract.",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export function getAllResources(): Resource[] {
