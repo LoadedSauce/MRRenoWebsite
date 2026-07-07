@@ -39,7 +39,7 @@ export default function ProcessPage() {
               <div className="mt-8">
                 <Link
                   href="/consultation"
-                  className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-7 py-3 rounded-md transition-colors"
+                  className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-7 py-3 rounded-md transition"
                 >
                   Request a Free Consultation
                 </Link>
@@ -302,7 +302,7 @@ export default function ProcessPage() {
           <div className="mt-8">
             <Link
               href="/consultation"
-              className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-7 py-3 rounded-md transition-colors"
+              className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-7 py-3 rounded-md transition"
             >
               Request a Free Consultation
             </Link>

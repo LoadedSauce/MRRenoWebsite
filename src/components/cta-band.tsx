@@ -35,15 +35,15 @@ export function CTABand({
     ? "bg-soft-navy text-ink"
     : "bg-paper text-ink";
 
-  // "tinted" (soft-navy) and "paper" (white) are both light surfaces where the
-  // base orange token fails AA for small text -- drop to orange-deep there.
-  // "navy" keeps the base orange, which already clears contrast on that surface.
-  const eyebrowClass = isNavy ? "text-orange" : "text-orange-deep";
+  // "tinted"/"paper" are light surfaces where the base orange fails AA for small
+  // text -- drop to orange-deep. "navy" needs a LIGHTER orange (base orange is
+  // only 3.47:1 on navy) -- use orange-on-dark, which clears 4.5:1.
+  const eyebrowClass = isNavy ? "text-orange-on-dark" : "text-orange-deep";
   const titleClass = isNavy ? "text-paper" : "text-ink";
   const descClass = isNavy ? "text-soft-navy" : "text-muted";
 
   const primaryBtnClass =
-    "inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-6 py-3 rounded-md transition-colors";
+    "inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-6 py-3 rounded-md transition";
 
   const secondaryBtnClass = isNavy
     ? "inline-flex items-center justify-center bg-paper/10 hover:bg-paper/20 text-paper border border-paper/30 font-display font-semibold px-6 py-3 rounded-md transition-colors"

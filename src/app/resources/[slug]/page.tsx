@@ -162,7 +162,7 @@ function Block({ block }: { block: ResourceBlock }) {
           <div className="mt-5 flex flex-col sm:flex-row sm:items-center gap-3">
             <Link
               href={block.href}
-              className="inline-flex items-center justify-center rounded-md bg-orange px-6 py-3 font-display font-semibold text-sm text-paper hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center rounded-md bg-orange px-6 py-3 font-display font-semibold text-sm text-ink hover:brightness-105 transition"
             >
               {block.label}
             </Link>
@@ -267,7 +267,7 @@ export default async function ResourcePostPage({ params }: PageProps) {
               </ol>
             </nav>
 
-            <p className="mt-6 font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+            <p className="mt-6 font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
               {resource.category}
             </p>
             <h1 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-paper leading-[1.1]">
@@ -313,7 +313,7 @@ export default async function ResourcePostPage({ params }: PageProps) {
                 </Link>
                 <Link
                   href="/consultation"
-                  className="inline-flex items-center justify-center rounded-md bg-orange px-6 py-3 font-display font-semibold text-sm text-paper hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center justify-center rounded-md bg-orange px-6 py-3 font-display font-semibold text-sm text-ink hover:brightness-105 transition"
                 >
                   Get a free estimate
                 </Link>

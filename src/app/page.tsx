@@ -163,7 +163,7 @@ export default async function Home() {
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Link
                 href="/consultation"
-                className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-6 py-3.5 rounded-md transition-colors"
+                className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-6 py-3.5 rounded-md transition"
               >
                 Get a Free Estimate
               </Link>
@@ -253,7 +253,7 @@ export default async function Home() {
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {s.badge ? (
-                      <span className="absolute top-3 left-3 inline-flex items-center bg-orange text-paper font-display font-semibold text-[10px] tracking-[0.1em] uppercase px-2.5 py-1 rounded">
+                      <span className="absolute top-3 left-3 inline-flex items-center bg-orange text-ink font-display font-semibold text-[10px] tracking-[0.1em] uppercase px-2.5 py-1 rounded">
                         {s.badge}
                       </span>
                     ) : null}
@@ -304,7 +304,7 @@ export default async function Home() {
       {/* ── RECENT WORK ──────────────────────────────────────── */}
       <section id="projects" className="bg-navy-deep text-paper">
         <Container width="wide" className="py-20 lg:py-24">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
             Recent work
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-paper max-w-3xl leading-[1.1]">
@@ -331,7 +331,7 @@ export default async function Home() {
                       />
                     </div>
                     <div className="p-5 border-t border-paper/15">
-                      <p className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-orange">
+                      <p className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-orange-on-dark">
                         {[p.service, p.city].filter(Boolean).join(", ") || "Recent work"}
                       </p>
                       <p className="mt-1 font-display font-bold text-paper text-lg">
@@ -352,7 +352,7 @@ export default async function Home() {
                       </span>
                     </div>
                     <div className="p-5 border-t border-paper/15">
-                      <p className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-orange">
+                      <p className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-orange-on-dark">
                         {p.area} &middot; {p.weeks}
                       </p>
                       <p className="mt-1 font-display font-bold text-paper text-lg">{p.title}</p>
@@ -426,7 +426,7 @@ export default async function Home() {
       {/* ── FINAL CTA ───────────────────────────────────────── */}
       <section className="bg-navy text-paper">
         <Container width="wide" className="py-20 lg:py-24 text-center">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">Ready when you are</p>
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">Ready when you are</p>
           <h2 className="mt-3 font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-paper leading-[1.05] max-w-3xl mx-auto">
             Let&rsquo;s build something <span className="accent">that lasts.</span>
           </h2>
@@ -437,7 +437,7 @@ export default async function Home() {
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/consultation"
-              className="inline-flex items-center justify-center bg-orange hover:bg-orange-deep text-paper font-display font-semibold px-6 py-3.5 rounded-md transition-colors"
+              className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-6 py-3.5 rounded-md transition"
             >
               Start your free estimate
             </Link>

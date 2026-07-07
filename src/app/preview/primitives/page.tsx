@@ -76,7 +76,7 @@ export default function PrimitivesPreviewPage() {
       {/* 2. Gallery */}
       <section className="bg-navy-deep">
         <Container width="wide" className="py-16 lg:py-20">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
             Primitive \u2014 Gallery
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-paper leading-[1.1]">
@@ -140,7 +140,7 @@ export default function PrimitivesPreviewPage() {
       {/* 4b. Testimonial â€” navy / left-aligned card grid */}
       <section className="bg-navy">
         <Container width="default" className="py-16 lg:py-20">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange mb-8">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark mb-8">
             TestimonialCard \u2014 navy tone, left-aligned grid
           </p>
           <div className="grid sm:grid-cols-2 gap-5">
@@ -181,7 +181,7 @@ export default function PrimitivesPreviewPage() {
       {/* 5b. FAQ â€” dark tone */}
       <section className="bg-navy-deep">
         <Container width="default" className="py-16 lg:py-20">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange mb-8">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark mb-8">
             FaqAccordion \u2014 dark tone
           </p>
           <FaqAccordion items={previewFaq} tone="dark" />

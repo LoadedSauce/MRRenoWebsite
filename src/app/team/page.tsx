@@ -102,7 +102,7 @@ function HiringCard({ role }: { role: string }) {
         >
           <path d="M50 50c9.4 0 17-9 17-20S59.4 10 50 10 33 19 33 30s7.6 20 17 20zm0 6c-15 0-34 7.8-34 23v6h68v-6c0-15.2-19-23-34-23z" />
         </svg>
-        <span className="absolute left-1/2 top-2 -translate-x-1/2 whitespace-nowrap rounded-sm bg-orange px-2 py-[3px] font-display text-[8px] font-bold uppercase tracking-widest text-paper">
+        <span className="absolute left-1/2 top-2 -translate-x-1/2 whitespace-nowrap rounded-sm bg-orange px-2 py-[3px] font-display text-[8px] font-bold uppercase tracking-widest text-ink">
           Now Hiring
         </span>
       </div>
@@ -166,7 +166,7 @@ export default function TeamPage() {
 
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="relative bg-navy px-6 py-20 text-center md:py-24">
-        <p className="font-display text-xs font-medium uppercase tracking-[0.22em] text-orange">
+        <p className="font-display text-xs font-medium uppercase tracking-[0.22em] text-orange-on-dark">
           Our People
         </p>
         <h1 className="mt-3 font-display text-4xl font-bold leading-tight text-paper md:text-5xl">
@@ -269,7 +269,7 @@ export default function TeamPage() {
 
       {/* ── CLOSING CTA ──────────────────────────────────────── */}
       <section className="bg-navy-deep px-6 py-16 text-center">
-        <p className="font-display text-xs font-medium uppercase tracking-[0.22em] text-orange">
+        <p className="font-display text-xs font-medium uppercase tracking-[0.22em] text-orange-on-dark">
           Join Us
         </p>
         <h2 className="mt-3 font-display text-3xl font-bold text-paper">
@@ -282,7 +282,7 @@ export default function TeamPage() {
         </p>
         <Link
           href="/careers"
-          className="mt-7 inline-block rounded-md bg-orange px-8 py-3.5 font-display text-xs font-medium uppercase tracking-wider text-paper transition-opacity hover:opacity-90"
+          className="mt-7 inline-block rounded-md bg-orange px-8 py-3.5 font-display text-xs font-medium uppercase tracking-wider text-ink transition hover:brightness-105"
         >
           Get in Touch
         </Link>

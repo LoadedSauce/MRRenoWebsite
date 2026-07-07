@@ -139,7 +139,7 @@ export function ServicePageTemplate({
       {/* -- GALLERY ------------------------------------------------------ */}
       <section id="gallery" className="bg-navy">
         <Container width="wide" className="py-16 lg:py-20">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
             Recent work
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-paper leading-[1.1]">
@@ -301,7 +301,7 @@ export function ServicePageTemplate({
       {/* -- CTA BAND ----------------------------------------------------- */}
       <section className="bg-navy text-paper">
         <Container width="wide" className="py-16 lg:py-20 text-center">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
             Ready when you are
           </p>
           <h2 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-tight text-paper leading-[1.05] max-w-2xl mx-auto">
@@ -315,7 +315,7 @@ export function ServicePageTemplate({
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/consultation"
-              className="inline-flex items-center justify-center w-full sm:w-auto bg-orange hover:opacity-90 text-paper font-display font-semibold px-6 py-3.5 rounded-md transition-colors"
+              className="inline-flex items-center justify-center w-full sm:w-auto bg-orange hover:brightness-105 text-ink font-display font-semibold px-6 py-3.5 rounded-md transition"
             >
               Start your free estimate
             </Link>
