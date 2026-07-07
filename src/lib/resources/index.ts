@@ -676,7 +676,8 @@ const RESOURCES: Resource[] = [
       {
         type: "prose",
         paragraphs: [
-          "M.R. Renovations' exterior projects in the northwest metro generally run from about $9,000 for a straightforward roof replacement to $60,000 or more for a full exterior package that combines roofing, siding, windows, and a deck. Because \"exterior work\" spans four very different services, the ranges below are broken out by service rather than by a single scope ladder.",
+          "M.R. Renovations' exterior projects across Maple Grove and the northwest Twin Cities metro generally run from about $9,000 for a straightforward roof replacement to $60,000 or more for a full exterior package that combines roofing, siding, windows, and a deck. Because \"exterior work\" spans four very different services -- each with its own materials, labor, and timeline -- the ranges below are broken out by service rather than by a single scope ladder.",
+          "Where your project lands depends on the size and complexity of your home, the materials you choose, how much of the old surface has to come off, and whether storm damage is involved. This guide walks through each service, what moves the price, how to choose materials that hold up to Minnesota winters, and how storm-damage insurance claims work in this state.",
         ],
       },
       {
@@ -744,6 +745,26 @@ const RESOURCES: Resource[] = [
       },
       {
         type: "prose",
+        heading: "Choosing materials that hold up to Minnesota winters",
+        paragraphs: [
+          "In Minnesota, material choice is as much about surviving freeze-thaw cycles, ice dams, hail, and 90-degree summer-to-winter temperature swings as it is about looks. Spending a little more up front on climate-rated materials usually lowers what you spend on repairs and energy over the life of the home.",
+          "Roofing. Architectural (dimensional) asphalt shingles are the northwest-metro default -- they carry higher wind and impact ratings than old 3-tab shingles and typically last 25 to 30 years. Systems from manufacturers like GAF pair the shingle with ice-and-water shield at the eaves and valleys, proper ridge ventilation, and optional impact-resistant (Class 4) shingles that can earn an insurance discount. Standing-seam metal costs more up front but sheds snow, resists ice dams, and can last 40 to 50 years.",
+          "Siding. Vinyl is the lowest-cost option but can grow brittle in deep cold and fade over time. James Hardie fiber cement is engineered for cold, wet climates -- it resists moisture, pests, and warping, holds its factory ColorPlus finish for 15-plus years, and stands up well to hail and fire. Engineered wood products such as LP SmartSide sit between the two on price. Whatever the cladding, it is the house wrap and flashing behind it that actually keep a Minnesota wall dry.",
+          "Windows. Double-pane Low-E glass with argon fill is the practical baseline for Minnesota; triple-pane adds insulation and noise reduction and makes the most sense on north- and west-facing walls that take the winter wind. Vinyl frames offer the best value, while fiberglass and wood-clad frames (such as Marvin) add durability and a higher-end look. Check the U-factor -- the lower the number, the better the window holds heat in a Minnesota January.",
+          "Decks. Pressure-treated pine is the budget choice but needs regular sealing and can check and splinter after a few Minnesota winters. Composite decking (Trex and similar) costs more up front but shrugs off moisture, fading, and freeze-thaw with almost no maintenance, which is why most homeowners planning to stay in the home choose it. Aluminum and cable railings also outlast wood by years in this climate.",
+        ],
+      },
+      {
+        type: "prose",
+        heading: "Storm damage, hail, and insurance claims",
+        paragraphs: [
+          "Minnesota sees regular hail and high-wind events, and storm damage is one of the most common reasons homeowners here replace a roof or siding. If a storm has damaged your home, much of the cost may be covered by your homeowner's insurance rather than paid out of pocket -- which can change the math on the ranges above entirely.",
+          "It helps to note the date of the storm, photograph any visible damage, and have a contractor inspect the roof and siding before you file. M.R. Renovations provides a written inspection, meets your insurance adjuster on-site, and supplies certificates of insurance for the claim. We hold Minnesota Residential Contractor license BC809200 and pull every required permit.",
+          "One caution: be wary of any contractor who offers to waive or \"eat\" your insurance deductible, or who pressures you to sign before an adjuster has seen the damage. Both are red flags -- and waiving a deductible is illegal in Minnesota. A reputable contractor documents the real scope and lets the claim run its course.",
+        ],
+      },
+      {
+        type: "prose",
         heading: "Timeline",
         paragraphs: [
           "Single-trade exterior projects -- a roof, siding, windows, or a deck on their own -- typically run one to three weeks, weather permitting. A full exterior package that combines several of these, plus any structural repair uncovered along the way, typically runs three to eight weeks. You receive a written schedule before work begins, and weather-related adjustments are communicated in advance.",
@@ -782,9 +803,40 @@ const RESOURCES: Resource[] = [
               "It depends on the service: roughly $9,000 to $28,000 for a roof, $18,000 to $50,000 for full siding, $12,000 to $40,000 or more for windows and doors, and $12,000 to $45,000 or more for a composite deck.",
           },
           {
+            question: "How much does it cost to replace a roof in Minnesota?",
+            answer:
+              "A full asphalt shingle roof replacement on a typical northwest-metro home runs about $9,000 to $28,000, depending on roof size, pitch, the number of old layers torn off, and whether any decking needs replacing. Standing-seam metal and steep or complex rooflines run higher.",
+          },
+          {
+            question: "How much does James Hardie siding cost?",
+            answer:
+              "Full-house James Hardie fiber cement siding typically runs $18,000 to $50,000 installed, depending on the size and number of stories, the trim and soffit scope, and whether sheathing behind the old siding needs repair. It costs more than vinyl but lasts far longer in Minnesota's climate.",
+          },
+          {
+            question: "Are triple-pane windows worth it in Minnesota?",
+            answer:
+              "For many homes, double-pane Low-E windows with argon fill are the practical baseline. Triple-pane adds insulation and noise reduction and pays off most on north- and west-facing walls exposed to winter wind. The right choice depends on your home's orientation and how long you plan to stay.",
+          },
+          {
+            question: "Is a composite deck worth it compared to wood?",
+            answer:
+              "Composite decking such as Trex costs more up front than pressure-treated wood but needs almost no maintenance and handles Minnesota freeze-thaw without checking, splintering, or annual sealing. For homeowners who plan to stay in the home, it usually costs less over the life of the deck.",
+          },
+          {
             question: "Will insurance cover my roof or siding?",
             answer:
               "Storm damage is often covered. We coordinate directly with your insurance adjuster and can provide certificates of insurance for the claim. M.R. Renovations holds Minnesota Residential Contractor license BC809200.",
+          },
+          {
+            question:
+              "When is the best time of year for exterior work in Minnesota?",
+            answer:
+              "Roofing, siding, and decks are typically installed spring through fall, though roofing can often be done in mild winter stretches. Scheduling in late winter or early spring usually means more flexible timing before the summer rush, and storm-damage work is handled year-round.",
+          },
+          {
+            question: "Does new siding or new windows add value to my home?",
+            answer:
+              "Exterior projects consistently return a large share of their cost at resale because they improve curb appeal, energy efficiency, and buyer confidence. A new roof, new siding, and updated windows are among the improvements buyers notice first.",
           },
           {
             question: "How long does an exterior project take?",
