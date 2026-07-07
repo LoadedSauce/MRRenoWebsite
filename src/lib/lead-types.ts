@@ -49,6 +49,9 @@ export interface LeadSubmission {
   utm_campaign?: string | null;
   utm_term?: string | null;
   utm_content?: string | null;
+  // Ticket E: ad-platform click identifiers, captured alongside the UTMs
+  gclid?: string | null;
+  fbclid?: string | null;
   // FORM-PHOTOS: optional photo data URLs (base64 encoded), max 5
   photo_data_urls?: string[] | null;
   // FORM-PHOTOS: original filenames parallel to photo_data_urls (for storage path)

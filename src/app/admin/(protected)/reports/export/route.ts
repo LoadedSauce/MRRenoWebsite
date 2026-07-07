@@ -33,6 +33,8 @@ const LEAD_COLUMNS = [
   "utm_campaign",
   "utm_term",
   "utm_content",
+  "gclid",
+  "fbclid",
   "status",
   "synced_to_roofr",
   "roofr_synced_at",

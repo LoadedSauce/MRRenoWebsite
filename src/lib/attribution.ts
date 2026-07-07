@@ -17,6 +17,10 @@ export interface Attribution {
   utm_campaign: string | null;
   utm_term: string | null;
   utm_content: string | null;
+  // Ad-platform click identifiers (Ticket E). Same submit-time capture caveat
+  // as the UTMs above.
+  gclid: string | null;
+  fbclid: string | null;
 }
 
 const EMPTY: Attribution = {
@@ -28,6 +32,8 @@ const EMPTY: Attribution = {
   utm_campaign: null,
   utm_term: null,
   utm_content: null,
+  gclid: null,
+  fbclid: null,
 };
 
 /**
@@ -74,6 +80,8 @@ export function readAttribution(): Attribution {
       utm_campaign,
       utm_term,
       utm_content,
+      gclid: get("gclid"),
+      fbclid: get("fbclid"),
     };
   } catch {
     return EMPTY;
