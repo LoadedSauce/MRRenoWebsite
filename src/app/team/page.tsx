@@ -10,7 +10,14 @@ import { CandidateForm } from "@/components/candidate-form";
 export const metadata: Metadata = buildTeamMetadata();
 
 type Card =
-  | { kind: "member"; name: string; role: string; slug: string }
+  | {
+      kind: "member";
+      name: string;
+      role: string;
+      slug: string;
+      /** No real photo on file yet -- render the silhouette placeholder. */
+      photoPending?: boolean;
+    }
   | { kind: "hiring"; role: string };
 
 // Owner, alone at the top
@@ -36,19 +43,20 @@ const ROW_THREE: Card[] = [
   { kind: "hiring", role: "Sales Consultant" },
 ];
 
-// The crew, with the open trade roles interspersed
+// The crew, with the open trade roles interspersed.
+// Roster verified against the live m-r-reno.com/meet-the-team page, 2026-07-07.
 const CREW: Card[] = [
-  { kind: "member", name: "Craig Jones",    role: "Lead Tile / Stone Installer", slug: "craig-jones"    },
-  { kind: "member", name: "Eric Engwer",    role: "Lead Painter",                slug: "eric-engwer"    },
-  { kind: "hiring", role: "Lead Carpenter" },
-  { kind: "hiring", role: "Lead Carpenter" },
-  { kind: "hiring", role: "Lead Carpenter" },
-  { kind: "member", name: "Reggie Carter",  role: "Carpenter",                   slug: "reggie-carter"  },
+  { kind: "member", name: "Craig Jones",     role: "Lead Tile / Stone Installer", slug: "craig-jones"     },
+  { kind: "member", name: "Eric Engwer",     role: "Lead Painter",                slug: "eric-engwer"     },
+  { kind: "member", name: "Chris Fautsch",   role: "Lead Carpenter",              slug: "chris-fautsch", photoPending: true   },
+  { kind: "member", name: "Samuel Bredesen", role: "Lead Carpenter",              slug: "samuel-bredesen" },
+  { kind: "member", name: "Clinton David",   role: "Lead Carpenter",              slug: "clinton-david", photoPending: true   },
+  { kind: "member", name: "Reggie Carter",   role: "Carpenter",                   slug: "reggie-carter"   },
+  { kind: "member", name: "Nick Pexa",       role: "Carpenter",                   slug: "nick-pexa"       },
   { kind: "hiring", role: "Carpenter" },
-  { kind: "hiring", role: "Carpenter" },
-  { kind: "member", name: "Mario Coletta",  role: "Tile Installer",              slug: "mario-coletta"  },
-  { kind: "member", name: "Daniel Farrell", role: "Painter",                     slug: "daniel-farrell" },
-  { kind: "hiring", role: "Apprentice Carpenter" },
+  { kind: "member", name: "Mario Coletta",   role: "Tile Installer",              slug: "mario-coletta"   },
+  { kind: "member", name: "Daniel Farrell",  role: "Painter",                     slug: "daniel-farrell"  },
+  { kind: "member", name: "Aaron Sund",      role: "Apprentice Carpenter",        slug: "aaron-sund", photoPending: true    },
   { kind: "hiring", role: "Apprentice Carpenter" },
 ];
 
@@ -62,13 +70,26 @@ function MemberCard({
   return (
     <figure className="group">
       <div className="relative aspect-square overflow-hidden rounded-md bg-navy-deep">
-        <Image
-          src={`/images/team/${member.slug}.jpg`}
-          alt={`${member.name}, ${member.role} at M.R. Renovations`}
-          fill
-          className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
-          sizes={featured ? "(max-width: 768px) 60vw, 240px" : "(max-width: 640px) 50vw, 180px"}
-        />
+        {member.photoPending ? (
+          <div className="flex h-full w-full items-center justify-center">
+            <svg
+              className="h-[56%] w-[56%] text-paper opacity-[0.25]"
+              viewBox="0 0 100 100"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M50 50c9.4 0 17-9 17-20S59.4 10 50 10 33 19 33 30s7.6 20 17 20zm0 6c-15 0-34 7.8-34 23v6h68v-6c0-15.2-19-23-34-23z" />
+            </svg>
+          </div>
+        ) : (
+          <Image
+            src={`/images/team/${member.slug}.jpg`}
+            alt={`${member.name}, ${member.role} at M.R. Renovations`}
+            fill
+            className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
+            sizes={featured ? "(max-width: 768px) 60vw, 240px" : "(max-width: 640px) 50vw, 180px"}
+          />
+        )}
       </div>
       <figcaption className="pt-3 text-center">
         <h3
