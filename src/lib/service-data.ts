@@ -334,7 +334,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "How long does an exterior project take?",
         answer:
-          "Roofing-only and siding-only projects typically take one to three weeks, weather permitting. Full exterior packages that include roofing, siding, windows, doors, and any structural work typically run three to eight weeks. You receive a written schedule before work begins, and weather-related adjustments are communicated in advance.",
+          "It depends on the service. On its own, a roof typically takes 1 to 2 days, siding 3 to 5 days, and windows 3 to 7 days, weather permitting. A full exterior package that combines several of these, plus any structural work, runs the trades back-to-back. You receive a written schedule before work begins, and weather-related adjustments are communicated in advance.",
       },
       {
         question: "Is M.R. Renovations licensed and insured for exterior work in Minnesota?",
