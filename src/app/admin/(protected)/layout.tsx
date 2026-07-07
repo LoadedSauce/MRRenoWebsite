@@ -2,6 +2,7 @@ import Link from "next/link";
 import { LogoutButton } from "../logout-button";
 
 const navItems = [
+  { label: "Reports",       href: "/admin/reports" },
   { label: "Team",          href: "/admin/team" },
   { label: "Project Photos",href: "/admin/portfolio" },
   { label: "Testimonials",  href: "/admin/testimonials" },
