@@ -655,8 +655,11 @@ const RESOURCES: Resource[] = [
 
   // ── EXTERIOR ────────────────────────────────────────────────────────────
   // NOTE: dollar ranges below are MN-market starting figures pending Chris's
-  // confirmation against M.R.'s actual exterior pricing. Timeline + licensing
-  // mirror the already-published /services/exterior page (no new claims).
+  // confirmation against M.R.'s actual exterior pricing. Per-service timelines
+  // are the locked single-trade figures (roof 1-2d, siding 3-5d, windows 3-7d,
+  // deck 5-10d); licensing mirrors the already-published /services/exterior page.
+  // These day-level timelines are intentionally more granular than the weeks-level
+  // language on /services/exterior -- flagged for Chris to reconcile if desired.
   {
     slug: "exterior",
     title: "How Much Does Exterior Work Cost in Minnesota?",
@@ -767,7 +770,12 @@ const RESOURCES: Resource[] = [
         type: "prose",
         heading: "Timeline",
         paragraphs: [
-          "Single-trade exterior projects -- a roof, siding, windows, or a deck on their own -- typically run one to three weeks, weather permitting. A full exterior package that combines several of these, plus any structural repair uncovered along the way, typically runs three to eight weeks. You receive a written schedule before work begins, and weather-related adjustments are communicated in advance.",
+          "How long the work takes depends on the service. These are typical on-site durations for a single-trade project on a northwest-metro home, weather permitting:",
+          "Roofing. A typical roof replacement takes 1 to 2 days.",
+          "Siding. A full-house siding project runs 3 to 5 days.",
+          "Windows and doors. A full-house window replacement takes 3 to 7 days, depending on the number of openings.",
+          "Decks. A new composite deck runs 5 to 10 days, with elevated or multi-level builds toward the top of that range.",
+          "A full exterior package combines several of these, so the trades run back-to-back -- plus any structural repair uncovered along the way. You receive a written schedule before work begins, and weather-related adjustments are communicated in advance.",
         ],
       },
       {
@@ -841,7 +849,7 @@ const RESOURCES: Resource[] = [
           {
             question: "How long does an exterior project take?",
             answer:
-              "Single-trade projects -- a roof, siding, windows, or a deck on their own -- typically run one to three weeks, weather permitting. A full exterior package runs three to eight weeks.",
+              "It depends on the service. On its own, a roof typically takes 1 to 2 days, siding 3 to 5 days, windows 3 to 7 days, and a composite deck 5 to 10 days, weather permitting. A full exterior package that combines several of these runs the trades back-to-back.",
           },
           {
             question: "Do exterior projects require a permit in Minnesota?",
