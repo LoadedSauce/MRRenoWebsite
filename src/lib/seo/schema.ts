@@ -43,9 +43,11 @@ export function JsonLd({ data }: { data: unknown }): React.ReactElement {
 // ----- Organization / LocalBusiness ---------------------------------------
 
 /**
- * Primary business entity. Uses GeneralContractor (a LocalBusiness subtype)
- * since MR is a remodeling contractor; this is more accurate than
- * the generic LocalBusiness type for Google's understanding.
+ * Primary business entity. Emits the full type stack
+ * ["LocalBusiness", "HomeAndConstructionBusiness", "GeneralContractor"]:
+ * GeneralContractor/HomeAndConstructionBusiness are the accurate subtypes for
+ * a remodeling contractor, and the explicit LocalBusiness anchor keeps
+ * consumers that only look for the base type from missing the entity.
  */
 export function buildLocalBusinessSchema(): Record<string, unknown> {
   const sameAs = [
@@ -58,7 +60,7 @@ export function buildLocalBusinessSchema(): Record<string, unknown> {
 
   return {
     "@context": "https://schema.org",
-    "@type": ["HomeAndConstructionBusiness", "GeneralContractor"],
+    "@type": ["LocalBusiness", "HomeAndConstructionBusiness", "GeneralContractor"],
     "@id": SCHEMA_IDS.localBusiness,
     name: SITE.brandName,
     legalName: SITE.legalName,
