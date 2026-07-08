@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "freebeat": {
+      "command": "npx",
+      "args": ["-y", "freebeat-mcp"],
+      "env": {
+        "FREEBEAT_API_KEY": "${FREEBEAT_API_KEY}"
+      }
+    }
+  }
+}
