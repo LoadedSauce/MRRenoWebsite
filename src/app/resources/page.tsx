@@ -43,7 +43,7 @@ export default function ResourcesPage() {
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base sm:text-lg text-soft-navy leading-relaxed">
             Plain-language planning guides and cost breakdowns from a family
-            contractor with 43+ years in the northwest Twin Cities metro.
+            contractor with 40+ years in the northwest Twin Cities metro.
           </p>
         </Container>
       </section>

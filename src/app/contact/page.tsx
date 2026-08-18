@@ -68,9 +68,24 @@ export default function ContactPage() {
                 <p className="font-display font-semibold tracking-[0.12em] uppercase text-xs text-orange">
                   Visit
                 </p>
-                <address className="mt-3 not-italic text-base text-ink leading-relaxed">
-                  <p>7201 Forestview Lane N., Lower Suite</p>
-                  <p>Maple Grove, MN 55369</p>
+                {/* Office is the NAP-of-record. The Otsego shop is display-only
+                    -- no second phone number, and it stays out of SITE.address
+                    and all structured data. */}
+                <address className="mt-3 not-italic text-base text-ink leading-relaxed space-y-4">
+                  <div>
+                    <p className="font-display font-semibold text-navy text-xs uppercase tracking-[0.12em] mb-1">
+                      Office
+                    </p>
+                    <p>7201 Forestview Lane N., Lower Suite</p>
+                    <p>Maple Grove, MN 55369</p>
+                  </div>
+                  <div>
+                    <p className="font-display font-semibold text-navy text-xs uppercase tracking-[0.12em] mb-1">
+                      Shop / Warehouse
+                    </p>
+                    <p>9781 NE 71st Street, Suite F</p>
+                    <p>Otsego, MN 55301</p>
+                  </div>
                 </address>
               </div>
 
