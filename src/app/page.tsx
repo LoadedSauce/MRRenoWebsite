@@ -141,24 +141,25 @@ export default async function Home() {
           sizes="100vw"
           className="object-cover opacity-75"
         />
-        {/* Gradient overlay for text legibility -- softened per owner feedback
-            (P1.46): lighter navy base, photo more visible, right side open.
-            Left/via stops run heavier than the handoff proposed (94/60 vs
-            85/50) because the handoff values measured under AA -- see the
-            scrim note below and the PR body for the measurements. */}
+        {/* Gradient overlay for text legibility. Round 2 mute (Aug 2026):
+            Mike asked for a further softening of the blue overlay. Stops
+            reduced from 94/60/15 to 78/40/15 to bring the photo further
+            forward. Contrast not re-measured after the mute -- if the H1 or
+            10px stat labels look thin over the photo at these values, tighten
+            the /78 or the scrim (line ~161) rather than the mid /40 stop. */}
         <div
-          className="absolute inset-0 bg-gradient-to-r from-navy/94 via-navy/60 to-navy/15"
+          className="absolute inset-0 bg-gradient-to-r from-navy/78 via-navy/40 to-navy/15"
           aria-hidden="true"
         />
         {/* Bottom scrim. The stat row spans the FULL container width, so its
-            10px labels sit over the open right end of the gradient, where
-            navy/15 alone measures 2.19:1. This band restores them to 5.28:1
-            without closing the right side of the photo back up.
-            The 70% stop matters: the labels sit at the TOP of the stat row, so
-            a plain two-stop fade decays to ~0.29 alpha on them and silently
-            under-delivers. Measured 0.568 at both 1440 and 375 viewports. */}
+            10px labels sit over the open right end of the gradient. This band
+            keeps them legible without closing the right side of the photo
+            back up. Round 2 mute (Aug 2026): dropped from /60/55 to /45/40 to
+            match the main-gradient mute. The 70% stop still matters: the
+            labels sit at the TOP of the stat row, so a plain two-stop fade
+            decays too far on them and silently under-delivers. */}
         <div
-          className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-navy-deep/60 via-navy-deep/55 via-70% to-transparent"
+          className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-navy-deep/45 via-navy-deep/40 via-70% to-transparent"
           aria-hidden="true"
         />
 
