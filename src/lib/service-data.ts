@@ -42,7 +42,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     description:
       "Kitchen remodeling in the Twin Cities from M.R. Renovations -- custom cabinetry, structural work, and finish detail. Licensed MN contractor BC809200. Free estimates, Lifetime Workmanship Warranty.",
     heroDefaultSubcopy:
-      "Custom cabinetry, structural work, and finish detail -- backed by 43+ years of craftsmanship. M.R. Renovations runs your kitchen remodel on one contract, with one crew, from demo to final walkthrough.",
+      "Custom cabinetry, structural work, and finish detail -- backed by 40+ years of craftsmanship. M.R. Renovations runs your kitchen remodel on one contract, with one crew, from demo to final walkthrough.",
     galleryImages: [
       {
         src: "/images/kitchen/kitchen-remodel-walnut-cabinets-hex-backsplash-maple-grove-mn.jpg",
@@ -101,7 +101,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     description:
       "Home additions in the Twin Cities from M.R. Renovations -- room additions, primary suites, four-season rooms. Licensed MN contractor BC809200. Free estimates, Lifetime Workmanship Warranty.",
     heroDefaultSubcopy:
-      "Single-room bump-outs, primary suite additions, four-season rooms, and full second-story builds. M.R. Renovations engineers each addition to match your existing structure, handles every permit, and ties the work into your home with 43+ years of carpentry behind it.",
+      "Single-room bump-outs, primary suite additions, four-season rooms, and full second-story builds. M.R. Renovations engineers each addition to match your existing structure, handles every permit, and ties the work into your home with 40+ years of carpentry behind it.",
     galleryImages: [
       {
         src: "/images/addition/home-addition-four-season-sunroom-floor-to-ceiling-windows-maple-grove-mn.jpg",

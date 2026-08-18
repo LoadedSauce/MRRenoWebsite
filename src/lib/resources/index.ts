@@ -82,7 +82,7 @@ const PHONE = "763-900-2024";
 
 const MR_DIFFERENCE =
   "Lifetime Transferable Workmanship Warranty. Free No-Gimmick Estimates. " +
-  "BBB accredited, family-owned, and 43+ years serving the northwest Twin " +
+  "BBB accredited, family-owned, and 40+ years serving the northwest Twin " +
   "Cities metro.";
 
 const RESOURCES: Resource[] = [
@@ -97,7 +97,7 @@ const RESOURCES: Resource[] = [
     datePublished: "2026-07-01",
     metaTitle: "Kitchen Remodel Cost in Minnesota | M.R. Renovations",
     metaDescription:
-      "See real kitchen remodel cost ranges from a Maple Grove, MN contractor with 43+ years experience. Free no-gimmick estimates, lifetime warranty.",
+      "See real kitchen remodel cost ranges from a Maple Grove, MN contractor with 40+ years experience. Free no-gimmick estimates, lifetime warranty.",
     cta: {
       label: "See kitchen remodeling examples",
       href: "/services/kitchens",
@@ -239,7 +239,7 @@ const RESOURCES: Resource[] = [
     datePublished: "2026-07-01",
     metaTitle: "Bathroom Remodel Cost in Minnesota | M.R. Renovations",
     metaDescription:
-      "Real bathroom remodel cost ranges from a Maple Grove, MN contractor with 43+ years experience. Free no-gimmick estimates, lifetime warranty.",
+      "Real bathroom remodel cost ranges from a Maple Grove, MN contractor with 40+ years experience. Free no-gimmick estimates, lifetime warranty.",
     cta: {
       label: "See bathroom remodeling examples",
       href: "/services/bathrooms",
@@ -379,7 +379,7 @@ const RESOURCES: Resource[] = [
     datePublished: "2026-07-01",
     metaTitle: "Basement Finishing Cost in Minnesota | M.R. Renovations",
     metaDescription:
-      "Real basement finishing cost ranges from a Maple Grove, MN contractor with 43+ years experience. Free no-gimmick estimates, lifetime warranty.",
+      "Real basement finishing cost ranges from a Maple Grove, MN contractor with 40+ years experience. Free no-gimmick estimates, lifetime warranty.",
     cta: {
       label: "See basement finishing examples",
       href: "/services/basements",
@@ -523,7 +523,7 @@ const RESOURCES: Resource[] = [
     datePublished: "2026-07-01",
     metaTitle: "Home Addition Cost in Minnesota | M.R. Renovations",
     metaDescription:
-      "Real home addition cost ranges from a Maple Grove, MN contractor with 43+ years experience. Free no-gimmick estimates, lifetime warranty.",
+      "Real home addition cost ranges from a Maple Grove, MN contractor with 40+ years experience. Free no-gimmick estimates, lifetime warranty.",
     cta: {
       label: "See home addition examples",
       href: "/services/additions",
@@ -670,7 +670,7 @@ const RESOURCES: Resource[] = [
     datePublished: "2026-07-07",
     metaTitle: "Roofing, Siding & Exterior Cost in Minnesota | M.R. Renovations",
     metaDescription:
-      "Real roofing, siding, window, and deck cost ranges from a Maple Grove, MN contractor with 43+ years experience. Storm restoration, free no-gimmick estimates, lifetime warranty.",
+      "Real roofing, siding, window, and deck cost ranges from a Maple Grove, MN contractor with 40+ years experience. Storm restoration, free no-gimmick estimates, lifetime warranty.",
     cta: {
       label: "See our roofing, siding & exterior work",
       href: "/services/exterior",

@@ -159,7 +159,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 const WHY_MR = [
   {
-    title: "43+ years, one family",
+    title: "40+ years, one family",
     body: "Founded in Maple Grove. Still answering the phone ourselves. Still standing behind every project.",
   },
   {
@@ -266,7 +266,7 @@ export default function TeamPage() {
                 A family contractor with the <span className="accent">process of a design firm.</span>
               </h2>
               <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed">
-                43+ years of remodeling experience, run with the calm, written, on-time discipline you&rsquo;d expect from a much bigger firm.
+                40+ years of remodeling experience, run with the calm, written, on-time discipline you&rsquo;d expect from a much bigger firm.
               </p>
 
               <ul className="mt-8 space-y-5">

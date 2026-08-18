@@ -83,7 +83,7 @@ export function ServicePageTemplate({
   // Approved stat strip values (locked)
   // Experience and Google Rating are sitewide constants -- do not vary per page.
   const heroStats = [
-    { label: "Experience",    value: "43+ Yrs" },
+    { label: "Experience",    value: "40+ Yrs" },
     { label: "Google Rating", value: "5.0 \u2605" },
     { label: "Projects",      value: "500+"    },
     { label: "Warranty",      value: "\u221e"  },
@@ -297,6 +297,17 @@ export function ServicePageTemplate({
           }}
         />
       )}
+
+      {/* -- FINANCING CTA (renders on all Tier 2 and Tier 3 service pages) -- */}
+      {/* Links to /financing, never to Hearth directly -- the /financing page
+          carries the required Hearth broker disclosure (NMLS 1628533). */}
+      <CTABand
+        tone="tinted"
+        eyebrow="Financing Available"
+        title="Payments starting as low as your grocery bill"
+        description="Loans from $1,000 to $250,000 through Hearth. Check your rate in under 60 seconds -- no impact to your credit score."
+        primary={{ label: "View Financing Options", href: "/financing" }}
+      />
 
       {/* -- CTA BAND ----------------------------------------------------- */}
       <section className="bg-navy text-paper">

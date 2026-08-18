@@ -276,7 +276,7 @@ export function buildContactMetadata(): Metadata {
   const title = "Contact M.R. Renovations | Maple Grove, MN Remodeling Contractor";
   const description = clampDescription(
     "Reach M.R. Renovations in Maple Grove, MN. Call (763) 900-2024 or send a message. " +
-      "Family-owned design-build serving the northwest metro for 43+ years."
+      "Family-owned design-build serving the northwest metro for 40+ years."
   );
   return {
     title: { absolute: title },
@@ -397,7 +397,7 @@ export function buildTeamMetadata(): Metadata {
   const title = "Meet the Team | M.R. Renovations";
   const description = clampDescription(
     "Meet the family and crew behind M.R. Renovations -- a Maple Grove, MN " +
-      "remodeling contractor with 43+ years of hands-on experience and a " +
+      "remodeling contractor with 40+ years of hands-on experience and a " +
       "Lifetime Transferable Workmanship Warranty."
   );
   return {

@@ -10,7 +10,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Careers | M.R. Renovations",
   description:
-    "Join the M.R. Renovations team. Family-owned design-build serving the Twin Cities for 43 years.",
+    "Join the M.R. Renovations team. Family-owned design-build serving the Twin Cities for 40 years.",
   alternates: { canonical: canonical("/careers") },
 };
 
@@ -29,7 +29,7 @@ export default async function CareersPage() {
             Build something that lasts.
           </h1>
           <p className="mt-5 text-base sm:text-lg text-soft-navy/90 max-w-xl leading-relaxed">
-            Family-owned design-build serving the Twin Cities for 43 years. We hire
+            Family-owned design-build serving the Twin Cities for 40 years. We hire
             craftspeople who take pride in their work.
           </p>
         </Container>

@@ -49,12 +49,27 @@ export function SiteFooter() {
               </p>
             </div>
             <p className="mt-5 text-sm text-soft-navy/85 leading-relaxed max-w-sm">
-              Family-owned design-build serving Maple Grove and the Twin Cities for 43+ years.
+              Family-owned design-build serving Maple Grove and the Twin Cities for 40+ years.
             </p>
-            <address className="mt-5 not-italic text-sm text-soft-navy/85 leading-relaxed">
-              <p>7201 Forestview Lane N., Lower Suite</p>
-              <p>Maple Grove, MN 55369</p>
-              <p className="mt-3">
+            {/* Office is the NAP-of-record. The Otsego shop is display-only --
+                it is deliberately absent from SITE.address, LocalBusiness
+                schema, and the sitemap (no matching GBP listing). */}
+            <address className="mt-5 not-italic text-sm text-soft-navy/85 leading-relaxed space-y-4">
+              <div>
+                <p className="font-display font-semibold text-paper text-xs uppercase tracking-[0.12em] mb-1">
+                  Office
+                </p>
+                <p>7201 Forestview Lane N., Lower Suite</p>
+                <p>Maple Grove, MN 55369</p>
+              </div>
+              <div>
+                <p className="font-display font-semibold text-paper text-xs uppercase tracking-[0.12em] mb-1">
+                  Shop
+                </p>
+                <p>9781 NE 71st Street, Suite F</p>
+                <p>Otsego, MN 55301</p>
+              </div>
+              <p className="pt-2">
                 <a
                   href="tel:7639002024"
                   className="font-display font-semibold text-paper hover:text-orange transition-colors"

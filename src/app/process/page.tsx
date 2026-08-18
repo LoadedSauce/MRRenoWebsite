@@ -34,7 +34,7 @@ export default function ProcessPage() {
                 What to expect when you work with us.
               </h1>
               <p className="mt-5 text-lg text-muted leading-relaxed">
-                One project manager. Full permit coverage. No subcontractor chaos. Every M.R. Renovations project follows the same nine steps -- so you always know where you stand.
+                One project manager. Full permit coverage. No subcontractor chaos. Every M.R. Renovations project follows the same ten steps -- so you always know where you stand.
               </p>
               <div className="mt-8">
                 <Link
@@ -69,8 +69,8 @@ export default function ProcessPage() {
         <Container width="wide" className="py-10">
           <dl className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-faint">
             {[
-              { value: "43+",       label: "Years of hands-on experience" },
-              { value: "9 steps",   label: "First call through final walkthrough" },
+              { value: "40+",       label: "Years of hands-on experience" },
+              { value: "10 steps",  label: "First call through final walkthrough" },
               { value: "Lifetime",  label: "Transferable workmanship warranty" },
             ].map((stat) => (
               <div key={stat.value} className="px-8 py-6 sm:py-0 text-center">
@@ -117,14 +117,15 @@ export default function ProcessPage() {
       <section className="bg-soft-navy">
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-navy/20 order-2 lg:order-1">
-              <Image
-                src="/images/bathroom/bathroom-remodel-marble-tile-shower-quartz-vanity-maple-grove-mn.jpg"
-                alt="Completed bathroom remodel -- marble tile shower and quartz vanity"
-                fill
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
+            {/* Placeholder slot -- owner wants a genuine "before" photo here
+                (a dated but liveable bath or kitchen), not the previous after
+                shot and not stock. Swap in when Chris supplies one. */}
+            <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-soft-orange/30 order-2 lg:order-1">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="font-display font-bold text-2xl sm:text-3xl text-orange/20 select-none text-center px-4">
+                  Before -- photo pending
+                </span>
+              </div>
             </div>
             <div className="order-1 lg:order-2">
               <p className="font-display font-bold text-5xl text-orange/20 tracking-tight select-none">02</p>
@@ -145,7 +146,7 @@ export default function ProcessPage() {
               <p className="font-display font-bold text-5xl text-orange/20 tracking-tight select-none">03</p>
               <h2 className="mt-2 font-display font-bold text-2xl text-navy tracking-tight">Estimate preparation</h2>
               <p className="mt-3 text-base text-muted leading-relaxed">
-                You receive a fully itemized written proposal within three business days. It covers scope of work, materials specified by brand and grade, a payment schedule tied to project milestones, and a projected timeline with start date. We schedule a presentation date so we can walk every line with you -- no emailed PDFs left without context.
+                You receive a fully itemized written proposal within one week. It covers scope of work, materials specified by brand and grade, a payment schedule tied to project milestones, and a projected timeline with start date. We schedule a presentation date so we can walk every line with you -- no emailed PDFs left without context.
               </p>
             </div>
             <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-faint">
@@ -211,7 +212,7 @@ export default function ProcessPage() {
                 Material selection
               </h2>
               <p className="mt-3 text-muted leading-relaxed" style={{fontSize: "0.96rem"}}>
-                We walk the showroom with you. Not a catalog, not a sample board left at your door -- actual materials chosen in person from our vendor network. Tile, cabinetry, countertops, fixtures. You see exactly what will be installed in your home before a single order is placed.
+                We walk the showroom with you. Not a catalog, not a sample board left at your door -- actual materials chosen in person from our vendor network. Tile, cabinetry, countertops, fixtures. You see exactly what will be installed in your home before a single order is placed. Our contractor pricing on materials gets passed through to you at no markup on select vendor lines. We also schedule a subcontractor walkthrough during this phase so plumbing and electrical trades can price the actual scope on site -- not off a blueprint -- so the numbers you sign against are the numbers the trades quoted.
               </p>
             </div>
           </div>
@@ -226,9 +227,9 @@ export default function ProcessPage() {
             {/* Card 07 */}
             <div className="border border-faint rounded-lg p-7">
               <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-muted">Step 07</p>
-              <h2 className="mt-3 font-display font-bold text-xl text-navy tracking-tight">Cost confirmation</h2>
+              <h2 className="mt-3 font-display font-bold text-xl text-navy tracking-tight">Approval Meeting</h2>
               <p className="mt-3 text-sm text-muted leading-relaxed">
-                Once materials are selected, final material cost is calculated. Nine times out of ten, a credit is applied -- materials come in under the allowance built into your estimate.
+                Approval Meeting. We sit down with your final numbers -- material selections priced, subcontractor scopes confirmed, allowances reconciled. Any dollar that lands under the proposed budget is refunded back to you before work begins. This is where the estimate becomes real, not a placeholder.
               </p>
             </div>
 
@@ -252,12 +253,39 @@ export default function ProcessPage() {
         </Container>
       </div>
 
-      {/* ── STEP 09 -- white bg, text left / photo right, LARGER text ───── */}
+      {/* ── STEP 09 -- soft-navy bg, photo left / text right ─────────────── */}
+      <section className="bg-soft-navy">
+        <Container width="wide" className="py-14">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* Placeholder slot -- needs a real job-site shot showing floor
+                protection and hung dust barriers. Swap in when Chris supplies
+                one; do not substitute stock. */}
+            <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-soft-orange/30 order-2 lg:order-1">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="font-display font-bold text-2xl sm:text-3xl text-orange/20 select-none text-center px-4">
+                  Work in progress -- photo pending
+                </span>
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <p className="font-display font-bold text-5xl text-orange/20 tracking-tight select-none">09</p>
+              <h2 className="mt-2 font-display font-bold leading-tight text-navy" style={{fontSize: "1.4rem"}}>
+                The Work
+              </h2>
+              <p className="mt-3 text-muted leading-relaxed" style={{fontSize: "0.96rem"}}>
+                Your home stays protected from day one. Floor protection is laid throughout every path our crew uses. Plastic dust barriers are hung around the active work area and sealed at the perimeter. At the end of every work week, the barriers come down and the space is cleaned so you have the run of your home over the weekend -- then we rehang everything on Monday morning and pick right back up. Your project manager stays on site, materials are inventoried at delivery, and every subcontractor is scheduled against a shared schedule you can see.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── STEP 10 -- white bg, text left / photo right, LARGER text ───── */}
       <section className="bg-paper">
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div>
-              <p className="font-display font-bold text-5xl text-orange/20 tracking-tight select-none">09</p>
+              <p className="font-display font-bold text-5xl text-orange/20 tracking-tight select-none">10</p>
               <h2 className="mt-2 font-display font-bold leading-tight text-navy" style={{fontSize: "1.4rem"}}>
                 Final walkthrough and warranty
               </h2>
