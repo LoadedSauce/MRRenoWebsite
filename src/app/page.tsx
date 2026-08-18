@@ -33,8 +33,8 @@ const services = [
     name: "Basement Finishing",
     body: "Code-correct egress, true-height ceilings, finished living square footage that adds resale value.",
     href: "/services/basements",
-    image: "/images/service-basement.jpg",
-    alt: "Finished basement with dark accent wall and modern living layout.",
+    image: "/images/service-basement-lvp-tray-ceiling-built-in-entertainment-center-maple-grove-mn.jpg",
+    alt: "Finished basement with luxury vinyl plank flooring, tray ceiling, and custom built-in entertainment center in Maple Grove, MN.",
   },
   {
     n: "04",
