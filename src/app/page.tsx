@@ -111,7 +111,7 @@ const offers = [
   {
     label: "FREE",
     title: "No-Gimmick Estimates",
-    body: "Real in-home consults with a real designer. No \"today only\" pricing pressure. Ever.",
+    body: "Real in-home consults with a real professional team. No \"today only\" pricing pressure. Ever.",
   },
   {
     label: "2%",
@@ -395,24 +395,15 @@ export default async function Home() {
             &#9733; &#9733; &#9733; &#9733; &#9733;
           </p>
           <blockquote className="mt-6">
-            <p className="font-display font-bold text-2xl sm:text-3xl text-ink leading-snug">
-              &ldquo;M.&nbsp;R. Renovations transformed our outdated kitchen into a modern masterpiece. Their attention to detail and commitment to quality were outstanding &mdash; and the Lifetime Warranty sealed it for us.&rdquo;
+            <p className="text-base sm:text-lg text-ink leading-relaxed">
+              &ldquo;I have completed 2 projects with M.R. Renovations and am just starting my third. The first was a kitchen renovation in the lower level of my house. MR did an excellent job assembling appropriate contractors for the project, managing them to achieve a high-quality result, and provided a lifetime warranty. They worked directly with us to identify options and select products from several suppliers to meet our stated budgets. Cost, quality and schedule were all very well managed. The second project was to improve the sump pump system and water drainage around a rental property. Again, M.R. quickly proposed an approach, found and managed appropriate contractors, and ensured that a quality job was completed. Currently, we are renovating our main kitchen and M.R. is consistently providing the same excellent services. M.R. has worked closely with us to get great results in all our projects. I definitely recommend their services.&rdquo;
             </p>
             <footer className="mt-6 text-sm">
               <p className="font-display font-semibold text-ink tracking-[0.08em] uppercase text-xs">
-                Sarah Miller <span className="text-orange-deep">&middot;</span> Kitchen Remodel <span className="text-orange-deep">&middot;</span> Maple Grove
+                Ken G <span className="text-orange-deep">&middot;</span> Kitchen Remodel <span className="text-orange-deep">&middot;</span> Maple Grove
               </p>
             </footer>
           </blockquote>
-
-          <div className="mt-10">
-            <Link
-              href="#all-reviews"
-              className="inline-flex items-center justify-center bg-paper text-navy border border-faint font-display font-semibold px-6 py-3 rounded-md hover:bg-soft-navy transition-colors"
-            >
-              Read all 50+ reviews
-            </Link>
-          </div>
         </Container>
       </section>
 
