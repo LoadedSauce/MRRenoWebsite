@@ -25,8 +25,8 @@ const services = [
     name: "Bathroom Remodeling",
     body: "From en-suite spa retreats to family-friendly mushroom baths. Tile work that lasts decades.",
     href: "/services/bathrooms",
-    image: "/images/service-bathroom.jpg",
-    alt: "Bathroom remodel with double vanity and barn-style mirror frames.",
+    image: "/images/service-bathroom-freestanding-tub-marble-floor-twin-vanities-maple-grove-mn.jpg",
+    alt: "Primary bathroom remodel with freestanding soaker tub, marble tile floor, and twin vanities with matte black fixtures in Maple Grove, MN.",
   },
   {
     n: "03",
@@ -66,17 +66,17 @@ const processSteps = [
   {
     n: "01",
     title: "Listen & Design",
-    body: "In-home consult. We listen first, then sketch. Fee design phase with three concepts and two revisions. You see real renderings before any construction estimate.",
+    body: "In-home consult. We listen first, then sketch. Free design phase included with up to three concepts and two revisions. You see real renderings before any construction begins.",
   },
   {
     n: "02",
     title: "Plan & Price",
-    body: "Line-itemized, guaranteed-price contract. Every selection priced. Every assumption stated in writing. No TBD allowed.",
+    body: "Line-itemized, guaranteed-price contract. Every selection priced with our contractor discount. Every assumption stated in writing. We help you stay in budget and on time.",
   },
   {
     n: "03",
     title: "Build & Warranty",
-    body: "One project manager from day one. Weekly walk-throughs. Final punch-list signed by you. Then backed by our Lifetime Transferable Workmanship Warranty.",
+    body: "Full team at your disposal. You call, we answer. Multiple points of contact. Weekly walk-throughs. Final punch-list signed by you. Then backed by our Lifetime Transferable Workmanship Warranty.",
   },
 ];
 
@@ -252,7 +252,7 @@ export default async function Home() {
             Whole-home transformations and <span className="accent">specialty remodels</span> for Twin Cities families.
           </h2>
           <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
-            Six core practices. Every project led by a real project manager. Every detail backed by our Lifetime Workmanship Warranty.
+            Six core practices. Every project led by our full M.R. Renovation team. Every detail backed by our Lifetime Workmanship Warranty.
           </p>
 
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -301,7 +301,7 @@ export default async function Home() {
             A transparent process, <span className="accent">start to finish.</span>
           </h2>
           <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
-            No mystery line items. No vanishing project managers. No surprise change orders. Just three clear phases and the same MR team from estimate to final walkthrough.
+            No mystery line items. No vanishing project managers. No surprise change orders. Just three clear phases and the same M.R. team from estimate to final walkthrough.
           </p>
 
           <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-x-12 gap-y-10 lg:divide-x lg:divide-cream-deep">
