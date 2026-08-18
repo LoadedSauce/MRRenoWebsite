@@ -27,14 +27,15 @@ export default function ProcessPage() {
 
             {/* Left: text */}
             <div>
-              <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
+              <p className="font-display font-bold uppercase tracking-[0.06em] text-4xl sm:text-5xl text-orange leading-none">
                 Our Process
               </p>
-              <h1 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-tight text-navy leading-[1.05]">
+              <div className="mt-4 h-1.5 w-24 bg-orange rounded-full" />
+              <h1 className="mt-5 font-display font-bold text-3xl sm:text-4xl tracking-tight text-navy leading-[1.1]">
                 What to expect when you work with us.
               </h1>
               <p className="mt-5 text-lg text-muted leading-relaxed">
-                One project manager. Full permit coverage. No subcontractor chaos. Every M.R. Renovations project follows the same ten steps -- so you always know where you stand.
+                At M.R. Renovations, we believe it takes teamwork to achieve your dream. You will have access to our Customer Service Manager who always answers the phone, a Sales Representative who will learn your full vision and help translate it to production, a Project Coordinator who will help with material selections, permitting details, ordering and logistics, a Project Manager to coordinate labor, deliveries, progress and quality control, and our employees (not subbed out labor) who put all the pieces together.
               </p>
               <div className="mt-8">
                 <Link
@@ -92,7 +93,7 @@ export default function ProcessPage() {
         </Container>
       </div>
 
-      {/* ── STEP 01 -- white bg, text left / photo right ─────────────────── */}
+      {/* ── STEP 01: white bg, text left / photo right ─────────────────── */}
       <section className="bg-paper">
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -100,11 +101,11 @@ export default function ProcessPage() {
               <p className="font-display font-bold text-5xl text-orange/20 tracking-tight select-none">01</p>
               <h2 className="mt-2 font-display font-bold text-2xl text-navy tracking-tight">Reach out</h2>
               <p className="mt-3 text-base text-muted leading-relaxed">
-                Call, email, or submit the online form. A real person at M.R. Renovations responds -- not a call center, not an automated booking system. We follow up before anything is scheduled so we understand your project before we send anyone to your door.
+                Call, email, or submit the online form. A real person at M.R. Renovations responds. Not a call center, not an automated booking system. We follow up before anything is scheduled so we understand your project before we send anyone to your door.
               </p>
             </div>
             <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-soft-orange/30">
-              {/* Placeholder slot -- no vendor/showroom photo available yet */}
+              {/* Placeholder slot: no vendor/showroom photo available yet */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="font-display font-bold text-4xl text-orange/20 select-none">Step 01</span>
               </div>
@@ -113,17 +114,17 @@ export default function ProcessPage() {
         </Container>
       </section>
 
-      {/* ── STEP 02 -- soft-navy bg, photo left / text right ─────────────── */}
+      {/* ── STEP 02: soft-navy bg, photo left / text right ─────────────── */}
       <section className="bg-soft-navy">
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            {/* Placeholder slot -- owner wants a genuine "before" photo here
+            {/* Placeholder slot: owner wants a genuine "before" photo here
                 (a dated but liveable bath or kitchen), not the previous after
                 shot and not stock. Swap in when Chris supplies one. */}
             <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-soft-orange/30 order-2 lg:order-1">
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="font-display font-bold text-2xl sm:text-3xl text-orange/20 select-none text-center px-4">
-                  Before -- photo pending
+                  Before photo pending
                 </span>
               </div>
             </div>
@@ -131,14 +132,14 @@ export default function ProcessPage() {
               <p className="font-display font-bold text-5xl text-orange/20 tracking-tight select-none">02</p>
               <h2 className="mt-2 font-display font-bold text-2xl text-navy tracking-tight">Discovery appointment</h2>
               <p className="mt-3 text-base text-muted leading-relaxed">
-                Your project manager visits the site in person. We take measurements, photos, and detailed notes -- and we ask the questions most contractors skip. Structural considerations, permit requirements, how you use the space today, what has been done before. The visit takes 45 to 90 minutes and produces a real scope.
+                Your Dedicated Sales Rep visits the site in person. We take measurements, photos, and detailed notes, and we ask the questions most contractors skip. Structural considerations, permit requirements, how you use the space today, what has been done before. The visit takes 45 to 90 minutes and produces a real scope.
               </p>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* ── STEP 03 -- white bg, text left / photo right ─────────────────── */}
+      {/* ── STEP 03: white bg, text left / photo right ─────────────────── */}
       <section className="bg-paper">
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -146,7 +147,7 @@ export default function ProcessPage() {
               <p className="font-display font-bold text-5xl text-orange/20 tracking-tight select-none">03</p>
               <h2 className="mt-2 font-display font-bold text-2xl text-navy tracking-tight">Estimate preparation</h2>
               <p className="mt-3 text-base text-muted leading-relaxed">
-                You receive a fully itemized written proposal within one week. It covers scope of work, materials specified by brand and grade, a payment schedule tied to project milestones, and a projected timeline with start date. We schedule a presentation date so we can walk every line with you -- no emailed PDFs left without context.
+                You receive a fully itemized written proposal within one week. It covers scope of work, materials specified by brand and grade, a payment schedule tied to project milestones, and a projected timeline with start date. We schedule a presentation date so we can walk every line with you. No emailed PDFs left without context.
               </p>
             </div>
             <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-faint">
@@ -158,7 +159,7 @@ export default function ProcessPage() {
         </Container>
       </section>
 
-      {/* ── STEPS 04 + 05 -- soft-navy bg, 2 white cards side-by-side ───── */}
+      {/* ── STEPS 04 + 05: soft-navy bg, 2 white cards side-by-side ───── */}
       <section className="bg-soft-navy">
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -168,7 +169,7 @@ export default function ProcessPage() {
               <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-muted">Step 04</p>
               <h2 className="mt-3 font-display font-bold text-xl text-navy tracking-tight">Presentation meeting</h2>
               <p className="mt-3 text-sm text-muted leading-relaxed">
-                We walk every line of the estimate with you in person. All decision-makers in the room. Questions answered before ink hits paper. No pressure to sign at the meeting -- the proposal is yours to review.
+                We walk every line of the estimate with you in person. All decision-makers in the room. Questions answered before ink hits paper. No pressure to sign at the meeting. The proposal is yours to review.
               </p>
             </div>
 
@@ -177,7 +178,7 @@ export default function ProcessPage() {
               <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-muted">Step 05</p>
               <h2 className="mt-3 font-display font-bold text-xl text-navy tracking-tight">Signing and next steps</h2>
               <p className="mt-3 text-sm text-muted leading-relaxed">
-                Once you sign, the yard sign goes up and the clock starts. A material selection meeting is scheduled 7 to 21 days out -- early enough to get materials on order without rushing your decisions.
+                Once you sign, the yard sign goes up and the clock starts. A material selection meeting is scheduled 7 to 21 days out, early enough to get materials on order without rushing your decisions.
               </p>
             </div>
 
@@ -194,7 +195,7 @@ export default function ProcessPage() {
         </Container>
       </div>
 
-      {/* ── STEP 06 -- soft-navy bg, photo left / text right, LARGER text ── */}
+      {/* ── STEP 06: soft-navy bg, photo left / text right, LARGER text ── */}
       <section className="bg-soft-navy">
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -212,14 +213,14 @@ export default function ProcessPage() {
                 Material selection
               </h2>
               <p className="mt-3 text-muted leading-relaxed" style={{fontSize: "0.96rem"}}>
-                We walk the showroom with you. Not a catalog, not a sample board left at your door -- actual materials chosen in person from our vendor network. Tile, cabinetry, countertops, fixtures. You see exactly what will be installed in your home before a single order is placed. Our contractor pricing on materials gets passed through to you at no markup on select vendor lines. We also schedule a subcontractor walkthrough during this phase so plumbing and electrical trades can price the actual scope on site -- not off a blueprint -- so the numbers you sign against are the numbers the trades quoted.
+                We walk the showroom with you. Not a catalog, not a sample board left at your door. Actual materials chosen in person from our vendor network. Tile, cabinetry, countertops, fixtures. You see exactly what will be installed in your home before a single order is placed. Our contractor pricing on materials gets passed through to you at no markup on select vendor lines. We also schedule a subcontractor walkthrough during this phase so plumbing and electrical trades can price the actual scope on site, not off a blueprint, so the numbers you sign against are the numbers the trades quoted.
               </p>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* ── STEPS 07 + 08 -- white bg, 2-col compact cards ───────────────── */}
+      {/* ── STEPS 07 + 08: white bg, 2-col compact cards ───────────────── */}
       <section className="bg-paper">
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -229,7 +230,7 @@ export default function ProcessPage() {
               <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-muted">Step 07</p>
               <h2 className="mt-3 font-display font-bold text-xl text-navy tracking-tight">Approval Meeting</h2>
               <p className="mt-3 text-sm text-muted leading-relaxed">
-                Approval Meeting. We sit down with your final numbers -- material selections priced, subcontractor scopes confirmed, allowances reconciled. Any dollar that lands under the proposed budget is refunded back to you before work begins. This is where the estimate becomes real, not a placeholder.
+                Approval Meeting. We sit down with your final numbers: material selections priced, subcontractor scopes confirmed, allowances reconciled. Any dollar that lands under the proposed budget is refunded back to you before work begins. This is where the estimate becomes real, not a placeholder.
               </p>
             </div>
 
@@ -238,7 +239,7 @@ export default function ProcessPage() {
               <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-muted">Step 08</p>
               <h2 className="mt-3 font-display font-bold text-xl text-navy tracking-tight">Ordering and scheduling</h2>
               <p className="mt-3 text-sm text-muted leading-relaxed">
-                Materials are ordered. The project schedule is built. Work begins when materials arrive on site -- no placeholder start dates that slip.
+                Materials are ordered. The project schedule is built. Work begins when materials arrive on site. No placeholder start dates that slip.
               </p>
             </div>
 
@@ -253,17 +254,17 @@ export default function ProcessPage() {
         </Container>
       </div>
 
-      {/* ── STEP 09 -- soft-navy bg, photo left / text right ─────────────── */}
+      {/* ── STEP 09: soft-navy bg, photo left / text right ─────────────── */}
       <section className="bg-soft-navy">
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            {/* Placeholder slot -- needs a real job-site shot showing floor
+            {/* Placeholder slot: needs a real job-site shot showing floor
                 protection and hung dust barriers. Swap in when Chris supplies
                 one; do not substitute stock. */}
             <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-soft-orange/30 order-2 lg:order-1">
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="font-display font-bold text-2xl sm:text-3xl text-orange/20 select-none text-center px-4">
-                  Work in progress -- photo pending
+                  Work in progress photo pending
                 </span>
               </div>
             </div>
@@ -273,14 +274,14 @@ export default function ProcessPage() {
                 The Work
               </h2>
               <p className="mt-3 text-muted leading-relaxed" style={{fontSize: "0.96rem"}}>
-                Your home stays protected from day one. Floor protection is laid throughout every path our crew uses. Plastic dust barriers are hung around the active work area and sealed at the perimeter. At the end of every work week, the barriers come down and the space is cleaned so you have the run of your home over the weekend -- then we rehang everything on Monday morning and pick right back up. Your project manager stays on site, materials are inventoried at delivery, and every subcontractor is scheduled against a shared schedule you can see.
+                Your home stays protected from day one. Floor protection is laid throughout every path our crew uses. Plastic dust barriers are hung around the active work area and sealed at the perimeter. At the end of every work week, the barriers come down and the space is cleaned so you have the run of your home over the weekend. Then we rehang everything on Monday morning and pick right back up. Your project manager stays hands on while our guys are hard at work. Materials are inventoried at delivery, and every subcontractor is scheduled against a shared schedule you can see.
               </p>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* ── STEP 10 -- white bg, text left / photo right, LARGER text ───── */}
+      {/* ── STEP 10: white bg, text left / photo right, LARGER text ───── */}
       <section className="bg-paper">
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -290,7 +291,7 @@ export default function ProcessPage() {
                 Final walkthrough and warranty
               </h2>
               <p className="mt-3 text-muted leading-relaxed" style={{fontSize: "0.96rem"}}>
-                Professional cleaning before we arrive. A final walkthrough of every space together. Your Lifetime Transferable Workmanship Warranty is signed in person. Manufacturer warranty cards, permit close-out paperwork, and your project manager's direct contact are all handed over at close.
+                Professional cleaning upon completion. A final walkthrough of every space together. Your Lifetime Transferable Workmanship Warranty is signed in person. Manufacturer warranty cards, permit close-out paperwork are all handed over at close.
               </p>
               {/* Warranty note */}
               <div className="mt-6 flex items-start gap-3">
@@ -308,7 +309,7 @@ export default function ProcessPage() {
             <div className="relative h-[230px] rounded-lg overflow-hidden bg-navy/10">
               <Image
                 src="/images/kitchen/kitchen-remodel-white-shaker-cabinets-quartz-countertops-maple-grove-mn.jpg"
-                alt="Completed kitchen remodel -- white shaker cabinets with quartz countertops"
+                alt="Completed kitchen remodel with white shaker cabinets and quartz countertops"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-cover"
@@ -325,7 +326,7 @@ export default function ProcessPage() {
             Ready to get started?
           </h2>
           <p className="mt-4 text-base text-muted max-w-xl mx-auto leading-relaxed">
-            Talk to a real project manager. No automated quotes, no call centers. Free, no-obligation consultation at your site.
+            Talk to a real person. No automated quotes, no call centers. Free, no-obligation consultation at your site hand delivered by our team.
           </p>
           <div className="mt-8">
             <Link
