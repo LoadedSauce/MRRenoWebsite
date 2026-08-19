@@ -104,7 +104,7 @@ export default function ProcessPage() {
                 Call, email, or submit the online form. A real person at M.R. Renovations responds. Not a call center, not an automated booking system. We follow up before anything is scheduled so we understand your project before we send anyone to your door.
               </p>
             </div>
-            <div className="relative aspect-[3/2] rounded-lg overflow-hidden bg-soft-orange/30">
+            <div className="relative aspect-[16/9] rounded-lg overflow-hidden bg-soft-orange/30">
               <Image
                 src="/images/process/process-step-01-reach-out.jpg"
                 alt="Twin Cities homeowner speaking with M.R. Renovations on the phone from her kitchen and reviewing project notes on a tablet."
@@ -121,7 +121,7 @@ export default function ProcessPage() {
       <section className="bg-soft-navy">
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <div className="relative aspect-[3/2] rounded-lg overflow-hidden bg-soft-orange/30 order-2 lg:order-1">
+            <div className="relative aspect-[16/9] rounded-lg overflow-hidden bg-soft-orange/30 order-2 lg:order-1">
               <Image
                 src="/images/process/process-step-02-discovery-appointment.jpg"
                 alt="M.R. Renovations rep in a branded navy polo taking notes on a clipboard while a homeowner points out cabinet details in her kitchen during an on-site discovery visit."
@@ -152,7 +152,7 @@ export default function ProcessPage() {
                 You receive a fully itemized written proposal within one week. It covers scope of work, materials specified by brand and grade, a payment schedule tied to project milestones, and a projected timeline with start date. We schedule a presentation date so we can walk every line with you. No emailed PDFs left without context.
               </p>
             </div>
-            <div className="relative aspect-[3/2] rounded-lg overflow-hidden bg-faint">
+            <div className="relative aspect-[16/9] rounded-lg overflow-hidden bg-faint">
               <Image
                 src="/images/process/process-step-03-estimate-preparation.jpg"
                 alt="M.R. Renovations branded proposal portfolio on a light-wood desk with pens and a plant, ready for the estimate presentation meeting."
