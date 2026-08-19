@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import { addTeamMember } from "../../actions";
+import { TEAM_SECTIONS } from "@/lib/supabase/types";
 
 export function AddTeamMemberForm() {
   const [uploading, setUploading] = useState(false);
@@ -44,6 +45,20 @@ export function AddTeamMemberForm() {
             placeholder="Project Manager"
             className="w-full px-3 py-2 border border-faint rounded-md text-sm"
           />
+        </div>
+        <div className="sm:col-span-2">
+          <label className="block text-sm font-medium text-ink mb-1">Section</label>
+          <select
+            name="section"
+            defaultValue="Crew"
+            className="w-full px-3 py-2 border border-faint rounded-md text-sm bg-paper"
+          >
+            {TEAM_SECTIONS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="sm:col-span-2">
           <label className="block text-sm font-medium text-ink mb-1">
