@@ -230,10 +230,11 @@ export default async function Home() {
         </Container>
       </section>
 
-      {/* ── WARRANTY STRIP ─────────────────────────────────────── */}
+      {/* ── WARRANTY + DISCOUNTS + FINANCING STRIP ─────────────── */}
       <section id="warranty" className="bg-navy text-paper">
-        <Container width="wide" className="py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-start sm:items-center gap-4">
+        <Container width="wide" className="py-6 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 md:items-center">
+          {/* Warranty */}
+          <div className="flex items-start md:items-center gap-4">
             <span
               className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-paper/10 text-orange font-display font-bold text-xl shrink-0"
               aria-hidden="true"
@@ -245,16 +246,61 @@ export default async function Home() {
                 Lifetime Transferable Workmanship Warranty
               </p>
               <p className="text-sm text-soft-navy/90">
-                It stays with the home, even if you sell. Almost no contractor in Minnesota offers this.
+                Stays with the home, even if you sell.
+              </p>
+              <Link
+                href="/warranty"
+                className="mt-2 inline-block font-display font-semibold text-sm text-orange hover:brightness-110 transition"
+              >
+                How the warranty works &rarr;
+              </Link>
+            </div>
+          </div>
+
+          {/* Discounts */}
+          <div className="flex items-start md:items-center gap-4 md:border-l md:border-paper/15 md:pl-8">
+            <span
+              className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-paper/10 text-orange font-display font-bold text-base shrink-0"
+              aria-hidden="true"
+            >
+              %
+            </span>
+            <div>
+              <p className="font-display font-bold text-paper text-base sm:text-lg">
+                Discounts
+              </p>
+              <p className="text-sm text-soft-navy/90">
+                2% cash or check.
+              </p>
+              <p className="text-sm text-soft-navy/90">
+                5% Veterans, Seniors, First Responders.
               </p>
             </div>
           </div>
-          <Link
-            href="/warranty"
-            className="inline-flex items-center justify-center bg-paper text-navy font-display font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-soft-navy transition-colors whitespace-nowrap"
-          >
-            How the warranty works &rarr;
-          </Link>
+
+          {/* Financing */}
+          <div className="flex items-start md:items-center gap-4 md:border-l md:border-paper/15 md:pl-8">
+            <span
+              className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-paper/10 text-orange font-display font-bold text-lg shrink-0"
+              aria-hidden="true"
+            >
+              $
+            </span>
+            <div className="min-w-0">
+              <p className="font-display font-bold text-paper text-base sm:text-lg">
+                Financing available
+              </p>
+              <p className="text-sm text-soft-navy/90">
+                Flexible monthly payments to fit your budget.
+              </p>
+              <Link
+                href="/financing"
+                className="mt-2 inline-flex items-center justify-center bg-paper text-navy font-display font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-soft-navy transition-colors whitespace-nowrap"
+              >
+                See financing options &rarr;
+              </Link>
+            </div>
+          </div>
         </Container>
       </section>
 
