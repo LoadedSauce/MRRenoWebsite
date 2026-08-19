@@ -44,7 +44,7 @@ function BrandMark() {
           M.R. RENOVATIONS, LLC
         </span>
         <span className="font-display font-medium text-orange text-[10px] sm:text-[11px] tracking-[0.16em] uppercase">
-          We Design &middot; We Build &middot; We Renovate
+          Committed to Quality
         </span>
       </span>
     </Link>
