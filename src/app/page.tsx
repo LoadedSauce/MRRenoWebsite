@@ -250,7 +250,7 @@ export default async function Home() {
               </p>
               <Link
                 href="/warranty"
-                className="mt-2 inline-block font-display font-semibold text-sm text-orange hover:brightness-110 transition"
+                className="mt-2 inline-flex items-center justify-center bg-paper text-navy font-display font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-soft-navy transition-colors whitespace-nowrap"
               >
                 How the warranty works &rarr;
               </Link>
