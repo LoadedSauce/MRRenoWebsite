@@ -22,11 +22,14 @@ const company = [
 ];
 
 const serviceArea = [
-  "Rogers",
-  "Maple Grove",
+  "Maple Grove & Surrounding",
   "Plymouth",
+  "Rogers",
   "St. Michael",
   "Coon Rapids",
+  "Eden Prairie",
+  "Andover",
+  "Elk River",
   "25-mile radius",
 ];
 

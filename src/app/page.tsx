@@ -162,6 +162,20 @@ export default async function Home() {
           className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-navy-deep/45 via-navy-deep/40 via-70% to-transparent"
           aria-hidden="true"
         />
+        {/* Sunburst dampener. The source photo has a bright sun-through-tree
+            flare in its left third that reads on desktop as glare over the H1
+            copy. This radial dim sits over that region only, mixing with the
+            main gradient rather than replacing it. Position (16% x, 20% y)
+            targets the flare centroid on desktop crop; on mobile the flare
+            is cropped out of frame by object-cover anyway. */}
+        <div
+          className="absolute inset-0 hidden sm:block pointer-events-none"
+          aria-hidden="true"
+          style={{
+            background:
+              "radial-gradient(circle 340px at 16% 20%, rgb(21 40 73 / 0.85), rgb(21 40 73 / 0) 70%)",
+          }}
+        />
 
         <Container width="wide" className="relative py-20 sm:py-28 lg:py-36">
           <div className="max-w-3xl">
@@ -376,15 +390,6 @@ export default async function Home() {
                     </div>
                   </Link>
                 ))}
-          </div>
-
-          <div className="mt-10 flex justify-center">
-            <Link
-              href="#all-projects"
-              className="inline-flex items-center justify-center bg-paper text-navy font-display font-semibold px-6 py-3 rounded-md hover:bg-soft-navy transition-colors"
-            >
-              View all projects
-            </Link>
           </div>
         </Container>
       </section>
