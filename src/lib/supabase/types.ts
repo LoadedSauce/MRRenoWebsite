@@ -7,7 +7,17 @@ export interface TeamMember {
   photo_url: string | null;
   display_order: number;
   active: boolean;
+  section: TeamSection;
 }
+
+export const TEAM_SECTIONS = [
+  "Owner",
+  "Customer Service, Production & Coordination",
+  "Sales",
+  "Crew",
+] as const;
+
+export type TeamSection = (typeof TEAM_SECTIONS)[number];
 
 /** Matches public.portfolio_items schema */
 export interface PortfolioItem {
@@ -19,7 +29,11 @@ export interface PortfolioItem {
   city: string | null;
   display_order: number;
   active: boolean;
+  featured: boolean;
 }
+
+/** Maximum number of items that can be featured on the homepage at once. */
+export const MAX_FEATURED_PORTFOLIO_ITEMS = 3;
 
 /** Matches public.testimonials schema */
 export interface Testimonial {

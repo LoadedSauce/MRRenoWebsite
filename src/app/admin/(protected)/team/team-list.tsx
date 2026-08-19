@@ -1,19 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Image from "next/image";
 import { createBrowserClient } from "@supabase/ssr";
-import type { TeamMember } from "@/lib/supabase/types";
+import {
+  TEAM_SECTIONS,
+  type TeamMember,
+  type TeamSection,
+} from "@/lib/supabase/types";
 import {
   toggleTeamMember,
   deleteTeamMember,
   updateTeamMember,
   updateTeamMemberOrder,
+  updateTeamMemberSection,
 } from "../../actions";
 
-export function TeamList({ members }: { members: TeamMember[] }) {
+export function TeamList({
+  members,
+  section,
+}: {
+  members: TeamMember[];
+  section: TeamSection;
+}) {
   if (members.length === 0) {
-    return <p className="text-sm text-muted py-4">No team members yet. Add one above.</p>;
+    return (
+      <p className="text-sm text-muted py-2">
+        No members in this section yet. Add one above and pick{" "}
+        <span className="font-medium text-ink">{section}</span> from the section dropdown.
+      </p>
+    );
   }
   return (
     <div className="space-y-3">
@@ -27,6 +43,7 @@ export function TeamList({ members }: { members: TeamMember[] }) {
 function TeamMemberRow({ member }: { member: TeamMember }) {
   const [editing, setEditing] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [, startTransition] = useTransition();
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -89,7 +106,22 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
               required
               className="px-2 py-1 border border-faint rounded text-sm w-full"
             />
-            <input type="hidden" name="photo_url" defaultValue={member.photo_url ?? ""} />
+            <select
+              name="section"
+              defaultValue={member.section}
+              className="px-2 py-1 border border-faint rounded text-sm w-full bg-paper"
+            >
+              {TEAM_SECTIONS.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+            <input
+              type="hidden"
+              name="photo_url"
+              defaultValue={member.photo_url ?? ""}
+            />
             <div className="flex items-center gap-2">
               <label className="text-xs text-muted">
                 Swap photo
@@ -133,6 +165,33 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
         )}
       </div>
 
+      {/* Section quick-move (visible when not editing) */}
+      {!editing && (
+        <div className="hidden sm:block shrink-0">
+          <label className="sr-only" htmlFor={`section-${member.id}`}>
+            Section
+          </label>
+          <select
+            id={`section-${member.id}`}
+            value={member.section}
+            onChange={(e) =>
+              startTransition(() => {
+                updateTeamMemberSection(member.id, e.target.value as TeamSection);
+              })
+            }
+            className="text-xs px-2 py-1 border border-faint rounded bg-paper text-ink max-w-[10rem] truncate"
+            aria-label={`Move ${member.name} to a different section`}
+            title="Move to another section"
+          >
+            {TEAM_SECTIONS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
       {/* Controls */}
       <div className="flex items-center gap-2 shrink-0">
         <button
@@ -158,7 +217,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
         </button>
       </div>
 
-      {/* Reorder */}
+      {/* Reorder within section */}
       <div className="flex flex-col gap-0.5">
         <button
           onClick={() => updateTeamMemberOrder(member.id, member.display_order - 1)}

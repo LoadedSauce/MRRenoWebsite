@@ -73,7 +73,7 @@ export async function getTestimonialForService(
 
 /**
  * Fetch active portfolio items for a service slug.
- * Returns empty array when none exist -- caller falls back to service-data.ts galleryImages.
+ * Returns empty array when none exist. Caller falls back to service-data.ts galleryImages.
  */
 export async function getPortfolioItemsByService(
   service: string
@@ -88,16 +88,30 @@ export async function getPortfolioItemsByService(
 }
 
 /**
- * Fetch the N most recently added active portfolio items for the homepage.
+ * Fetch the items that should appear on the homepage's featured strip.
+ *
+ * Primary: items with featured=true and active=true, ordered by display_order.
+ * Fallback: if no featured items exist yet, return the N most recently added
+ * active items so the site never renders an empty strip.
  */
 export async function getRecentPortfolioItems(limit = 3): Promise<PortfolioItem[]> {
-  const { data } = await supabase
+  const { data: featured } = await supabase
+    .from("portfolio_items")
+    .select()
+    .eq("active", true)
+    .eq("featured", true)
+    .order("display_order", { ascending: true })
+    .limit(limit);
+
+  if (featured && featured.length > 0) return featured;
+
+  const { data: recent } = await supabase
     .from("portfolio_items")
     .select()
     .eq("active", true)
     .order("created_at", { ascending: false })
     .limit(limit);
-  return data ?? [];
+  return recent ?? [];
 }
 
 // -- TEAM --
