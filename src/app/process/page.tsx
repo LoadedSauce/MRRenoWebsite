@@ -105,10 +105,13 @@ export default function ProcessPage() {
               </p>
             </div>
             <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-soft-orange/30">
-              {/* Placeholder slot: no vendor/showroom photo available yet */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-display font-bold text-4xl text-orange/20 select-none">Step 01</span>
-              </div>
+              <Image
+                src="/images/process/process-step-01-reach-out.jpg"
+                alt="Twin Cities homeowner speaking with M.R. Renovations on the phone from her kitchen and reviewing project notes on a tablet."
+                fill
+                sizes="(min-width: 1024px) 45vw, 90vw"
+                className="object-cover"
+              />
             </div>
           </div>
         </Container>
@@ -118,15 +121,14 @@ export default function ProcessPage() {
       <section className="bg-soft-navy">
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            {/* Placeholder slot: owner wants a genuine "before" photo here
-                (a dated but liveable bath or kitchen), not the previous after
-                shot and not stock. Swap in when Chris supplies one. */}
             <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-soft-orange/30 order-2 lg:order-1">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-display font-bold text-2xl sm:text-3xl text-orange/20 select-none text-center px-4">
-                  Before photo pending
-                </span>
-              </div>
+              <Image
+                src="/images/process/process-step-02-discovery-appointment.jpg"
+                alt="M.R. Renovations rep in a branded navy polo taking notes on a clipboard while a homeowner points out cabinet details in her kitchen during an on-site discovery visit."
+                fill
+                sizes="(min-width: 1024px) 45vw, 90vw"
+                className="object-cover"
+              />
             </div>
             <div className="order-1 lg:order-2">
               <p className="font-display font-bold text-5xl text-orange/20 tracking-tight select-none">02</p>
@@ -151,9 +153,13 @@ export default function ProcessPage() {
               </p>
             </div>
             <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-faint">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-display font-bold text-4xl text-navy/10 select-none">Step 03</span>
-              </div>
+              <Image
+                src="/images/process/process-step-03-estimate-preparation.jpg"
+                alt="M.R. Renovations branded proposal portfolio on a light-wood desk with pens and a plant, ready for the estimate presentation meeting."
+                fill
+                sizes="(min-width: 1024px) 45vw, 90vw"
+                className="object-cover"
+              />
             </div>
           </div>
         </Container>
