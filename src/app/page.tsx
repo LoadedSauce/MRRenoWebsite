@@ -227,13 +227,25 @@ export default async function Home() {
               </dd>
             </div>
           </dl>
+
+          <div className="mt-6 pt-4 border-t border-paper/15 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+            <span className="font-display font-semibold tracking-[0.14em] uppercase text-[10px] text-soft-orange/95">
+              Discounts
+            </span>
+            <span className="text-sm text-soft-navy/95">
+              <span className="font-display font-semibold text-paper">2%</span> cash or check
+            </span>
+            <span className="text-sm text-soft-navy/95">
+              <span className="font-display font-semibold text-paper">5%</span> Veterans, Seniors, First Responders
+            </span>
+          </div>
         </Container>
       </section>
 
-      {/* ── WARRANTY + DISCOUNTS + FINANCING STRIP ─────────────── */}
+      {/* ── WARRANTY + FINANCING STRIP ──────────────────────── */}
       <section id="warranty" className="bg-navy text-paper">
-        <Container width="wide" className="py-6 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 md:items-center">
-          {/* Warranty */}
+        <Container width="wide" className="py-6 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 md:items-center">
+          {/* Warranty (left half) */}
           <div className="flex items-start md:items-center gap-4">
             <span
               className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-paper/10 text-orange font-display font-bold text-xl shrink-0"
@@ -241,12 +253,12 @@ export default async function Home() {
             >
               &infin;
             </span>
-            <div>
+            <div className="min-w-0">
               <p className="font-display font-bold text-paper text-base sm:text-lg">
                 Lifetime Transferable Workmanship Warranty
               </p>
               <p className="text-sm text-soft-navy/90">
-                Stays with the home, even if you sell.
+                It stays with the home, even if you sell. Almost no contractor in Minnesota offers this.
               </p>
               <Link
                 href="/warranty"
@@ -257,28 +269,7 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Discounts */}
-          <div className="flex items-start md:items-center gap-4 md:border-l md:border-paper/15 md:pl-8">
-            <span
-              className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-paper/10 text-orange font-display font-bold text-base shrink-0"
-              aria-hidden="true"
-            >
-              %
-            </span>
-            <div>
-              <p className="font-display font-bold text-paper text-base sm:text-lg">
-                Discounts
-              </p>
-              <p className="text-sm text-soft-navy/90">
-                2% cash or check.
-              </p>
-              <p className="text-sm text-soft-navy/90">
-                5% Veterans, Seniors, First Responders.
-              </p>
-            </div>
-          </div>
-
-          {/* Financing */}
+          {/* Financing (right half) */}
           <div className="flex items-start md:items-center gap-4 md:border-l md:border-paper/15 md:pl-8">
             <span
               className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-paper/10 text-orange font-display font-bold text-lg shrink-0"
