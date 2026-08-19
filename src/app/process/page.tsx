@@ -206,9 +206,13 @@ export default function ProcessPage() {
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className="relative h-[230px] rounded-lg overflow-hidden bg-navy/20 order-2 lg:order-1">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-display font-bold text-4xl text-paper/10 select-none">Showroom</span>
-              </div>
+              <Image
+                src="/images/process/process-step-06-material-selection-showroom.jpg"
+                alt="M.R. Renovations vendor-partner showroom with kitchen vignettes in cream, navy, natural wood, and green cabinetry paired with quartz countertop displays."
+                fill
+                sizes="(min-width: 1024px) 45vw, 90vw"
+                className="object-cover"
+              />
             </div>
             <div className="order-1 lg:order-2">
               <span className="inline-block bg-soft-orange text-orange font-display font-semibold text-xs tracking-[0.14em] uppercase px-3 py-1 rounded-sm mb-3">
