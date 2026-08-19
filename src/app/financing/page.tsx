@@ -20,12 +20,12 @@ const steps = [
   {
     number: "03",
     title: "Get moving",
-    body: "Funds available in as little as 24 hours if approved. You pay M.R. Renovations directly -- no contractor involvement in your loan.",
+    body: "Funds available in as little as 24 hours if approved. You pay M.R. Renovations directly. No contractor involvement in your loan.",
   },
 ];
 
 const keyDetails = [
-  { label: "Loans from",     value: "$1,000 -- $250,000" },
+  { label: "Loans from",     value: "$1,000 to $250,000" },
   { label: "Terms",          value: "1 to 12 years"       },
   { label: "Pre-qualification", value: "No credit impact" },
   { label: "Prepayment",     value: "No penalties"         },
@@ -51,12 +51,20 @@ export default function FinancingPage() {
         </Container>
       </section>
 
-      {/* ── INTRO ────────────────────────────────────────────────────────── */}
+      {/* ── INTRO + FREE CONSULTATION CTA ────────────────────────────────── */}
       <section className="bg-paper">
         <Container width="default" className="py-14 lg:py-16">
           <p className="text-lg text-muted leading-relaxed max-w-2xl">
             Renovations are a significant investment. Hearth financing lets homeowners make decisions based on what they want, not just what they have available right now.
           </p>
+          <div className="mt-8">
+            <Link
+              href="/consultation"
+              className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-7 py-3 rounded-md transition"
+            >
+              Request a Free Consultation
+            </Link>
+          </div>
         </Container>
       </section>
 
@@ -117,8 +125,16 @@ export default function FinancingPage() {
               Prefer to pay cash?
             </h2>
             <p className="mt-3 text-base text-muted leading-relaxed">
-              M.R. Renovations offers a 2% discount on the full project cost for clients who pay in full by cash or check. Two clear paths -- choose what works for your situation. Ask your project manager for details when you receive your written proposal.
+              M.R. Renovations offers a 2% discount on the full project cost for clients who pay in full by cash or check. Two clear paths; choose what works for your situation. Ask your project manager for details when you receive your written proposal.
             </p>
+            <div className="mt-6">
+              <Link
+                href="/consultation"
+                className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-7 py-3 rounded-md transition"
+              >
+                Request a Free Consultation
+              </Link>
+            </div>
           </div>
         </Container>
       </section>

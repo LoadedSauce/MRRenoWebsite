@@ -36,7 +36,7 @@ export const plymouth: ServiceAreaData = {
     additions:
       "Home additions in Plymouth require coordination with the city planning department, particularly for lots near Medicine Lake or in established neighborhoods with setback constraints. We handle the full permit process.",
     "whole-home":
-      "Whole-home renovations in Plymouth typically update 1980s and 1990s construction -- dated finishes, original cabinetry, and builder-grade surfaces replaced with custom work. We phase projects to minimize displacement.",
+      "Whole-home renovations in Plymouth typically update 1980s and 1990s construction: dated finishes, original cabinetry, and builder-grade surfaces replaced with custom work. We phase projects to minimize displacement.",
     exterior:
       "Plymouth's mature neighborhoods benefit from exterior updates that match the architectural character of the community. We install James Hardie siding, GAF roofing, and Marvin windows, all rated for Minnesota's climate.",
   },
@@ -51,7 +51,7 @@ export const plymouth: ServiceAreaData = {
       serviceSlug: "basements",
       title: "Plymouth Basement Finish",
       summary:
-        "900-square-foot lower level with egress window addition, full bath, and a dedicated home office -- fully permitted through the City of Plymouth.",
+        "900-square-foot lower level with egress window addition, full bath, and a dedicated home office, fully permitted through the City of Plymouth.",
     },
     {
       serviceSlug: "additions",

@@ -106,7 +106,7 @@ function TestimonialRow({ testimonial: t }: { testimonial: Testimonial }) {
             <p className="text-sm text-ink line-clamp-2">"{t.quote}"</p>
             <p className="text-xs text-muted mt-1">{t.author_name}</p>
             <p className="text-[10px] text-muted mt-0.5">
-              {[t.service, t.city].filter(Boolean).join(" -- ") || "Generic fallback"}
+              {[t.service, t.city].filter(Boolean).join(" / ") || "Generic fallback"}
             </p>
           </div>
           <div className="flex items-center gap-2 shrink-0">

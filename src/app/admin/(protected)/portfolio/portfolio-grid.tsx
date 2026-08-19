@@ -123,7 +123,7 @@ function PortfolioItemCell({ item }: { item: PortfolioItem }) {
               {item.caption ?? "no caption"}
             </p>
             <p className="text-[10px] text-muted mt-0.5">
-              {[item.service, item.city].filter(Boolean).join(" -- ") || "Untagged"}
+              {[item.service, item.city].filter(Boolean).join(" / ") || "Untagged"}
             </p>
           </>
         )}

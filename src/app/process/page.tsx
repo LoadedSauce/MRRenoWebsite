@@ -35,8 +35,34 @@ export default function ProcessPage() {
                 What to expect when you work with us.
               </h1>
               <p className="mt-5 text-lg text-muted leading-relaxed">
-                At M.R. Renovations, we believe it takes teamwork to achieve your dream. You will have access to our Customer Service Manager who always answers the phone, a Sales Representative who will learn your full vision and help translate it to production, a Project Coordinator who will help with material selections, permitting details, ordering and logistics, a Project Manager to coordinate labor, deliveries, progress and quality control, and our employees (not subbed out labor) who put all the pieces together.
+                At M.R. Renovations, we believe it takes teamwork to achieve your dream. You will have access to:
               </p>
+              <ul className="mt-5 space-y-3">
+                <li className="flex items-start gap-3">
+                  <span className="mt-2 inline-block w-2 h-2 rounded-full bg-orange shrink-0" aria-hidden="true" />
+                  <p className="text-base sm:text-lg text-muted leading-relaxed">
+                    <span className="font-display font-semibold text-navy">Customer Service Manager</span> who always answers the phone.
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-2 inline-block w-2 h-2 rounded-full bg-orange shrink-0" aria-hidden="true" />
+                  <p className="text-base sm:text-lg text-muted leading-relaxed">
+                    <span className="font-display font-semibold text-navy">Sales Representative</span> who will learn your full vision and help translate it to production.
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-2 inline-block w-2 h-2 rounded-full bg-orange shrink-0" aria-hidden="true" />
+                  <p className="text-base sm:text-lg text-muted leading-relaxed">
+                    <span className="font-display font-semibold text-navy">Project Coordinator</span> who will help with material selections, permitting details, ordering and logistics.
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-2 inline-block w-2 h-2 rounded-full bg-orange shrink-0" aria-hidden="true" />
+                  <p className="text-base sm:text-lg text-muted leading-relaxed">
+                    <span className="font-display font-semibold text-navy">Project Manager</span> to coordinate labor, deliveries, progress and quality control, and our employees (not subbed out labor) who put all the pieces together.
+                  </p>
+                </li>
+              </ul>
               <div className="mt-8">
                 <Link
                   href="/consultation"

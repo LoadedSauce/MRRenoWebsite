@@ -47,7 +47,7 @@ export function AddTeamMemberForm() {
         </div>
         <div className="sm:col-span-2">
           <label className="block text-sm font-medium text-ink mb-1">
-            Photo (optional -- max 2MB, web-ready)
+            Photo (optional, max 2MB, web-ready)
           </label>
           <input
             type="file"

@@ -30,11 +30,11 @@ export const edenPrairie: ServiceAreaData = {
   ],
   serviceNotes: {
     kitchens:
-      "Eden Prairie's established neighborhoods have kitchens that were designed for a different era -- layouts that close off the kitchen from the living space and finishes that are decades overdue for replacement. We open floor plans, install custom cabinetry, and rebuild kitchens to match the quality of Eden Prairie's housing stock. Permit timelines with the City of Eden Prairie typically run two to three weeks.",
+      "Eden Prairie's established neighborhoods have kitchens that were designed for a different era. Layouts that close off the kitchen from the living space and finishes that are decades overdue for replacement. We open floor plans, install custom cabinetry, and rebuild kitchens to match the quality of Eden Prairie's housing stock. Permit timelines with the City of Eden Prairie typically run two to three weeks.",
     bathrooms:
       "Eden Prairie homeowners frequently invest in spa-level primary bath renovations that match the broader quality of their homes. We handle custom tile, steam showers, freestanding tubs, in-floor heat, and all rough-in plumbing in-house.",
     basements:
-      "Eden Prairie's 1980s and 1990s walkout homes offer exceptional lower-level potential -- natural light, high ceilings, and grade-level access. We finish these spaces for home theaters, in-law suites, home gyms, and full entertainment areas.",
+      "Eden Prairie's 1980s and 1990s walkout homes offer exceptional lower-level potential: natural light, high ceilings, and grade-level access. We finish these spaces for home theaters, in-law suites, home gyms, and full entertainment areas.",
     additions:
       "Home additions in Eden Prairie require careful navigation of the city's tree preservation ordinance and shoreline setback rules, particularly for lots near Purgatory Creek or any of the city's protected natural areas. We handle the full permit and variance process.",
     "whole-home":

@@ -535,7 +535,7 @@ export function LeadFormShell() {
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
                 className={fieldBase}
-                placeholder="Optional -- scope, ideas, photos to share"
+                placeholder="Optional: scope, ideas, photos to share"
               />
             </div>
 

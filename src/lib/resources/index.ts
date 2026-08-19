@@ -90,7 +90,7 @@ const RESOURCES: Resource[] = [
   {
     slug: "kitchens",
     title: "How Much Does a Kitchen Remodel Cost in Minnesota?",
-    dek: "See what a kitchen remodel actually costs in the northwest Twin Cities metro -- the scope tiers, what moves the budget most, and how to plan before you request a quote.",
+    dek: "See what a kitchen remodel actually costs in the northwest Twin Cities metro. Learn the scope tiers, what moves the budget most, and how to plan before you request a quote.",
     category: "Cost Guide",
     gated: false,
     published: true,
@@ -117,7 +117,7 @@ const RESOURCES: Resource[] = [
             label: "Defined-Scope Refresh",
             range: "$25,000--$45,000",
             description:
-              "Cabinet refacing or repaint, new hardware, new countertops and backsplash on the same footprint, and an appliance swap -- no layout or plumbing changes.",
+              "Cabinet refacing or repaint, new hardware, new countertops and backsplash on the same footprint, and an appliance swap. No layout or plumbing changes.",
           },
           {
             label: "Full Remodel",
@@ -132,7 +132,7 @@ const RESOURCES: Resource[] = [
               "Full layout change, wall removal, custom cabinetry, premium countertop material, professional-grade appliances, and structural work or footprint expansion.",
           },
         ],
-        note: "Most of the kitchen projects we complete land in the Full Remodel to Premium Custom range -- kitchens tend to be a homeowner's flagship remodel, not a quick refresh.",
+        note: "Most of the kitchen projects we complete land in the Full Remodel to Premium Custom range. Kitchens tend to be a homeowner's flagship remodel, not a quick refresh.",
       },
       {
         type: "cta",
@@ -146,13 +146,13 @@ const RESOURCES: Resource[] = [
         type: "prose",
         heading: "What drives the price",
         paragraphs: [
-          "Layout changes are the single biggest swing -- moving a sink, range, or island relocates plumbing and gas lines. After that, cabinetry tier is the largest single line item, followed by countertop and appliance tier, and any structural changes such as wall removal or footprint expansion.",
+          "Layout changes are the single biggest swing. Moving a sink, range, or island relocates plumbing and gas lines. After that, cabinetry tier is the largest single line item, followed by countertop and appliance tier, and any structural changes such as wall removal or footprint expansion.",
         ],
       },
       {
         type: "breakdown",
         heading: "Where the money goes",
-        note: "Directional shares of a typical kitchen budget -- your project will vary.",
+        note: "Directional shares of a typical kitchen budget. Your project will vary.",
         items: [
           { label: "Cabinetry", share: "30--35%" },
           { label: "Labor", share: "20--25%" },
@@ -167,7 +167,7 @@ const RESOURCES: Resource[] = [
         type: "prose",
         heading: "Timeline",
         paragraphs: [
-          "Most kitchen remodels run 4 to 8 weeks from demolition to final walkthrough. Cabinetry lead times -- 8 to 16 weeks for semi-custom or custom -- are the most common source of delay, so they are ordered early in the process.",
+          "Most kitchen remodels run 4 to 8 weeks from demolition to final walkthrough. Cabinetry lead times, which run 8 to 16 weeks for semi-custom or custom, are the most common source of delay, so they are ordered early in the process.",
         ],
       },
       {
@@ -232,7 +232,7 @@ const RESOURCES: Resource[] = [
   {
     slug: "bathrooms",
     title: "How Much Does a Bathroom Remodel Cost in Minnesota?",
-    dek: "Bathroom remodel cost ranges for the northwest Twin Cities metro -- how plumbing, tile scope, and fixture tier move the budget, from a refresh to a primary suite.",
+    dek: "Bathroom remodel cost ranges for the northwest Twin Cities metro. See how plumbing, tile scope, and fixture tier move the budget, from a refresh to a primary suite.",
     category: "Cost Guide",
     gated: false,
     published: true,
@@ -259,7 +259,7 @@ const RESOURCES: Resource[] = [
             label: "Defined-Scope Refresh",
             range: "$12,000--$22,000",
             description:
-              "New vanity, toilet, fixtures, and tile on the same footprint, plus fresh paint, lighting, and hardware -- no structural changes.",
+              "New vanity, toilet, fixtures, and tile on the same footprint, plus fresh paint, lighting, and hardware. No structural changes.",
           },
           {
             label: "Full Remodel",
@@ -274,7 +274,7 @@ const RESOURCES: Resource[] = [
               "Primary suite with a double vanity, freestanding tub, large-format tile, heated flooring, custom glass enclosure, and a layout change.",
           },
         ],
-        note: "Most of the bathroom projects we complete land in the Full Remodel tier -- the most common scope homeowners choose.",
+        note: "Most of the bathroom projects we complete land in the Full Remodel tier, the most common scope homeowners choose.",
       },
       {
         type: "cta",
@@ -288,13 +288,13 @@ const RESOURCES: Resource[] = [
         type: "prose",
         heading: "What drives the price",
         paragraphs: [
-          "Plumbing relocation is the single biggest cost lever -- keeping the toilet, sink, and shower in place avoids a lot of labor, permitting, and inspection. After that, tile scope and fixture tier move the budget most, along with any structural or waterproofing needs discovered during demolition.",
+          "Plumbing relocation is the single biggest cost lever. Keeping the toilet, sink, and shower in place avoids a lot of labor, permitting, and inspection. After that, tile scope and fixture tier move the budget most, along with any structural or waterproofing needs discovered during demolition.",
         ],
       },
       {
         type: "breakdown",
         heading: "Where the money goes",
-        note: "Directional shares of a typical bathroom budget -- your project will vary.",
+        note: "Directional shares of a typical bathroom budget. Your project will vary.",
         items: [
           { label: "Labor", share: "40--50%" },
           { label: "Tile & shower/tub systems", share: "20--25%" },
@@ -372,7 +372,7 @@ const RESOURCES: Resource[] = [
   {
     slug: "basements",
     title: "How Much Does It Cost to Finish a Basement in Minnesota?",
-    dek: "Basement finishing cost ranges for the northwest Twin Cities metro -- how layout, egress, bathrooms, and finish level shape the budget.",
+    dek: "Basement finishing cost ranges for the northwest Twin Cities metro. See how layout, egress, bathrooms, and finish level shape the budget.",
     category: "Cost Guide",
     gated: false,
     published: true,
@@ -399,7 +399,7 @@ const RESOURCES: Resource[] = [
             label: "Defined-Scope Finish",
             range: "$20,000--$35,000",
             description:
-              "Open rec room or flex space with standard drywall, flooring, and lighting -- no bathroom.",
+              "Open rec room or flex space with standard drywall, flooring, and lighting. No bathroom.",
           },
           {
             label: "Full Remodel",
@@ -414,7 +414,7 @@ const RESOURCES: Resource[] = [
               "Home theater, wet bar or kitchenette, custom built-ins, premium flooring, and additional structural or waterproofing work.",
           },
         ],
-        note: "Most of the basement projects we complete land in the Full Remodel tier -- a multi-room basement with an added bathroom is the most common scope.",
+        note: "Most of the basement projects we complete land in the Full Remodel tier. A multi-room basement with an added bathroom is the most common scope.",
       },
       {
         type: "cta",
@@ -428,13 +428,13 @@ const RESOURCES: Resource[] = [
         type: "prose",
         heading: "What drives the price",
         paragraphs: [
-          "Egress window requirements are a major driver -- any room used as a legal bedroom needs a code-compliant egress window. After that, moisture and waterproofing prep, whether a bathroom is added, and ceiling height and code compliance in older homes move the budget most.",
+          "Egress window requirements are a major driver. Any room used as a legal bedroom needs a code-compliant egress window. After that, moisture and waterproofing prep, whether a bathroom is added, and ceiling height and code compliance in older homes move the budget most.",
         ],
       },
       {
         type: "breakdown",
         heading: "Where the money goes",
-        note: "Directional shares of a typical basement budget -- your project will vary.",
+        note: "Directional shares of a typical basement budget. Your project will vary.",
         items: [
           { label: "Labor", share: "35--40%" },
           { label: "Materials", share: "25--30%" },
@@ -516,7 +516,7 @@ const RESOURCES: Resource[] = [
   {
     slug: "additions",
     title: "How Much Does a Home Addition Cost in Minnesota?",
-    dek: "Home addition cost ranges for the northwest Twin Cities metro -- ground-level vs. second-story, foundation, and plumbing, from a single room to a full suite.",
+    dek: "Home addition cost ranges for the northwest Twin Cities metro. Ground-level vs. second-story, foundation, and plumbing, from a single room to a full suite.",
     category: "Cost Guide",
     gated: false,
     published: true,
@@ -572,13 +572,13 @@ const RESOURCES: Resource[] = [
         type: "prose",
         heading: "What drives the price",
         paragraphs: [
-          "Foundation type is the biggest factor -- a new ground-level foundation versus structural reinforcement for a second story. Ground-level vs. second-story is roughly double the per-square-foot cost. Plumbing or kitchen inclusion and roofline tie-in complexity round out the major drivers.",
+          "Foundation type is the biggest factor. Compare a new ground-level foundation versus structural reinforcement for a second story. Ground-level vs. second-story is roughly double the per-square-foot cost. Plumbing or kitchen inclusion and roofline tie-in complexity round out the major drivers.",
         ],
       },
       {
         type: "breakdown",
         heading: "Where the money goes",
-        note: "Directional shares of a typical addition budget -- your project will vary.",
+        note: "Directional shares of a typical addition budget. Your project will vary.",
         items: [
           { label: "Labor", share: "35--40%" },
           { label: "Foundation & structural", share: "20--25%" },
@@ -663,7 +663,7 @@ const RESOURCES: Resource[] = [
   {
     slug: "exterior",
     title: "How Much Does Exterior Work Cost in Minnesota?",
-    dek: "Roofing, siding, window, and deck cost ranges for the northwest Twin Cities metro -- broken out by service, since exterior work covers four very different projects with their own budgets and timelines.",
+    dek: "Roofing, siding, window, and deck cost ranges for the northwest Twin Cities metro. Broken out by service, since exterior work covers four very different projects with their own budgets and timelines.",
     category: "Cost Guide",
     gated: false,
     published: true,
@@ -679,7 +679,7 @@ const RESOURCES: Resource[] = [
       {
         type: "prose",
         paragraphs: [
-          "M.R. Renovations' exterior projects across Maple Grove and the northwest Twin Cities metro generally run from about $9,000 for a straightforward roof replacement to $60,000 or more for a full exterior package that combines roofing, siding, windows, and a deck. Because \"exterior work\" spans four very different services -- each with its own materials, labor, and timeline -- the ranges below are broken out by service rather than by a single scope ladder.",
+          "M.R. Renovations' exterior projects across Maple Grove and the northwest Twin Cities metro generally run from about $9,000 for a straightforward roof replacement to $60,000 or more for a full exterior package that combines roofing, siding, windows, and a deck. Because \"exterior work\" spans four very different services, each with its own materials, labor, and timeline, the ranges below are broken out by service rather than by a single scope ladder.",
           "Where your project lands depends on the size and complexity of your home, the materials you choose, how much of the old surface has to come off, and whether storm damage is involved. This guide walks through each service, what moves the price, how to choose materials that hold up to Minnesota winters, and how storm-damage insurance claims work in this state.",
         ],
       },
@@ -712,7 +712,7 @@ const RESOURCES: Resource[] = [
               "A new Trex composite deck with aluminum or cable railing and code-compliant framing and footings. Elevated, multi-level, or large decks run toward the top of the range.",
           },
         ],
-        note: "Most homeowners bundle two or more of these -- roof and siding together after a storm is the most common exterior package we complete. Storm damage is often covered by insurance, and we coordinate directly with your adjuster.",
+        note: "Most homeowners bundle two or more of these. Roof and siding together after a storm is the most common exterior package we complete. Storm damage is often covered by insurance, and we coordinate directly with your adjuster.",
       },
       {
         type: "cta",
@@ -726,18 +726,18 @@ const RESOURCES: Resource[] = [
         type: "prose",
         heading: "What drives the price",
         paragraphs: [
-          "Exterior pricing comes down to four shared levers -- the material tier you choose, the size and complexity of the surface, whatever hidden damage turns up once the old material is off, and the permits your city requires. How each one plays out differs by service.",
-          "Roofing. Cost scales with roof area (measured in squares) and pitch -- a steep, cut-up roof with valleys, dormers, skylights, and multiple chimneys takes far more labor and flashing than a simple gable. Tearing off multiple old layers, replacing rotted decking, and adding the code-required ice-and-water shield that guards against Minnesota ice dams all add up, and the shingle line -- architectural asphalt versus designer or standing-seam metal -- sets the material floor.",
-          "Siding. Wall square footage and the number of stories, corners, and window openings drive the labor, since every penetration means cutting and trim. Fiber cement (James Hardie) costs more than vinyl but lasts decades in this climate; a factory ColorPlus finish, new house wrap, added foam insulation, and the soffit, fascia, and trim scope all move the number -- as does replacing any sheathing that has rotted behind the old siding.",
-          "Windows and doors. Price tracks the opening count and the frame and glass package -- vinyl versus fiberglass versus Marvin wood-clad, and double- versus triple-pane Low-E glass built for Minnesota winters. Full-frame replacement costs more than a pocket insert but lets us fix rot and re-flash the opening; custom sizes, specialty shapes, and patio or entry doors each carry a premium.",
-          "Decks. Square footage and height set the base -- an elevated or multi-level deck needs deeper frost footings (Minnesota's frost line runs about 42 inches), more framing, stairs, and code-compliant guardrails. Composite boards (Trex) with aluminum or cable railing cost more than pressure-treated wood but last far longer, and built-ins like benches, lighting, pergolas, or skirting each add to the total.",
-          "Two factors cut across all four: hidden repairs -- rot in sheathing, fascia, or rim joists that only surfaces once the old material is off -- and timing. Storm-damage roofing and siding are frequently offset by an insurance claim, and we coordinate directly with your adjuster.",
+          "Exterior pricing comes down to four shared levers: the material tier you choose, the size and complexity of the surface, whatever hidden damage turns up once the old material is off, and the permits your city requires. How each one plays out differs by service.",
+          "Roofing. Cost scales with roof area (measured in squares) and pitch. A steep, cut-up roof with valleys, dormers, skylights, and multiple chimneys takes far more labor and flashing than a simple gable. Tearing off multiple old layers, replacing rotted decking, and adding the code-required ice-and-water shield that guards against Minnesota ice dams all add up, and the shingle line, whether architectural asphalt versus designer or standing-seam metal, sets the material floor.",
+          "Siding. Wall square footage and the number of stories, corners, and window openings drive the labor, since every penetration means cutting and trim. Fiber cement (James Hardie) costs more than vinyl but lasts decades in this climate; a factory ColorPlus finish, new house wrap, added foam insulation, and the soffit, fascia, and trim scope all move the number, as does replacing any sheathing that has rotted behind the old siding.",
+          "Windows and doors. Price tracks the opening count and the frame and glass package, whether vinyl versus fiberglass versus Marvin wood-clad, and double- versus triple-pane Low-E glass built for Minnesota winters. Full-frame replacement costs more than a pocket insert but lets us fix rot and re-flash the opening; custom sizes, specialty shapes, and patio or entry doors each carry a premium.",
+          "Decks. Square footage and height set the base. An elevated or multi-level deck needs deeper frost footings (Minnesota's frost line runs about 42 inches), more framing, stairs, and code-compliant guardrails. Composite boards (Trex) with aluminum or cable railing cost more than pressure-treated wood but last far longer, and built-ins like benches, lighting, pergolas, or skirting each add to the total.",
+          "Two factors cut across all four: hidden repairs, meaning rot in sheathing, fascia, or rim joists that only surfaces once the old material is off, plus timing. Storm-damage roofing and siding are frequently offset by an insurance claim, and we coordinate directly with your adjuster.",
         ],
       },
       {
         type: "breakdown",
         heading: "Where the money goes",
-        note: "Directional shares of a typical exterior project -- roofing skews toward labor and disposal, while windows and Hardie siding skew toward materials.",
+        note: "Directional shares of a typical exterior project. Roofing skews toward labor and disposal, while windows and Hardie siding skew toward materials.",
         items: [
           { label: "Materials", share: "40--50%" },
           { label: "Labor", share: "30--40%" },
@@ -751,9 +751,9 @@ const RESOURCES: Resource[] = [
         heading: "Choosing materials that hold up to Minnesota winters",
         paragraphs: [
           "In Minnesota, material choice is as much about surviving freeze-thaw cycles, ice dams, hail, and 90-degree summer-to-winter temperature swings as it is about looks. Spending a little more up front on climate-rated materials usually lowers what you spend on repairs and energy over the life of the home.",
-          "Roofing. Architectural (dimensional) asphalt shingles are the northwest-metro default -- they carry higher wind and impact ratings than old 3-tab shingles and typically last 25 to 30 years. Systems from manufacturers like GAF pair the shingle with ice-and-water shield at the eaves and valleys, proper ridge ventilation, and optional impact-resistant (Class 4) shingles that can earn an insurance discount. Standing-seam metal costs more up front but sheds snow, resists ice dams, and can last 40 to 50 years.",
-          "Siding. Vinyl is the lowest-cost option but can grow brittle in deep cold and fade over time. James Hardie fiber cement is engineered for cold, wet climates -- it resists moisture, pests, and warping, holds its factory ColorPlus finish for 15-plus years, and stands up well to hail and fire. Engineered wood products such as LP SmartSide sit between the two on price. Whatever the cladding, it is the house wrap and flashing behind it that actually keep a Minnesota wall dry.",
-          "Windows. Double-pane Low-E glass with argon fill is the practical baseline for Minnesota; triple-pane adds insulation and noise reduction and makes the most sense on north- and west-facing walls that take the winter wind. Vinyl frames offer the best value, while fiberglass and wood-clad frames (such as Marvin) add durability and a higher-end look. Check the U-factor -- the lower the number, the better the window holds heat in a Minnesota January.",
+          "Roofing. Architectural (dimensional) asphalt shingles are the northwest-metro default. They carry higher wind and impact ratings than old 3-tab shingles and typically last 25 to 30 years. Systems from manufacturers like GAF pair the shingle with ice-and-water shield at the eaves and valleys, proper ridge ventilation, and optional impact-resistant (Class 4) shingles that can earn an insurance discount. Standing-seam metal costs more up front but sheds snow, resists ice dams, and can last 40 to 50 years.",
+          "Siding. Vinyl is the lowest-cost option but can grow brittle in deep cold and fade over time. James Hardie fiber cement is engineered for cold, wet climates. It resists moisture, pests, and warping, holds its factory ColorPlus finish for 15-plus years, and stands up well to hail and fire. Engineered wood products such as LP SmartSide sit between the two on price. Whatever the cladding, it is the house wrap and flashing behind it that actually keep a Minnesota wall dry.",
+          "Windows. Double-pane Low-E glass with argon fill is the practical baseline for Minnesota; triple-pane adds insulation and noise reduction and makes the most sense on north- and west-facing walls that take the winter wind. Vinyl frames offer the best value, while fiberglass and wood-clad frames (such as Marvin) add durability and a higher-end look. Check the U-factor: the lower the number, the better the window holds heat in a Minnesota January.",
           "Decks. Pressure-treated pine is the budget choice but needs regular sealing and can check and splinter after a few Minnesota winters. Composite decking (Trex and similar) costs more up front but shrugs off moisture, fading, and freeze-thaw with almost no maintenance, which is why most homeowners planning to stay in the home choose it. Aluminum and cable railings also outlast wood by years in this climate.",
         ],
       },
@@ -761,9 +761,9 @@ const RESOURCES: Resource[] = [
         type: "prose",
         heading: "Storm damage, hail, and insurance claims",
         paragraphs: [
-          "Minnesota sees regular hail and high-wind events, and storm damage is one of the most common reasons homeowners here replace a roof or siding. If a storm has damaged your home, much of the cost may be covered by your homeowner's insurance rather than paid out of pocket -- which can change the math on the ranges above entirely.",
+          "Minnesota sees regular hail and high-wind events, and storm damage is one of the most common reasons homeowners here replace a roof or siding. If a storm has damaged your home, much of the cost may be covered by your homeowner's insurance rather than paid out of pocket, which can change the math on the ranges above entirely.",
           "It helps to note the date of the storm, photograph any visible damage, and have a contractor inspect the roof and siding before you file. M.R. Renovations provides a written inspection, meets your insurance adjuster on-site, and supplies certificates of insurance for the claim. We hold Minnesota Residential Contractor license BC809200 and pull every required permit.",
-          "One caution: be wary of any contractor who offers to waive or \"eat\" your insurance deductible, or who pressures you to sign before an adjuster has seen the damage. Both are red flags -- and waiving a deductible is illegal in Minnesota. A reputable contractor documents the real scope and lets the claim run its course.",
+          "One caution: be wary of any contractor who offers to waive or \"eat\" your insurance deductible, or who pressures you to sign before an adjuster has seen the damage. Both are red flags, and waiving a deductible is illegal in Minnesota. A reputable contractor documents the real scope and lets the claim run its course.",
         ],
       },
       {
@@ -775,7 +775,7 @@ const RESOURCES: Resource[] = [
           "Siding. A full-house siding project runs 3 to 5 days.",
           "Windows and doors. A full-house window replacement takes 3 to 7 days, depending on the number of openings.",
           "Decks. A new composite deck runs 5 to 10 days, with elevated or multi-level builds toward the top of that range.",
-          "A full exterior package combines several of these, so the trades run back-to-back -- plus any structural repair uncovered along the way. You receive a written schedule before work begins, and weather-related adjustments are communicated in advance.",
+          "A full exterior package combines several of these, so the trades run back-to-back, plus any structural repair uncovered along the way. You receive a written schedule before work begins, and weather-related adjustments are communicated in advance.",
         ],
       },
       {
@@ -860,7 +860,7 @@ const RESOURCES: Resource[] = [
             question:
               "How do I verify an exterior contractor is licensed in Minnesota?",
             answer:
-              "Use the Minnesota DLI license lookup to confirm an active Residential Building Contractor license -- M.R. Renovations holds BC809200 -- and that the legal business name matches your contract.",
+              "Use the Minnesota DLI license lookup to confirm an active Residential Building Contractor license (M.R. Renovations holds BC809200) and that the legal business name matches your contract.",
           },
         ],
       },
