@@ -33,11 +33,11 @@ export const stMichael: ServiceAreaData = {
     bathrooms:
       "Bathroom remodels in St. Michael frequently involve upgrading builder-grade vanities, tile, and fixtures in homes that are 10 to 20 years old. We handle custom tile, in-floor heat, and all rough-in plumbing in-house.",
     basements:
-      "St. Michael's newer housing stock has excellent lower levels -- high ceilings, open footprints, and egress windows already in place in most cases. We finish these spaces for home theaters, playrooms, home offices, and in-law suites.",
+      "St. Michael's newer housing stock has excellent lower levels: high ceilings, open footprints, and egress windows already in place in most cases. We finish these spaces for home theaters, playrooms, home offices, and in-law suites.",
     additions:
       "Home additions in St. Michael require coordination with Wright County and the City of St. Michael planning departments. We handle the full permit process and have experience with the setback and impervious surface rules common to newer Wright County subdivisions.",
     "whole-home":
-      "Whole-home renovations in St. Michael typically take a 2000s build and bring it fully current -- custom cabinetry, hardwood or LVP flooring, updated bathrooms, and a refreshed exterior. We phase the work to keep the family in the home throughout.",
+      "Whole-home renovations in St. Michael typically take a 2000s build and bring it fully current: custom cabinetry, hardwood or LVP flooring, updated bathrooms, and a refreshed exterior. We phase the work to keep the family in the home throughout.",
     exterior:
       "St. Michael's newer homes are reaching the age where original roofing and siding need replacement. We install James Hardie fiber cement, GAF roofing, and Marvin windows, all specified for Minnesota's climate and Wright County's suburban aesthetic.",
   },
@@ -52,7 +52,7 @@ export const stMichael: ServiceAreaData = {
       serviceSlug: "basements",
       title: "St. Michael Basement Finish",
       summary:
-        "1,200-square-foot lower level with home theater, wet bar, and full bath -- fully permitted through the City of St. Michael.",
+        "1,200-square-foot lower level with home theater, wet bar, and full bath, fully permitted through the City of St. Michael.",
     },
     {
       serviceSlug: "additions",

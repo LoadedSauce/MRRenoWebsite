@@ -226,7 +226,7 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
       }
     }
   } else if (photoDataUrls.length > 0 && !leadId) {
-    console.error("[submitLead] Photos present but no lead id returned -- skipping upload");
+    console.error("[submitLead] Photos present but no lead id returned; skipping upload");
   }
 
   return { ok: true };

@@ -57,7 +57,7 @@ export const coonRapids: ServiceAreaData = {
       serviceSlug: "basements",
       title: "Coon Rapids Basement Finish",
       summary:
-        "800-square-foot lower level with egress window, full bath, and a finished family room -- fully permitted through the City of Coon Rapids.",
+        "800-square-foot lower level with egress window, full bath, and a finished family room, fully permitted through the City of Coon Rapids.",
     },
   ],
   heroBlurb:

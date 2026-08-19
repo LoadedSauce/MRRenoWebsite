@@ -30,7 +30,6 @@ const serviceArea = [
   "Eden Prairie",
   "Andover",
   "Elk River",
-  "25-mile radius",
 ];
 
 export function SiteFooter() {

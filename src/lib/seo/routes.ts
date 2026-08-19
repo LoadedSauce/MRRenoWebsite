@@ -74,7 +74,7 @@ function twitterDefaults(title: string, description: string): Metadata["twitter"
 export function buildRootMetadata(): Metadata {
   const defaultTitle = `${SITE.brandName} | Remodeling Contractor in Maple Grove, MN`;
   const defaultDescription = clampDescription(
-    `${SITE.brandName} -- licensed remodeling contractor in Maple Grove, MN. ` +
+    `${SITE.brandName}: licensed remodeling contractor in Maple Grove, MN. ` +
       `Kitchen, bathroom, basement, addition, and whole-home remodeling. ` +
       `Lifetime Transferable Workmanship Warranty. Free estimates.`
   );
@@ -289,7 +289,7 @@ export function buildContactMetadata(): Metadata {
 
 export function buildConsultationMetadata(): Metadata {
   const url = canonical("/consultation");
-  const title = "Free Estimate | M.R. Renovations -- Maple Grove, MN";
+  const title = "Free Estimate | M.R. Renovations, Maple Grove, MN";
   const description = clampDescription(
     "Schedule a no-gimmick, in-home estimate with M.R. Renovations. " +
       "Licensed Minnesota contractor BC809200. Lifetime Transferable Workmanship Warranty. " +
@@ -308,7 +308,7 @@ export function buildProcessMetadata(): Metadata {
   const url = canonical("/process");
   const title = "Our Remodeling Process | M.R. Renovations";
   const description = clampDescription(
-    "How M.R. Renovations runs your project -- 9 steps from first call to final walkthrough, " +
+    "How M.R. Renovations runs your project: 9 steps from first call to final walkthrough, " +
       "one project manager, and a Lifetime Transferable Workmanship Warranty at the end."
   );
   return {
@@ -396,7 +396,7 @@ export function buildTeamMetadata(): Metadata {
   const url = canonical("/team");
   const title = "Meet the Team | M.R. Renovations";
   const description = clampDescription(
-    "Meet the family and crew behind M.R. Renovations -- a Maple Grove, MN " +
+    "Meet the family and crew behind M.R. Renovations, a Maple Grove, MN " +
       "remodeling contractor with 40+ years of hands-on experience and a " +
       "Lifetime Transferable Workmanship Warranty."
   );

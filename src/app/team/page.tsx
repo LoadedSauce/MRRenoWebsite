@@ -164,7 +164,7 @@ const WHY_MR = [
   },
   {
     title: "Lifetime Transferable Warranty",
-    body: "Our workmanship is warrantied for the life of the home &mdash; and it transfers to the next owner. Vanishingly rare in residential construction.",
+    body: "Our workmanship is warrantied for the life of the home, and it transfers to the next owner. Vanishingly rare in residential construction.",
   },
   {
     title: "Guaranteed pricing, no gimmicks",
@@ -193,10 +193,8 @@ export default function TeamPage() {
         <h1 className="mt-3 font-display text-4xl font-bold leading-tight text-paper md:text-5xl">
           Meet the Team
         </h1>
-        <p className="mx-auto mt-5 max-w-xl font-body text-lg leading-relaxed text-soft-navy">
-          Get to know the dedicated professionals behind M.R. Renovations. Our
-          team&apos;s diverse expertise and commitment to quality ensure
-          exceptional results for every project.
+        <p className="mx-auto mt-5 max-w-2xl font-body text-lg leading-relaxed text-soft-navy">
+          You get the full team at your disposal. One project manager, start to finish. The same person from the first sketch to the final walkthrough. No handoffs, no excuses.
         </p>
         <span className="absolute bottom-0 left-1/2 h-[3px] w-12 -translate-x-1/2 bg-orange" />
       </section>

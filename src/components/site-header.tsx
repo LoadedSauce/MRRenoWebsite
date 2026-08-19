@@ -29,7 +29,7 @@ const navLinksRight = [
 
 function BrandMark() {
   return (
-    <Link href="/" className="flex items-center gap-3" aria-label="M.R. Renovations -- Home">
+    <Link href="/" className="flex items-center gap-3" aria-label="M.R. Renovations, Home">
       {/* Logo icon mark */}
       <Image
         src="/images/mr-logo-icon.png"

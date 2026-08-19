@@ -42,7 +42,7 @@ export default function PrivacyPage() {
             </h2>
             <p className="text-muted leading-relaxed">
               When you submit a consultation request or contact form, we collect the
-              information you provide -- including your name, email address, phone
+              information you provide, including your name, email address, phone
               number, project address, project description, and any photos you choose
               to upload. We do not collect this information passively or without your
               action.
@@ -66,12 +66,12 @@ export default function PrivacyPage() {
               data on our behalf:
             </p>
             <ul className="mt-3 space-y-2 text-muted leading-relaxed list-disc pl-5">
-              <li>Supabase -- secure database storage for lead and project information.</li>
+              <li>Supabase: secure database storage for lead and project information.</li>
               <li>
-                Hearth (NMLS ID 1628533) -- financing pre-qualification (their privacy
+                Hearth (NMLS ID 1628533): financing pre-qualification (their privacy
                 policy applies when you visit the Hearth portal at app.gethearth.com).
               </li>
-              <li>Vercel -- website hosting and delivery infrastructure.</li>
+              <li>Vercel: website hosting and delivery infrastructure.</li>
             </ul>
 
             <h2 className="font-display font-bold text-lg text-ink mt-8 mb-3">Photos</h2>

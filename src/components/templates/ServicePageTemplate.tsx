@@ -305,7 +305,7 @@ export function ServicePageTemplate({
         tone="tinted"
         eyebrow="Financing Available"
         title="Payments starting as low as your grocery bill"
-        description="Loans from $1,000 to $250,000 through Hearth. Check your rate in under 60 seconds -- no impact to your credit score."
+        description="Loans from $1,000 to $250,000 through Hearth. Check your rate in under 60 seconds. No impact to your credit score."
         primary={{ label: "View Financing Options", href: "/financing" }}
       />
 

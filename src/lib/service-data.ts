@@ -40,9 +40,9 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     slug: "kitchens",
     displayName: "Kitchen Remodeling",
     description:
-      "Kitchen remodeling in the Twin Cities from M.R. Renovations -- custom cabinetry, structural work, and finish detail. Licensed MN contractor BC809200. Free estimates, Lifetime Workmanship Warranty.",
+      "Kitchen remodeling in the Twin Cities from M.R. Renovations: custom cabinetry, structural work, and finish detail. Licensed MN contractor BC809200. Free estimates, Lifetime Workmanship Warranty.",
     heroDefaultSubcopy:
-      "Custom cabinetry, structural work, and finish detail -- backed by 40+ years of craftsmanship. M.R. Renovations runs your kitchen remodel on one contract, with one crew, from demo to final walkthrough.",
+      "Custom cabinetry, structural work, and finish detail, backed by 40+ years of craftsmanship. M.R. Renovations runs your kitchen remodel on one contract, with one crew, from demo to final walkthrough.",
     galleryImages: [
       {
         src: "/images/kitchen/kitchen-remodel-walnut-cabinets-hex-backsplash-maple-grove-mn.jpg",
@@ -69,7 +69,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you handle the permits for kitchen projects?",
         answer:
-          "Yes. We pull all required building, plumbing, and electrical permits and schedule inspections directly with your municipality. Pulling permits is standard on every M.R. Renovations project -- it protects your investment, satisfies your homeowners insurance, and ensures the work meets Minnesota residential code.",
+          "Yes. We pull all required building, plumbing, and electrical permits and schedule inspections directly with your municipality. Pulling permits is standard on every M.R. Renovations project. It protects your investment, satisfies your homeowners insurance, and ensures the work meets Minnesota residential code.",
       },
       {
         question: "How long does a kitchen remodel take?",
@@ -84,12 +84,12 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you offer a warranty on kitchen remodeling work?",
         answer:
-          "Yes. Every kitchen project is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on cabinetry, countertops, appliances, and fixtures are passed through to you at project completion. Full warranty terms at m-r-reno.com/warranty.",
+          "Yes. Every kitchen project is backed by our Lifetime Transferable Workmanship Warranty. It covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on cabinetry, countertops, appliances, and fixtures are passed through to you at project completion. Full warranty terms at m-r-reno.com/warranty.",
       },
       {
         question: "Do you follow a defined process on every project?",
         answer:
-          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough -- including how we handle permits, selections timing, inspections, and the punch list before final payment -- is available at m-r-reno.com/process.",
+          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough, including how we handle permits, selections timing, inspections, and the punch list before final payment, is available at m-r-reno.com/process.",
       },
     ],
   },
@@ -99,7 +99,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     slug: "additions",
     displayName: "Home Additions",
     description:
-      "Home additions in the Twin Cities from M.R. Renovations -- room additions, primary suites, four-season rooms. Licensed MN contractor BC809200. Free estimates, Lifetime Workmanship Warranty.",
+      "Home additions in the Twin Cities from M.R. Renovations: room additions, primary suites, four-season rooms. Licensed MN contractor BC809200. Free estimates, Lifetime Workmanship Warranty.",
     heroDefaultSubcopy:
       "Single-room bump-outs, primary suite additions, four-season rooms, and full second-story builds. M.R. Renovations engineers each addition to match your existing structure, handles every permit, and ties the work into your home with 40+ years of carpentry behind it.",
     galleryImages: [
@@ -111,7 +111,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         src: "/images/addition/home-addition-sunroom-exterior-new-construction-maple-grove-mn.jpg",
         alt: "Home addition sunroom exterior view new construction in Maple Grove, MN",
-        caption: "Sunroom addition exterior -- new construction attached to existing home",
+        caption: "Sunroom addition exterior. New construction attached to existing home",
       },
       {
         src: "/images/addition/home-addition-composite-deck-white-railing-coon-rapids-mn.jpg",
@@ -128,7 +128,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you handle permits for home addition projects?",
         answer:
-          "Yes. Additions almost always require building, mechanical, and sometimes zoning permits in Minnesota. We pull every permit on your behalf, coordinate with your city's planning and inspection departments, and schedule all inspections. Setback variances and lot-coverage questions are addressed before construction starts -- not after.",
+          "Yes. Additions almost always require building, mechanical, and sometimes zoning permits in Minnesota. We pull every permit on your behalf, coordinate with your city's planning and inspection departments, and schedule all inspections. Setback variances and lot-coverage questions are addressed before construction starts, not after.",
       },
       {
         question: "How long does a home addition take?",
@@ -143,12 +143,12 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you offer a warranty on home addition work?",
         answer:
-          "Yes. Every addition is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on windows, doors, roofing, siding, and fixtures are passed through at project completion. Full warranty terms at m-r-reno.com/warranty.",
+          "Yes. Every addition is backed by our Lifetime Transferable Workmanship Warranty. It covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on windows, doors, roofing, siding, and fixtures are passed through at project completion. Full warranty terms at m-r-reno.com/warranty.",
       },
       {
         question: "Do you follow a defined process on every project?",
         answer:
-          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough -- including how we handle permits, selections timing, inspections, and the punch list before final payment -- is available at m-r-reno.com/process.",
+          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough, including how we handle permits, selections timing, inspections, and the punch list before final payment, is available at m-r-reno.com/process.",
       },
     ],
   },
@@ -157,14 +157,14 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     slug: "whole-home",
     displayName: "Whole Home Remodeling",
     description:
-      "Whole home remodeling from M.R. Renovations -- one contract, one project manager, one Lifetime Workmanship Warranty. Licensed MN contractor BC809200 serving the northwest metro.",
+      "Whole home remodeling from M.R. Renovations: one contract, one project manager, one Lifetime Workmanship Warranty. Licensed MN contractor BC809200 serving the northwest metro.",
     heroDefaultSubcopy:
-      "A whole-home renovation runs through every trade in your house. M.R. Renovations has managed projects of this scale for over four decades -- one contract, one project manager, one Lifetime Transferable Workmanship Warranty covering the entire home.",
+      "A whole-home renovation runs through every trade in your house. M.R. Renovations has managed projects of this scale for over four decades: one contract, one project manager, one Lifetime Transferable Workmanship Warranty covering the entire home.",
     galleryImages: [
       {
         src: "/images/whole-home/whole-home-remodel-stone-fireplace-vaulted-ceiling-maple-grove-mn.jpg",
         alt: "Whole home remodel stone fireplace and vaulted ceiling in Maple Grove, MN",
-        caption: "Stone fireplace with vaulted ceiling -- whole home remodel",
+        caption: "Stone fireplace with vaulted ceiling. Whole home remodel",
       },
       {
         src: "/images/whole-home/whole-home-remodel-walnut-kitchen-open-concept-maple-grove-mn.jpg",
@@ -186,7 +186,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you handle permits for whole home remodeling projects?",
         answer:
-          "Yes. Whole-home projects typically require multiple permits across building, plumbing, electrical, and mechanical trades. We pull every required permit, coordinate inspections in the correct sequence, and handle all communication with your municipality. Most cities require a permitting plan before work starts -- we produce and submit it.",
+          "Yes. Whole-home projects typically require multiple permits across building, plumbing, electrical, and mechanical trades. We pull every required permit, coordinate inspections in the correct sequence, and handle all communication with your municipality. Most cities require a permitting plan before work starts. We produce and submit it.",
       },
       {
         question: "How long does a whole home remodel take?",
@@ -196,17 +196,17 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Is M.R. Renovations licensed and insured in Minnesota?",
         answer:
-          "Yes. M.R. Renovations holds Minnesota Residential Contractor license BC809200 and carries full General Liability Insurance and Workers' Compensation Insurance. For whole-home projects, certificates of insurance are typically required by lenders -- we provide them directly to your loan officer if needed.",
+          "Yes. M.R. Renovations holds Minnesota Residential Contractor license BC809200 and carries full General Liability Insurance and Workers' Compensation Insurance. For whole-home projects, certificates of insurance are typically required by lenders. We provide them directly to your loan officer if needed.",
       },
       {
         question: "Do you offer a warranty on whole home remodeling work?",
         answer:
-          "Yes. The full scope of a whole-home remodel is backed by our Lifetime Transferable Workmanship Warranty -- one warranty covers labor across every room and every trade we performed, for the life of the home, and transfers to future owners if you sell. Manufacturer warranties on materials and fixtures pass through to you at project completion. Full warranty terms at m-r-reno.com/warranty.",
+          "Yes. The full scope of a whole-home remodel is backed by our Lifetime Transferable Workmanship Warranty. One warranty covers labor across every room and every trade we performed, for the life of the home, and transfers to future owners if you sell. Manufacturer warranties on materials and fixtures pass through to you at project completion. Full warranty terms at m-r-reno.com/warranty.",
       },
       {
         question: "Do you follow a defined process on every project?",
         answer:
-          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough -- including how we handle permits, selections timing, inspections, and the punch list before final payment -- is available at m-r-reno.com/process.",
+          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough, including how we handle permits, selections timing, inspections, and the punch list before final payment, is available at m-r-reno.com/process.",
       },
     ],
   },
@@ -215,9 +215,9 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     slug: "basements",
     displayName: "Basement Finishing",
     description:
-      "Basement finishing in the Twin Cities from M.R. Renovations -- egress, framing, electrical, and drywall fully permitted. Licensed MN contractor BC809200. Lifetime Workmanship Warranty.",
+      "Basement finishing in the Twin Cities from M.R. Renovations: egress, framing, electrical, and drywall fully permitted. Licensed MN contractor BC809200. Lifetime Workmanship Warranty.",
     heroDefaultSubcopy:
-      "Unfinished space into livable square footage. M.R. Renovations handles framing, egress, mechanical rough-ins, insulation, drywall, paint, and finish carpentry -- fully permitted, code-correct, and backed by our Lifetime Transferable Workmanship Warranty.",
+      "Unfinished space into livable square footage. M.R. Renovations handles framing, egress, mechanical rough-ins, insulation, drywall, paint, and finish carpentry: fully permitted, code-correct, and backed by our Lifetime Transferable Workmanship Warranty.",
     galleryImages: [],
     faqItems: [
       {
@@ -243,12 +243,12 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you offer a warranty on basement finishing work?",
         answer:
-          "Yes. Every basement finish is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on flooring, fixtures, and egress windows are passed through at project completion. Full warranty terms at m-r-reno.com/warranty.",
+          "Yes. Every basement finish is backed by our Lifetime Transferable Workmanship Warranty. It covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on flooring, fixtures, and egress windows are passed through at project completion. Full warranty terms at m-r-reno.com/warranty.",
       },
       {
         question: "Do you follow a defined process on every project?",
         answer:
-          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough -- including how we handle permits, selections timing, inspections, and the punch list before final payment -- is available at m-r-reno.com/process.",
+          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough, including how we handle permits, selections timing, inspections, and the punch list before final payment, is available at m-r-reno.com/process.",
       },
     ],
   },
@@ -257,9 +257,9 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     slug: "bathrooms",
     displayName: "Bathroom Remodels",
     description:
-      "Bathroom remodeling from M.R. Renovations -- tile, plumbing, and waterproofing handled in-house. Licensed MN contractor BC809200. Free estimates, Lifetime Workmanship Warranty.",
+      "Bathroom remodeling from M.R. Renovations: tile, plumbing, and waterproofing handled in-house. Licensed MN contractor BC809200. Free estimates, Lifetime Workmanship Warranty.",
     heroDefaultSubcopy:
-      "Primary baths, family baths, and powder rooms -- delivered on schedule, on a fixed contract, with tile and waterproofing detail that lasts decades. M.R. Renovations handles every trade in-house and pulls every permit.",
+      "Primary baths, family baths, and powder rooms, delivered on schedule, on a fixed contract, with tile and waterproofing detail that lasts decades. M.R. Renovations handles every trade in-house and pulls every permit.",
     galleryImages: [
       {
         src: "/images/bathroom/bathroom-remodel-marble-tile-shower-quartz-vanity-maple-grove-mn.jpg",
@@ -281,7 +281,7 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "What does a bathroom remodel typically include?",
         answer:
-          "A full bathroom remodel with M.R. Renovations covers demolition, framing and structural changes (where applicable), waterproofing and shower-pan construction, rough plumbing and electrical, tile work, new fixtures, vanity, drywall, paint, lighting, exhaust ventilation, and finish carpentry. Our in-house tile crew handles every shower and floor installation -- not subcontracted out.",
+          "A full bathroom remodel with M.R. Renovations covers demolition, framing and structural changes (where applicable), waterproofing and shower-pan construction, rough plumbing and electrical, tile work, new fixtures, vanity, drywall, paint, lighting, exhaust ventilation, and finish carpentry. Our in-house tile crew handles every shower and floor installation, not subcontracted out.",
       },
       {
         question: "Do you handle permits for bathroom remodeling projects?",
@@ -301,12 +301,12 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you offer a warranty on bathroom remodeling work?",
         answer:
-          "Yes. Every bathroom remodel is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor, including tile and waterproofing, for the life of the home and transfers to future owners if you sell. Manufacturer warranties on fixtures, vanities, and countertops are passed through at project completion. Full warranty terms at m-r-reno.com/warranty.",
+          "Yes. Every bathroom remodel is backed by our Lifetime Transferable Workmanship Warranty. It covers our labor, including tile and waterproofing, for the life of the home and transfers to future owners if you sell. Manufacturer warranties on fixtures, vanities, and countertops are passed through at project completion. Full warranty terms at m-r-reno.com/warranty.",
       },
       {
         question: "Do you follow a defined process on every project?",
         answer:
-          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough -- including how we handle permits, selections timing, inspections, and the punch list before final payment -- is available at m-r-reno.com/process.",
+          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough, including how we handle permits, selections timing, inspections, and the punch list before final payment, is available at m-r-reno.com/process.",
       },
     ],
   },
@@ -316,20 +316,20 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
     slug: "exterior",
     displayName: "Roofing, Siding & Exterior",
     description:
-      "Roofing, siding, and exterior work from M.R. Renovations -- James Hardie, GAF, Marvin certified. Licensed MN contractor BC809200. Storm restoration. Free estimates, Lifetime Workmanship Warranty.",
+      "Roofing, siding, and exterior work from M.R. Renovations: James Hardie, GAF, Marvin certified. Licensed MN contractor BC809200. Storm restoration. Free estimates, Lifetime Workmanship Warranty.",
     heroDefaultSubcopy:
-      "Roofing, siding, windows, doors, and garages -- specified with James Hardie, GAF, Marvin, and Trex products rated for Minnesota's climate. M.R. Renovations pulls every permit, coordinates with your insurance adjuster when storms are involved, and backs the work with our Lifetime Transferable Workmanship Warranty.",
+      "Roofing, siding, windows, doors, and garages, specified with James Hardie, GAF, Marvin, and Trex products rated for Minnesota's climate. M.R. Renovations pulls every permit, coordinates with your insurance adjuster when storms are involved, and backs the work with our Lifetime Transferable Workmanship Warranty.",
     galleryImages: [],
     faqItems: [
       {
         question: "What does an exterior project typically include?",
         answer:
-          "Our exterior work covers roofing tear-off and replacement, fiber cement and lap siding installation, window and door replacement, garage builds, soffit and fascia, gutters, and trim. Framing and structural changes (where applicable) are included -- rotted sheathing, fascia repair, and header work are addressed during the project, not flagged as change orders. Drywall and paint are included on any interior surfaces affected by exterior work.",
+          "Our exterior work covers roofing tear-off and replacement, fiber cement and lap siding installation, window and door replacement, garage builds, soffit and fascia, gutters, and trim. Framing and structural changes (where applicable) are included. Rotted sheathing, fascia repair, and header work are addressed during the project, not flagged as change orders. Drywall and paint are included on any interior surfaces affected by exterior work.",
       },
       {
         question: "Do you handle permits for exterior projects?",
         answer:
-          "Yes. We pull all required building permits and schedule inspections directly with your city. Roofing, siding, window, and structural permits vary by municipality -- we handle the paperwork so you do not have to. For storm-damage projects, we coordinate the permit process alongside your insurance claim timeline.",
+          "Yes. We pull all required building permits and schedule inspections directly with your city. Roofing, siding, window, and structural permits vary by municipality. We handle the paperwork so you do not have to. For storm-damage projects, we coordinate the permit process alongside your insurance claim timeline.",
       },
       {
         question: "How long does an exterior project take?",
@@ -344,12 +344,12 @@ export const serviceRegistry: Record<ServiceData["slug"], ServiceData> = {
       {
         question: "Do you offer a warranty on exterior work?",
         answer:
-          "Yes. Every exterior project is backed by our Lifetime Transferable Workmanship Warranty -- it covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on James Hardie siding, GAF roofing systems, Marvin windows and doors, and Trex composite materials are passed through to you at project completion. Full warranty terms at m-r-reno.com/warranty.",
+          "Yes. Every exterior project is backed by our Lifetime Transferable Workmanship Warranty. It covers our labor for the life of the home and transfers to future owners if you sell. Manufacturer warranties on James Hardie siding, GAF roofing systems, Marvin windows and doors, and Trex composite materials are passed through to you at project completion. Full warranty terms at m-r-reno.com/warranty.",
       },
       {
         question: "Do you follow a defined process on every project?",
         answer:
-          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough -- including how we handle permits, selections timing, inspections, and the punch list before final payment -- is available at m-r-reno.com/process.",
+          "Absolutely. Every M.R. Renovations project follows a defined 9-step process from first call through final walkthrough and warranty signing. The full walkthrough, including how we handle permits, selections timing, inspections, and the punch list before final payment, is available at m-r-reno.com/process.",
       },
     ],
   },

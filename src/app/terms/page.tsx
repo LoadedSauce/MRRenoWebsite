@@ -55,7 +55,7 @@ export default function TermsPage() {
               Intellectual Property
             </h2>
             <p className="text-muted leading-relaxed">
-              All content on this site -- including text, images, and graphics -- is
+              All content on this site, including text, images, and graphics, is
               the property of M.R. Renovations, LLC or its content suppliers. You may
               not reproduce or distribute content from this site without written
               permission.
