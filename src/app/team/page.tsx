@@ -31,8 +31,8 @@ const OWNER: Extract<Card, { kind: "member" }> = {
 // Office / management row
 const ROW_TWO: Card[] = [
   { kind: "member", name: "Miya Walker",     role: "Customer Service Manager", slug: "miya-walker"     },
-  { kind: "member", name: "Aidan Gould",     role: "Project Assistant",        slug: "aidan-gould"     },
-  { kind: "member", name: "Audra Karschnia", role: "Project Assistant",        slug: "audra-karschnia" },
+  { kind: "member", name: "Aidan Gould",     role: "Project Coordinator",        slug: "aidan-gould"     },
+  { kind: "member", name: "Audra Karschnia", role: "Project Coordinator",        slug: "audra-karschnia" },
   { kind: "member", name: "Nate Hatfield",   role: "Production Manager",       slug: "nate-hatfield"   },
 ];
 
