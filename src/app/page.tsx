@@ -25,8 +25,8 @@ const services = [
     name: "Bathroom Remodeling",
     body: "From en-suite spa retreats to family-friendly mushroom baths. Tile work that lasts decades.",
     href: "/services/bathrooms",
-    image: "/images/service-bathroom-primary-double-vanity-hex-marble-floor-edina-mn.jpg",
-    alt: "Primary bathroom remodel in Edina, MN with double light-wood vanities, black-framed pivot mirrors, matte-black fixtures, and hex marble mosaic tile floor.",
+    image: "/images/service-bathroom-primary-freestanding-tub-double-gray-vanity-marble-floor-mn.jpg",
+    alt: "Primary bathroom remodel with a freestanding soaking tub under a picture window, twin gray shaker vanities with matte-black fixtures, rectangular black-framed mirrors, and marble tile floor with mosaic bath-mat inlay.",
   },
   {
     n: "03",
