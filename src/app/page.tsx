@@ -177,14 +177,14 @@ export default async function Home() {
           }}
         />
 
-        <Container width="wide" className="relative py-14 sm:py-20 lg:py-24">
+        <Container width="wide" className="relative py-6 sm:py-10 lg:py-12">
           <div className="max-w-3xl">
             <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-soft-orange/95">
               Maple Grove, MN &middot; Twin Cities
             </p>
             <h1 className="mt-5 font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-paper">
-              <span className="accent">Built right.</span><br className="hidden sm:block" />
-              <span> </span><span className="accent">Built to last.</span>
+              <span className="accent">Built right.</span><br />
+              <span className="accent">Built to last.</span>
             </h1>
             <p className="mt-6 text-base sm:text-lg leading-relaxed text-soft-navy/95 max-w-2xl">
               Family-owned design-build for Twin Cities homeowners who want their renovation done with craft, transparency, and a Lifetime Transferable Workmanship Warranty.
@@ -206,7 +206,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <dl className="mt-10 lg:mt-14 grid grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-8 border-t border-paper/15 pt-8">
+          <dl className="mt-8 lg:mt-10 grid grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-8 border-t border-paper/15 pt-6">
             <div>
               <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">Years of Craft</dt>
               <dd className="mt-1 font-display font-bold text-3xl text-paper">40+</dd>
