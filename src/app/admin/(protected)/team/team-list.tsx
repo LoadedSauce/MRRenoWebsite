@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import Image from "next/image";
 import { createBrowserClient } from "@supabase/ssr";
 import {
@@ -122,25 +122,17 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
               name="photo_url"
               defaultValue={member.photo_url ?? ""}
             />
-            <div className="flex items-center gap-2">
-              <label className="text-xs text-muted">
-                Swap photo
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="ml-1 text-xs"
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    const url = await handlePhotoUpload(file);
-                    (
-                      e.target.form!.elements.namedItem("photo_url") as HTMLInputElement
-                    ).value = url;
-                  }}
-                />
-              </label>
-              {uploading && <span className="text-xs text-muted">Uploading...</span>}
-            </div>
+            <PhotoPickerButton
+              uploading={uploading}
+              currentUrl={member.photo_url ?? null}
+              label={member.photo_url ? "Replace photo" : "Upload photo"}
+              onFile={async (file, formEl) => {
+                const url = await handlePhotoUpload(file);
+                (
+                  formEl.elements.namedItem("photo_url") as HTMLInputElement
+                ).value = url;
+              }}
+            />
             <div className="flex gap-2">
               <button
                 type="submit"
@@ -234,6 +226,63 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
           &#9660;
         </button>
       </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// PhotoPickerButton
+// A big, obvious button that opens the native file picker. Replaces the tiny
+// native <input type="file"> control which is easy to miss. Shows filename
+// after selection so the admin knows the upload started.
+// ---------------------------------------------------------------------------
+function PhotoPickerButton({
+  uploading,
+  currentUrl,
+  label,
+  onFile,
+}: {
+  uploading: boolean;
+  currentUrl: string | null;
+  label: string;
+  onFile: (file: File, formEl: HTMLFormElement) => Promise<void>;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [filename, setFilename] = useState<string | null>(null);
+
+  return (
+    <div className="flex items-center gap-3 flex-wrap">
+      <button
+        type="button"
+        onClick={() => inputRef.current?.click()}
+        disabled={uploading}
+        className="inline-flex items-center gap-2 bg-navy hover:bg-navy-deep disabled:opacity-60 text-paper font-display font-semibold text-xs px-4 py-2 rounded-md transition-colors"
+      >
+        <span aria-hidden="true" className="font-bold">+</span>
+        {uploading ? "Uploading..." : label}
+      </button>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={async (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          setFilename(file.name);
+          const form = e.target.form;
+          if (!form) return;
+          await onFile(file, form);
+        }}
+      />
+      {filename && !uploading && (
+        <span className="text-xs text-muted truncate max-w-[16rem]">
+          {filename}
+        </span>
+      )}
+      {!filename && currentUrl && !uploading && (
+        <span className="text-xs text-muted">Photo on file</span>
+      )}
     </div>
   );
 }
