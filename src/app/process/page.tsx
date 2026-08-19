@@ -53,6 +53,12 @@ export default function ProcessPage() {
                 <li className="flex items-start gap-3">
                   <span className="mt-2 inline-block w-2 h-2 rounded-full bg-orange shrink-0" aria-hidden="true" />
                   <p className="text-base sm:text-lg text-muted leading-relaxed">
+                    <span className="font-display font-semibold text-navy">Production Manager</span> who oversees coordinator and managers to ensure a smooth process.
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-2 inline-block w-2 h-2 rounded-full bg-orange shrink-0" aria-hidden="true" />
+                  <p className="text-base sm:text-lg text-muted leading-relaxed">
                     <span className="font-display font-semibold text-navy">Project Coordinator</span> who will help with material selections, permitting details, ordering and logistics.
                   </p>
                 </li>

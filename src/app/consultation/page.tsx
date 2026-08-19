@@ -87,6 +87,24 @@ export default function ConsultationPage() {
                 </Link>
                 .
               </p>
+
+              <div className="mt-8 rounded-md border border-cream-deep bg-cream p-5">
+                <p className="font-display font-semibold tracking-[0.12em] uppercase text-[11px] text-orange">
+                  Financing
+                </p>
+                <p className="mt-2 font-display font-semibold text-ink">
+                  Ask about affordable monthly payments.
+                </p>
+                <p className="mt-1 text-sm text-muted leading-relaxed">
+                  Flexible plans through our lending partners so your project fits your budget.
+                </p>
+                <Link
+                  href="/financing"
+                  className="mt-3 inline-flex items-center justify-center bg-navy hover:bg-navy-deep text-paper font-display font-semibold text-sm px-5 py-2.5 rounded-md transition"
+                >
+                  See financing options
+                </Link>
+              </div>
             </div>
 
             <div className="lg:col-span-7">

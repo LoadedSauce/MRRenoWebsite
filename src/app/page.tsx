@@ -183,8 +183,9 @@ export default async function Home() {
               Maple Grove, MN &middot; Twin Cities
             </p>
             <h1 className="mt-5 font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-paper">
-              <span className="accent">Built right.</span><br />
-              <span className="accent">Built to last.</span>
+              <span className="accent">We Design.</span><br />
+              <span className="accent">We Build.</span><br />
+              <span className="accent">We Renovate.</span>
             </h1>
             <p className="mt-6 text-base sm:text-lg leading-relaxed text-soft-navy/95 max-w-2xl">
               Family-owned design-build for Twin Cities homeowners who want their renovation done with craft, transparency, and a Lifetime Transferable Workmanship Warranty.
