@@ -11,12 +11,12 @@ const faqItems = [
   {
     question: "Does the warranty transfer when I sell my home?",
     answer:
-      "Yes -- that is the point. The warranty transfers to the next owner of the home. It requires a transfer fee, an on-site visit from M.R. Renovations, and registration in the new owner's name. It cannot be mailed. It must be completed in person before the sale closes.",
+      "Yes, that is the point. The warranty transfers to the next owner of the home. It requires a transfer fee, an on-site visit from M.R. Renovations, and registration in the new owner's name. It cannot be mailed. It must be completed in person before the sale closes.",
   },
   {
     question: "What voids the warranty?",
     answer:
-      "Any work performed on the warranted scope by any contractor other than M.R. Renovations voids the warranty on that scope. The warranty covers our workmanship only -- it does not cover damage from acts of nature, homeowner modifications, or deferred maintenance.",
+      "Any work performed on the warranted scope by any contractor other than M.R. Renovations voids the warranty on that scope. The warranty covers our workmanship only. It does not cover damage from acts of nature, homeowner modifications, or deferred maintenance.",
   },
   {
     question: "When does the warranty take effect?",
@@ -26,7 +26,7 @@ const faqItems = [
   {
     question: "How do I file a warranty claim?",
     answer:
-      "Contact us within 24 hours of noticing the issue. Reach M.R. Renovations by email at M.Randolph@Mrrenovations-llc.com or by phone at 763-415-0654. A written description of the issue is required to open a claim.",
+      "Contact us within 24 hours of noticing the issue. Reach M.R. Renovations by email at j.walker@mrrenovations-llc.com or by phone at 763-900-2024. A written description of the issue is required to open a claim.",
   },
 ];
 
@@ -51,7 +51,7 @@ export default function WarrantyPage() {
             The Lifetime Transferable Workmanship Warranty
           </h1>
           <p className="mt-6 text-base sm:text-lg leading-relaxed text-soft-navy/90 max-w-2xl">
-            Every project M.R. Renovations completes is backed by a written lifetime warranty on our workmanship. It covers the life of the home -- and it transfers to the next owner when you sell. Almost no residential contractor in Minnesota offers this.
+            Every project M.R. Renovations completes is backed by a written lifetime warranty on our workmanship. It covers the life of the project and it transfers to the next owner when you sell. Almost no residential contractor in Minnesota offers this.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Link
@@ -61,10 +61,10 @@ export default function WarrantyPage() {
               Request a Free Consultation
             </Link>
             <a
-              href="tel:7634150654"
+              href="tel:7639002024"
               className="inline-flex items-center justify-center bg-paper/10 hover:bg-paper/20 text-paper border border-paper/40 font-display font-semibold px-6 py-3.5 rounded-md transition-colors"
             >
-              Call 763-415-0654
+              Call 763-900-2024
             </a>
           </div>
         </Container>
@@ -92,11 +92,11 @@ export default function WarrantyPage() {
                   },
                   {
                     title: "Defects from improper installation",
-                    body: "If a defect in our workmanship causes damage -- a shower pan that fails, framing that settles incorrectly, tile that separates due to improper substrate prep -- we repair or replace it at no charge.",
+                    body: "If a defect in our workmanship causes damage such as a shower pan that fails, framing that settles incorrectly, or tile that separates due to improper substrate prep, we repair or replace it at no charge.",
                   },
                   {
                     title: "Lifetime duration",
-                    body: "The warranty does not expire after one year or five years. It covers the life of the home as long as the conditions below are met.",
+                    body: "The warranty does not expire after one year or five years. It covers the life of the home as long as the conditions are met.",
                   },
                   {
                     title: "Transferable to new owners",
@@ -138,7 +138,7 @@ export default function WarrantyPage() {
               <div className="mt-7 space-y-5">
                 <div className="rounded-xl border border-faint bg-soft-navy/40 p-6">
                   <p className="font-display font-semibold text-ink text-sm">
-                    01 -- Payment must be received in full
+                    01: Payment must be received in full
                   </p>
                   <p className="mt-2 text-sm text-muted leading-relaxed">
                     No warranty claims are valid until all payments outlined in your project contract have been received. The warranty certificate is presented and signed at the final walkthrough, after final payment.
@@ -146,7 +146,7 @@ export default function WarrantyPage() {
                 </div>
                 <div className="rounded-xl border border-faint bg-soft-navy/40 p-6">
                   <p className="font-display font-semibold text-ink text-sm">
-                    02 -- Work must not be altered by another contractor
+                    02: Work must not be altered by another contractor
                   </p>
                   <p className="mt-2 text-sm text-muted leading-relaxed">
                     Any work performed on the warranted scope by any contractor other than M.R. Renovations voids the warranty on that scope. This warranty supersedes all prior verbal or written guarantees and represents the complete written agreement on workmanship coverage.
@@ -159,7 +159,7 @@ export default function WarrantyPage() {
                   Manufacturer warranties
                 </p>
                 <p className="mt-2 text-sm text-muted leading-relaxed">
-                  Manufacturer warranties on materials -- cabinetry, countertops, fixtures, flooring, roofing systems, windows, doors -- are separate from the M.R. Renovations workmanship warranty and are passed through to you at project completion. Your project manager delivers all manufacturer warranty cards and documentation at the final walkthrough.
+                  Manufacturer warranties on materials such as cabinetry, countertops, fixtures, flooring, roofing systems, windows, and doors are separate from the M.R. Renovations workmanship warranty and are passed through to you at project completion. Your project manager delivers all manufacturer warranty cards and documentation at the final walkthrough.
                 </p>
               </div>
             </div>
@@ -177,7 +177,7 @@ export default function WarrantyPage() {
             How to report a warranty issue
           </h2>
           <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
-            Contact us within 24 hours of noticing the issue. Warranty claims are handled directly -- no third-party administrators, no automated queues.
+            Contact us within 24 hours of noticing the issue. Warranty claims are handled directly. No third-party administrators, no automated queues.
           </p>
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -210,21 +210,21 @@ export default function WarrantyPage() {
                 Reach us directly
               </p>
               <p className="mt-1 text-sm text-soft-navy/85">
-                Warranty claims -- and all project questions -- are handled by the M.R. Renovations team, not a call center.
+                Warranty claims, and all project questions, are handled by the M.R. Renovations team, not a call center.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
               <a
-                href="mailto:M.Randolph@Mrrenovations-llc.com"
+                href="mailto:j.walker@mrrenovations-llc.com"
                 className="inline-flex items-center justify-center bg-paper text-navy font-display font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-soft-navy transition-colors whitespace-nowrap"
               >
                 Email us
               </a>
               <a
-                href="tel:7634150654"
+                href="tel:7639002024"
                 className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold text-sm px-5 py-2.5 rounded-md transition whitespace-nowrap"
               >
-                763-415-0654
+                763-900-2024
               </a>
             </div>
           </div>
@@ -275,10 +275,10 @@ export default function WarrantyPage() {
               Request a Free Consultation
             </Link>
             <a
-              href="tel:7634150654"
+              href="tel:7639002024"
               className="inline-flex items-center justify-center bg-paper/10 hover:bg-paper/20 text-paper border border-paper/40 font-display font-semibold px-6 py-3.5 rounded-md transition-colors whitespace-nowrap"
             >
-              763-415-0654
+              763-900-2024
             </a>
           </div>
         </Container>
