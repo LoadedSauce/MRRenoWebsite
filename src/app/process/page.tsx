@@ -268,15 +268,14 @@ export default function ProcessPage() {
       <section className="bg-soft-navy">
         <Container width="wide" className="py-14">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            {/* Placeholder slot: needs a real job-site shot showing floor
-                protection and hung dust barriers. Swap in when Chris supplies
-                one; do not substitute stock. */}
             <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-soft-orange/30 order-2 lg:order-1">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-display font-bold text-2xl sm:text-3xl text-orange/20 select-none text-center px-4">
-                  Work in progress photo pending
-                </span>
-              </div>
+              <Image
+                src="/images/process/process-step-09-the-work-jobsite-floor-protection-drywall.jpg"
+                alt="Active M.R. Renovations bathroom remodel jobsite with orange DensShield backer board installed on the shower walls, ceiling access cut for utilities, contractor toolbox on the floor, and Home Depot ram board floor protection laid across the adjacent room."
+                fill
+                sizes="(min-width: 1024px) 45vw, 90vw"
+                className="object-cover"
+              />
             </div>
             <div className="order-1 lg:order-2">
               <p className="font-display font-bold text-5xl text-orange/20 tracking-tight select-none">09</p>
