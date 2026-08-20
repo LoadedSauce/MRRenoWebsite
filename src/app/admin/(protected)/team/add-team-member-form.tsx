@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import { addTeamMember } from "../../actions";
 import { TEAM_SECTIONS } from "@/lib/supabase/types";
@@ -8,6 +8,8 @@ import { TEAM_SECTIONS } from "@/lib/supabase/types";
 export function AddTeamMemberForm() {
   const [uploading, setUploading] = useState(false);
   const [photoUrl, setPhotoUrl] = useState("");
+  const [filename, setFilename] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -64,16 +66,34 @@ export function AddTeamMemberForm() {
           <label className="block text-sm font-medium text-ink mb-1">
             Photo (optional, max 2MB, web-ready)
           </label>
-          <input
-            type="file"
-            accept="image/*"
-            className="text-sm text-muted"
-            onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) handlePhotoUpload(f);
-            }}
-          />
-          {uploading && <p className="text-xs text-muted mt-1">Uploading...</p>}
+          <div className="flex items-center gap-3 flex-wrap">
+            <button
+              type="button"
+              onClick={() => inputRef.current?.click()}
+              disabled={uploading}
+              className="inline-flex items-center gap-2 bg-navy hover:bg-navy-deep disabled:opacity-60 text-paper font-display font-semibold text-sm px-5 py-2.5 rounded-md transition-colors"
+            >
+              <span aria-hidden="true" className="font-bold">+</span>
+              {uploading ? "Uploading..." : photoUrl ? "Replace photo" : "Upload photo"}
+            </button>
+            <input
+              ref={inputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (!f) return;
+                setFilename(f.name);
+                handlePhotoUpload(f);
+              }}
+            />
+            {filename && !uploading && (
+              <span className="text-xs text-muted truncate max-w-[16rem]">
+                {filename}
+              </span>
+            )}
+          </div>
           <input type="hidden" name="photo_url" value={photoUrl} />
         </div>
         <div className="sm:col-span-2">
