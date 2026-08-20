@@ -80,6 +80,43 @@ export async function updateTeamMemberSection(id: string, section: TeamSection) 
   revalidatePath("/team");
 }
 
+/**
+ * Bulk update of team member positions after a drag-and-drop operation.
+ *
+ * Each row in `updates` sets a member's section AND display_order in one call.
+ * Used by the admin team list DnD context: when the user drops a card into a
+ * different section (or reorders within one), the client computes the full
+ * post-drop layout and sends the deltas here.
+ *
+ * The client is expected to renumber display_order densely (0, 1, 2, ...) per
+ * section so we do not accumulate gaps over time.
+ */
+export async function reorderTeamMembers(
+  updates: { id: string; section: TeamSection; display_order: number }[]
+) {
+  if (!updates.length) return;
+  const supabase = createServiceRoleClient();
+  const safeUpdates = updates
+    .filter((u) => (TEAM_SECTIONS as readonly string[]).includes(u.section))
+    .map((u) => ({
+      id: u.id,
+      section: u.section,
+      display_order: u.display_order,
+    }));
+
+  await Promise.all(
+    safeUpdates.map((u) =>
+      supabase
+        .from("team_members")
+        .update({ section: u.section, display_order: u.display_order })
+        .eq("id", u.id)
+    )
+  );
+
+  revalidatePath("/admin/team");
+  revalidatePath("/team");
+}
+
 // -- JOB LISTINGS --
 
 export async function addJobListing(formData: FormData) {
