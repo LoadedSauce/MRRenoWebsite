@@ -64,6 +64,10 @@ export interface ServicePageTemplateProps {
   // non-empty, they override service.galleryImages; otherwise the static
   // service-data.ts gallery renders as fallback.
   portfolioItems?: Array<{ src: string; alt: string; caption?: string }>;
+  // Admin-selected hero photo for this service (migration 0012). When set,
+  // overrides service.galleryImages[0] as the Hero primitive image; also
+  // overrides the first portfolioItems entry if that fallback would apply.
+  heroImage?: { src: string; alt: string };
 }
 
 // -- Template ----------------------------------------------------------------
@@ -75,6 +79,7 @@ export function ServicePageTemplate({
   faqItems,
   beforeAfterImages,
   portfolioItems,
+  heroImage,
 }: ServicePageTemplateProps) {
   // Hero sub-copy: area service note > service default
   const heroCopy =
@@ -105,6 +110,21 @@ export function ServicePageTemplate({
   // undefined and the section renders nothing. No exclusion list to maintain.
   const relatedGuide = getResource(service.slug);
 
+  // Hero image resolution (in priority order):
+  //   1. Admin-selected hero photo via heroImage prop (migration 0012)
+  //   2. First live portfolioItems entry if any exist (admin has featured items but no explicit hero)
+  //   3. First static service-data.ts galleryImages entry
+  //   4. undefined -> Hero primitive renders the design-system placeholder
+  const heroSrc =
+    heroImage?.src ??
+    portfolioItems?.[0]?.src ??
+    service.galleryImages[0]?.src;
+  const heroAlt =
+    heroImage?.alt ??
+    portfolioItems?.[0]?.alt ??
+    service.galleryImages[0]?.alt ??
+    `${service.displayName} project${cityLabel ? ` in ${cityLabel}` : ""}`;
+
   return (
     <PageShell>
 
@@ -129,11 +149,8 @@ export function ServicePageTemplate({
         primaryCta={{ label: "Get a Free Estimate", href: "/consultation" }}
         secondaryCta={{ label: "See Our Work", href: "#gallery" }}
         stats={heroStats}
-        imageSrc={service.galleryImages[0]?.src}
-        imageAlt={
-          service.galleryImages[0]?.alt ??
-          `${service.displayName} project${cityLabel ? ` in ${cityLabel}` : ""}`
-        }
+        imageSrc={heroSrc}
+        imageAlt={heroAlt}
       />
 
       {/* -- GALLERY ------------------------------------------------------ */}

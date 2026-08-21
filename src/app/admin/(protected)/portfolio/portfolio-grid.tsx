@@ -16,6 +16,7 @@ import {
   updatePortfolioItem,
   setPortfolioItemFeatured,
   setPortfolioItemServiceFeatured,
+  setPortfolioItemServiceHero,
 } from "../../actions";
 
 const SERVICE_OPTIONS = [
@@ -78,6 +79,7 @@ function PortfolioItemCell({
   featuredCount: number;
   serviceFeaturedCount: number;
 }) {
+  const isServiceHero = item.is_service_hero;
   const [editing, setEditing] = useState(false);
   const [featureError, setFeatureError] = useState<string | null>(null);
   const [serviceFeatureError, setServiceFeatureError] = useState<string | null>(
@@ -86,6 +88,7 @@ function PortfolioItemCell({
   const [, startTransition] = useTransition();
 
   const isServiceFeatured = item.service_featured_order !== null;
+
   const serviceLabel =
     item.service && SERVICE_SLUGS.includes(item.service as ServiceSlug)
       ? SERVICE_LABELS[item.service as ServiceSlug]
@@ -125,6 +128,37 @@ function PortfolioItemCell({
           setFeatureError("Show this photo before featuring it.");
         } else {
           setFeatureError("Could not update. Try again.");
+        }
+      }
+    });
+  }
+
+  const [heroError, setHeroError] = useState<string | null>(null);
+
+  async function handleHeroToggle() {
+    setHeroError(null);
+    const next = !isServiceHero;
+
+    if (next) {
+      if (!item.active) {
+        setHeroError("Show this photo before making it the hero.");
+        return;
+      }
+      if (!item.service) {
+        setHeroError("Tag a service on this photo first.");
+        return;
+      }
+    }
+
+    startTransition(async () => {
+      const res = await setPortfolioItemServiceHero(item.id, next);
+      if (!res.ok) {
+        if (res.reason === "not_active") {
+          setHeroError("Show this photo before making it the hero.");
+        } else if (res.reason === "no_service") {
+          setHeroError("Tag a service on this photo first.");
+        } else {
+          setHeroError("Could not update. Try again.");
         }
       }
     });
@@ -176,6 +210,8 @@ function PortfolioItemCell({
       } ${
         item.featured && item.active
           ? "ring-2 ring-orange"
+          : isServiceHero && item.active
+          ? "ring-2 ring-amber-500"
           : isServiceFeatured && item.active
           ? "ring-2 ring-navy"
           : ""
@@ -191,6 +227,11 @@ function PortfolioItemCell({
           className="object-cover"
         />
 
+        {/* Star cluster: three toggles pinned top-left, gap-1. Fits in a
+            160px-wide mobile card (24px * 3 + 8px gaps = ~88px) leaving
+            room for the status pill on the right. */}
+        <div className="absolute top-2 left-2 flex items-center gap-1">
+
         {/* Featured star */}
         <button
           type="button"
@@ -204,7 +245,7 @@ function PortfolioItemCell({
               ? "Featured on homepage. Click to remove."
               : "Feature on homepage"
           }
-          className={`absolute top-2 left-2 w-7 h-7 rounded-full flex items-center justify-center transition ${
+          className={`w-6 h-6 rounded-full flex items-center justify-center transition ${
             item.featured
               ? "bg-orange text-paper"
               : "bg-paper/90 text-muted hover:text-orange"
@@ -226,6 +267,50 @@ function PortfolioItemCell({
           </svg>
         </button>
 
+        {/* Service hero star (amber) -- use this photo as the service page hero. */}
+        <button
+          type="button"
+          onClick={handleHeroToggle}
+          aria-label={
+            isServiceHero
+              ? `Un-set as ${serviceLabel ?? "service"} page hero`
+              : `Set as ${serviceLabel ?? "service"} page hero`
+          }
+          aria-pressed={isServiceHero}
+          title={
+            isServiceHero
+              ? `Hero on ${serviceLabel ?? "service"} page. Click to remove.`
+              : serviceLabel
+              ? `Set as ${serviceLabel} page hero photo`
+              : "Tag a service to enable this"
+          }
+          disabled={!item.service}
+          className={`w-6 h-6 rounded-full flex items-center justify-center transition ${
+            isServiceHero
+              ? "bg-amber-500 text-paper"
+              : item.service
+              ? "bg-paper/90 text-muted hover:text-amber-500"
+              : "bg-paper/60 text-muted/50 cursor-not-allowed"
+          }`}
+        >
+          {/* Home icon signals hero/lead position */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill={isServiceHero ? "currentColor" : "none"}
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M3 12 L12 3 L21 12" />
+            <path d="M5 10 V21 H19 V10" />
+          </svg>
+        </button>
+
         {/* Service featured star (navy) -- feature on this item's service page. */}
         <button
           type="button"
@@ -244,7 +329,7 @@ function PortfolioItemCell({
               : "Tag a service to enable this"
           }
           disabled={!item.service}
-          className={`absolute top-2 left-11 w-7 h-7 rounded-full flex items-center justify-center transition ${
+          className={`w-6 h-6 rounded-full flex items-center justify-center transition ${
             isServiceFeatured
               ? "bg-navy text-paper"
               : item.service
@@ -267,6 +352,8 @@ function PortfolioItemCell({
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
           </svg>
         </button>
+
+        </div>
 
         <span
           className={`absolute top-2 right-2 text-[10px] font-display font-semibold px-2 py-0.5 rounded ${
@@ -344,6 +431,9 @@ function PortfolioItemCell({
         )}
         {serviceFeatureError && (
           <p className="text-[10px] text-red-600 mt-1">{serviceFeatureError}</p>
+        )}
+        {heroError && (
+          <p className="text-[10px] text-red-600 mt-1">{heroError}</p>
         )}
 
         <div className="flex items-center gap-2 mt-2">

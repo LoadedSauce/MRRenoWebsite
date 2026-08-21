@@ -27,6 +27,7 @@ import { getService, getVisibleFaqs } from "@/lib/data/services";
 import {
   getTestimonialForService,
   getPortfolioItemsByService,
+  getServiceHeroPhoto,
 } from "@/lib/supabase/queries";
 
 // ADM-5: ISR -- pages regenerate hourly so admin edits surface without a deploy.
@@ -95,6 +96,16 @@ export default async function ServiceHubPage({ params }: PageProps) {
         }))
       : undefined;
 
+  // Migration 0012: admin can set one hero photo per service. When present,
+  // overrides the default hero image on the Tier 2 hub page.
+  const heroRow = await getServiceHeroPhoto(serviceParam);
+  const heroImage = heroRow
+    ? {
+        src: heroRow.photo_url,
+        alt: heroRow.caption ?? `${service.displayName} project`,
+      }
+    : undefined;
+
   // -- FAQ items (service base only -- no city overrides on hub page) --------
   const faqItems = getVisibleFaqs(serviceParam, "__hub__");
 
@@ -126,6 +137,7 @@ export default async function ServiceHubPage({ params }: PageProps) {
         testimonial={testimonial}
         faqItems={faqItems}
         portfolioItems={galleryImages}
+        heroImage={heroImage}
       />
     </>
   );
