@@ -4,13 +4,18 @@ import Image from "next/image";
 import { useState, useTransition } from "react";
 import {
   MAX_FEATURED_PORTFOLIO_ITEMS,
+  MAX_FEATURED_PORTFOLIO_ITEMS_PER_SERVICE,
+  SERVICE_LABELS,
+  SERVICE_SLUGS,
   type PortfolioItem,
+  type ServiceSlug,
 } from "@/lib/supabase/types";
 import {
   togglePortfolioItem,
   deletePortfolioItem,
   updatePortfolioItem,
   setPortfolioItemFeatured,
+  setPortfolioItemServiceFeatured,
 } from "../../actions";
 
 const SERVICE_OPTIONS = [
@@ -30,6 +35,24 @@ export function PortfolioGrid({ items }: { items: PortfolioItem[] }) {
     );
   }
   const featuredCount = items.filter((i) => i.featured && i.active).length;
+
+  // Per-service featured counts, keyed on service slug. Used by the cell to
+  // decide whether the service star can be enabled or is at cap.
+  const serviceFeaturedCounts: Record<string, number> = {};
+  for (const slug of SERVICE_SLUGS) serviceFeaturedCounts[slug] = 0;
+  for (const item of items) {
+    if (
+      !item.active ||
+      item.service_featured_order === null ||
+      item.service === null
+    ) {
+      continue;
+    }
+    if (SERVICE_SLUGS.includes(item.service as ServiceSlug)) {
+      serviceFeaturedCounts[item.service] += 1;
+    }
+  }
+
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
       {items.map((item) => (
@@ -37,6 +60,9 @@ export function PortfolioGrid({ items }: { items: PortfolioItem[] }) {
           key={item.id}
           item={item}
           featuredCount={featuredCount}
+          serviceFeaturedCount={
+            item.service ? serviceFeaturedCounts[item.service] ?? 0 : 0
+          }
         />
       ))}
     </div>
@@ -46,13 +72,24 @@ export function PortfolioGrid({ items }: { items: PortfolioItem[] }) {
 function PortfolioItemCell({
   item,
   featuredCount,
+  serviceFeaturedCount,
 }: {
   item: PortfolioItem;
   featuredCount: number;
+  serviceFeaturedCount: number;
 }) {
   const [editing, setEditing] = useState(false);
   const [featureError, setFeatureError] = useState<string | null>(null);
+  const [serviceFeatureError, setServiceFeatureError] = useState<string | null>(
+    null
+  );
   const [, startTransition] = useTransition();
+
+  const isServiceFeatured = item.service_featured_order !== null;
+  const serviceLabel =
+    item.service && SERVICE_SLUGS.includes(item.service as ServiceSlug)
+      ? SERVICE_LABELS[item.service as ServiceSlug]
+      : null;
 
   async function handleDelete() {
     if (!window.confirm("Delete this photo?")) return;
@@ -93,11 +130,56 @@ function PortfolioItemCell({
     });
   }
 
+  async function handleServiceFeatureToggle() {
+    setServiceFeatureError(null);
+    const next = !isServiceFeatured;
+
+    if (next) {
+      if (!item.active) {
+        setServiceFeatureError("Show this photo before featuring it.");
+        return;
+      }
+      if (!item.service) {
+        setServiceFeatureError("Tag a service on this photo first.");
+        return;
+      }
+      if (serviceFeaturedCount >= MAX_FEATURED_PORTFOLIO_ITEMS_PER_SERVICE) {
+        setServiceFeatureError(
+          `Already at ${MAX_FEATURED_PORTFOLIO_ITEMS_PER_SERVICE} for ${serviceLabel ?? "this service"}. Un-star another first.`
+        );
+        return;
+      }
+    }
+
+    startTransition(async () => {
+      const res = await setPortfolioItemServiceFeatured(item.id, next);
+      if (!res.ok) {
+        if (res.reason === "cap") {
+          setServiceFeatureError(
+            `Already at ${MAX_FEATURED_PORTFOLIO_ITEMS_PER_SERVICE} for ${serviceLabel ?? "this service"}. Un-star another first.`
+          );
+        } else if (res.reason === "not_active") {
+          setServiceFeatureError("Show this photo before featuring it.");
+        } else if (res.reason === "no_service") {
+          setServiceFeatureError("Tag a service on this photo first.");
+        } else {
+          setServiceFeatureError("Could not update. Try again.");
+        }
+      }
+    });
+  }
+
   return (
     <div
       className={`rounded-lg overflow-hidden border ${
         item.active ? "border-faint" : "border-dashed border-muted/40 opacity-60"
-      } ${item.featured && item.active ? "ring-2 ring-orange" : ""}`}
+      } ${
+        item.featured && item.active
+          ? "ring-2 ring-orange"
+          : isServiceFeatured && item.active
+          ? "ring-2 ring-navy"
+          : ""
+      }`}
     >
       {/* Thumbnail */}
       <div className="relative aspect-square bg-soft-navy">
@@ -134,6 +216,48 @@ function PortfolioItemCell({
             height="14"
             viewBox="0 0 24 24"
             fill={item.featured ? "currentColor" : "none"}
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg>
+        </button>
+
+        {/* Service featured star (navy) -- feature on this item's service page. */}
+        <button
+          type="button"
+          onClick={handleServiceFeatureToggle}
+          aria-label={
+            isServiceFeatured
+              ? `Un-feature from ${serviceLabel ?? "service"} page`
+              : `Feature on ${serviceLabel ?? "service"} page`
+          }
+          aria-pressed={isServiceFeatured}
+          title={
+            isServiceFeatured
+              ? `Featured on ${serviceLabel ?? "service"} page. Click to remove.`
+              : serviceLabel
+              ? `Feature on ${serviceLabel} page`
+              : "Tag a service to enable this"
+          }
+          disabled={!item.service}
+          className={`absolute top-2 left-11 w-7 h-7 rounded-full flex items-center justify-center transition ${
+            isServiceFeatured
+              ? "bg-navy text-paper"
+              : item.service
+              ? "bg-paper/90 text-muted hover:text-navy"
+              : "bg-paper/60 text-muted/50 cursor-not-allowed"
+          }`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill={isServiceFeatured ? "currentColor" : "none"}
             stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
@@ -217,6 +341,9 @@ function PortfolioItemCell({
 
         {featureError && (
           <p className="text-[10px] text-red-600 mt-1">{featureError}</p>
+        )}
+        {serviceFeatureError && (
+          <p className="text-[10px] text-red-600 mt-1">{serviceFeatureError}</p>
         )}
 
         <div className="flex items-center gap-2 mt-2">

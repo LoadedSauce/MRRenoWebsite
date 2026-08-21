@@ -72,19 +72,39 @@ export async function getTestimonialForService(
 // -- PORTFOLIO --
 
 /**
- * Fetch active portfolio items for a service slug.
- * Returns empty array when none exist. Caller falls back to service-data.ts galleryImages.
+ * Fetch active portfolio items for a service slug, ordered so that any items
+ * flagged via the admin's per-service Featured strip come first (ascending by
+ * service_featured_order), followed by the rest of the service's active
+ * items ordered by display_order.
+ *
+ * Returns empty array when none exist. Caller falls back to
+ * service-data.ts galleryImages.
  */
 export async function getPortfolioItemsByService(
   service: string
 ): Promise<PortfolioItem[]> {
-  const { data } = await supabase
+  // Postgrest's nullsFirst controls where NULLs sort. We want NON-null
+  // service_featured_order values FIRST (ascending), then all the NULLs
+  // (ordered by display_order). Two ordered queries + concat is the
+  // simplest way to get a deterministic result without SQL-level sort
+  // options that PostgREST wraps loosely.
+  const { data: featured } = await supabase
     .from("portfolio_items")
     .select()
     .eq("active", true)
     .eq("service", service)
-    .order("display_order");
-  return data ?? [];
+    .not("service_featured_order", "is", null)
+    .order("service_featured_order", { ascending: true });
+
+  const { data: rest } = await supabase
+    .from("portfolio_items")
+    .select()
+    .eq("active", true)
+    .eq("service", service)
+    .is("service_featured_order", null)
+    .order("display_order", { ascending: true });
+
+  return [...(featured ?? []), ...(rest ?? [])];
 }
 
 /**
