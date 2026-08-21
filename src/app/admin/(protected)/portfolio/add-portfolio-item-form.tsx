@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import { addPortfolioItem } from "../../actions";
 
@@ -18,6 +18,8 @@ export function AddPortfolioItemForm() {
   const [uploading, setUploading] = useState(false);
   const [photoUrl, setPhotoUrl] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
+  const [filename, setFilename] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -27,6 +29,7 @@ export function AddPortfolioItemForm() {
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    setFilename(file.name);
     setPreview(URL.createObjectURL(file));
     const ext = file.name.split(".").pop();
     const path = `portfolio/${Date.now()}.${ext}`;
@@ -45,13 +48,30 @@ export function AddPortfolioItemForm() {
           <label className="block text-sm font-medium text-ink mb-1">
             Photo file (max 2MB, web-ready)
           </label>
-          <input
-            type="file"
-            accept="image/*"
-            required
-            onChange={handleFileChange}
-            className="text-sm text-muted"
-          />
+          <div className="flex items-center gap-3 flex-wrap">
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading}
+              className="inline-flex items-center gap-2 bg-navy hover:bg-navy-deep disabled:opacity-60 text-paper font-display font-semibold text-xs px-4 py-2 rounded-md transition-colors"
+            >
+              <span aria-hidden="true" className="font-bold">+</span>
+              {uploading ? "Uploading..." : filename ? "Choose different photo" : "Choose photo"}
+            </button>
+            {/* Hidden native input -- opened by the button above. */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            {filename && !uploading && (
+              <span className="text-xs text-muted truncate max-w-[16rem]">
+                {filename}
+              </span>
+            )}
+          </div>
           {uploading && <p className="text-xs text-muted mt-1">Uploading...</p>}
           {preview && (
             <div className="mt-2 w-24 h-24 rounded overflow-hidden bg-soft-navy relative">
@@ -59,7 +79,7 @@ export function AddPortfolioItemForm() {
               <img src={preview} alt="" className="object-cover w-full h-full" />
             </div>
           )}
-          <input type="hidden" name="photo_url" value={photoUrl} />
+          <input type="hidden" name="photo_url" value={photoUrl} required />
         </div>
 
         <div>
