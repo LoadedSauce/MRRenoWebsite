@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createServiceRoleClient } from "@/lib/supabase/server";
 import {
   MAX_FEATURED_PORTFOLIO_ITEMS,
+  MAX_FEATURED_PORTFOLIO_ITEMS_PER_SERVICE,
   TEAM_SECTIONS,
   type TeamSection,
 } from "@/lib/supabase/types";
@@ -181,12 +182,26 @@ export async function updatePortfolioItem(id: string, formData: FormData) {
 
 export async function togglePortfolioItem(id: string, active: boolean) {
   const supabase = createServiceRoleClient();
-  const patch: { active: boolean; featured?: boolean } = { active };
-  // If we're hiding an item, drop its featured flag so it never leaks to the homepage.
-  if (!active) patch.featured = false;
+  const patch: {
+    active: boolean;
+    featured?: boolean;
+    service_featured_order?: number | null;
+  } = { active };
+  // If we're hiding an item, drop both featured flags so it never leaks to
+  // the homepage or to a service page featured strip.
+  if (!active) {
+    patch.featured = false;
+    patch.service_featured_order = null;
+  }
+  const { data: before } = await supabase
+    .from("portfolio_items")
+    .select("service")
+    .eq("id", id)
+    .maybeSingle();
   await supabase.from("portfolio_items").update(patch).eq("id", id);
   revalidatePath("/admin/portfolio");
   revalidatePath("/");
+  if (before?.service) revalidatePath(`/services/${before.service}`);
 }
 
 export async function deletePortfolioItem(id: string) {
@@ -201,7 +216,9 @@ export async function deletePortfolioItem(id: string) {
  *
  * When enabling, enforces MAX_FEATURED_PORTFOLIO_ITEMS. If already at the cap,
  * returns { ok: false, reason: "cap" } and the UI shows an inline message.
- * Only active items may be featured.
+ * Only active items may be featured. Un-featuring an item also drops it from
+ * the service page featured strip, since the homepage strip is the more
+ * prominent surface -- keeping both in sync avoids ghosts.
  */
 export async function setPortfolioItemFeatured(
   id: string,
@@ -239,6 +256,98 @@ export async function setPortfolioItemFeatured(
   await supabase.from("portfolio_items").update({ featured }).eq("id", id);
   revalidatePath("/admin/portfolio");
   revalidatePath("/");
+  return { ok: true };
+}
+
+/**
+ * Set service_featured_order on a portfolio item to enable/disable its
+ * appearance in a service page's featured strip.
+ *
+ * When `featured` is true:
+ *   - The item must be active and tagged with a service.
+ *   - The item's `service` slug determines which page it will appear on.
+ *   - We assign the next-available integer for that service so it lands at
+ *     the end of the strip; admin can drag/reorder later if they want.
+ *   - Enforces MAX_FEATURED_PORTFOLIO_ITEMS_PER_SERVICE across items that
+ *     share this item's `service` slug.
+ *
+ * When `featured` is false: sets service_featured_order back to null.
+ *
+ * All revalidations target both the admin panel and the affected public
+ * service pages (both /services/<slug> hub and /services/<slug>/<area>).
+ */
+export async function setPortfolioItemServiceFeatured(
+  id: string,
+  featured: boolean
+): Promise<
+  | { ok: true }
+  | {
+      ok: false;
+      reason: "cap" | "not_active" | "no_service" | "not_found";
+    }
+> {
+  const supabase = createServiceRoleClient();
+
+  const { data: target } = await supabase
+    .from("portfolio_items")
+    .select("id, active, service, service_featured_order")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (!target) return { ok: false, reason: "not_found" };
+
+  if (featured) {
+    if (!target.active) return { ok: false, reason: "not_active" };
+    if (!target.service) return { ok: false, reason: "no_service" };
+
+    // Already featured? Idempotent.
+    if (target.service_featured_order !== null) {
+      revalidatePath("/admin/portfolio");
+      revalidatePath(`/services/${target.service}`);
+      return { ok: true };
+    }
+
+    // Enforce per-service cap.
+    const { count: featuredCount } = await supabase
+      .from("portfolio_items")
+      .select("id", { count: "exact", head: true })
+      .eq("service", target.service)
+      .eq("active", true)
+      .not("service_featured_order", "is", null);
+
+    if ((featuredCount ?? 0) >= MAX_FEATURED_PORTFOLIO_ITEMS_PER_SERVICE) {
+      return { ok: false, reason: "cap" };
+    }
+
+    // Assign next-available order. We compute max(service_featured_order)
+    // for that service and add 1. Falls back to 0 when the service has no
+    // featured items yet.
+    const { data: rows } = await supabase
+      .from("portfolio_items")
+      .select("service_featured_order")
+      .eq("service", target.service)
+      .not("service_featured_order", "is", null);
+
+    const maxOrder = (rows ?? []).reduce<number>((acc, r) => {
+      const v = r.service_featured_order;
+      return typeof v === "number" && v > acc ? v : acc;
+    }, -1);
+
+    await supabase
+      .from("portfolio_items")
+      .update({ service_featured_order: maxOrder + 1 })
+      .eq("id", id);
+  } else {
+    await supabase
+      .from("portfolio_items")
+      .update({ service_featured_order: null })
+      .eq("id", id);
+  }
+
+  revalidatePath("/admin/portfolio");
+  if (target.service) {
+    revalidatePath(`/services/${target.service}`);
+  }
   return { ok: true };
 }
 

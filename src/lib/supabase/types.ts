@@ -30,10 +30,44 @@ export interface PortfolioItem {
   display_order: number;
   active: boolean;
   featured: boolean;
+  /**
+   * When set, item is featured on its service page in ascending order of
+   * this value. When null, it is not on the service page featured strip
+   * (but still appears in the rest of the service gallery if active).
+   */
+  service_featured_order: number | null;
 }
 
 /** Maximum number of items that can be featured on the homepage at once. */
 export const MAX_FEATURED_PORTFOLIO_ITEMS = 3;
+
+/** Maximum number of items that can be featured on any one service page. */
+export const MAX_FEATURED_PORTFOLIO_ITEMS_PER_SERVICE = 3;
+
+/**
+ * Canonical list of service slugs used across the app. Admin panels, portfolio
+ * item tagging, service page routing, and structured data all key off these.
+ */
+export const SERVICE_SLUGS = [
+  "kitchens",
+  "bathrooms",
+  "basements",
+  "additions",
+  "whole-home",
+  "exterior",
+] as const;
+
+export type ServiceSlug = (typeof SERVICE_SLUGS)[number];
+
+/** Display labels for the service slugs, in the same order. */
+export const SERVICE_LABELS: Record<ServiceSlug, string> = {
+  kitchens: "Kitchens",
+  bathrooms: "Bathrooms",
+  basements: "Basements",
+  additions: "Additions",
+  "whole-home": "Whole Home",
+  exterior: "Exterior",
+};
 
 /** Matches public.testimonials schema */
 export interface Testimonial {
