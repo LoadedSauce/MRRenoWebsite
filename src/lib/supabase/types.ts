@@ -36,6 +36,12 @@ export interface PortfolioItem {
    * (but still appears in the rest of the service gallery if active).
    */
   service_featured_order: number | null;
+  /**
+   * When true, this item's photo is used as the hero image on its service's
+   * Tier 2 hub page and Tier 3 area pages. At most one item per service may
+   * be flagged (enforced by admin action + partial unique index).
+   */
+  is_service_hero: boolean;
 }
 
 /** Maximum number of items that can be featured on the homepage at once. */

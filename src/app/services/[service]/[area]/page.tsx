@@ -18,6 +18,7 @@ import { getService, getServiceArea, getVisibleFaqs } from "@/lib/data/services"
 import {
   getTestimonialForArea,
   getPortfolioItemsByService,
+  getServiceHeroPhoto,
 } from "@/lib/supabase/queries";
 
 // ADM-5: ISR -- pages regenerate hourly so admin edits surface without a deploy.
@@ -110,6 +111,15 @@ export default async function ServiceAreaPage({ params }: PageProps) {
         }))
       : undefined;
 
+  // Migration 0012: admin-selected hero photo for this service.
+  const heroRow = await getServiceHeroPhoto(serviceParam);
+  const heroImage = heroRow
+    ? {
+        src: heroRow.photo_url,
+        alt: heroRow.caption ?? `${service.displayName} project`,
+      }
+    : undefined;
+
   const faqItems = getVisibleFaqs(serviceParam, areaParam);
 
   const seoService = getService(serviceParam);
@@ -144,6 +154,7 @@ export default async function ServiceAreaPage({ params }: PageProps) {
         testimonial={testimonial}
         faqItems={faqItems}
         portfolioItems={galleryImages}
+        heroImage={heroImage}
       />
     </>
   );

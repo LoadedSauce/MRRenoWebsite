@@ -53,6 +53,23 @@ export default async function AdminPortfolioPage() {
     );
   }
 
+  // Per-service hero photo lookup. At most one active hero per service
+  // (enforced by DB partial unique index and by the admin server action).
+  const serviceHero: Partial<Record<ServiceSlug, PortfolioItem>> = {};
+  for (const item of rows) {
+    if (
+      !item.active ||
+      !item.is_service_hero ||
+      item.service === null
+    ) {
+      continue;
+    }
+    const slug = item.service as ServiceSlug;
+    if (SERVICE_SLUGS.includes(slug) && !serviceHero[slug]) {
+      serviceHero[slug] = item;
+    }
+  }
+
   return (
     <div className="p-8 max-w-5xl">
       <h1 className="font-display font-bold text-2xl text-ink tracking-tight">
@@ -112,6 +129,56 @@ export default async function AdminPortfolioPage() {
             )}
           </div>
         )}
+      </div>
+
+      {/* Per-service hero photos: one hero per service page (Tier 2 and Tier 3). */}
+      <div className="mt-8 bg-paper rounded-xl border border-faint p-5">
+        <div className="mb-3">
+          <h2 className="font-display font-semibold text-base text-ink">
+            Service page hero photos
+          </h2>
+          <p className="mt-1 text-xs text-muted">
+            One hero photo per service page. Click the home icon (amber) on any photo below to set it as its service's hero. Basements and Exterior need heroes; the others can be customized here too.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          {SERVICE_SLUGS.map((slug) => {
+            const hero = serviceHero[slug];
+            return (
+              <div key={slug}>
+                <div className="flex items-baseline justify-between mb-1">
+                  <h3 className="font-display font-semibold text-sm text-ink">
+                    {SERVICE_LABELS[slug]}
+                  </h3>
+                  <span
+                    className={`text-[10px] font-medium ${
+                      hero ? "text-green-700" : "text-red-600"
+                    }`}
+                  >
+                    {hero ? "Set" : "No hero"}
+                  </span>
+                </div>
+                {hero ? (
+                  <div className="relative aspect-[4/3] rounded-md overflow-hidden bg-soft-navy border border-faint">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={hero.photo_url}
+                      alt={hero.caption ?? `${SERVICE_LABELS[slug]} hero photo`}
+                      className="w-full h-full object-cover"
+                    />
+                    <span className="absolute top-1.5 left-1.5 text-[10px] font-display font-semibold px-1.5 py-0.5 rounded bg-amber-500 text-paper">
+                      Hero
+                    </span>
+                  </div>
+                ) : (
+                  <div className="aspect-[4/3] rounded-md border border-dashed border-red-300 bg-red-50/40 flex items-center justify-center text-xs text-red-600 text-center px-3">
+                    Set a hero from a photo below (home icon)
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Per-service featured strips: preview of each service page. */}

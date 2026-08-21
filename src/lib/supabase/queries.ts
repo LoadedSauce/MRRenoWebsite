@@ -72,6 +72,25 @@ export async function getTestimonialForService(
 // -- PORTFOLIO --
 
 /**
+ * Fetch the hero photo for a service, if the admin has set one.
+ * Returns null when no active item is flagged as hero for this service --
+ * caller should fall back to the first gallery image or a placeholder.
+ */
+export async function getServiceHeroPhoto(
+  service: string
+): Promise<PortfolioItem | null> {
+  const { data } = await supabase
+    .from("portfolio_items")
+    .select()
+    .eq("active", true)
+    .eq("service", service)
+    .eq("is_service_hero", true)
+    .limit(1)
+    .maybeSingle();
+  return data ?? null;
+}
+
+/**
  * Fetch active portfolio items for a service slug, ordered so that any items
  * flagged via the admin's per-service Featured strip come first (ascending by
  * service_featured_order), followed by the rest of the service's active

@@ -186,12 +186,14 @@ export async function togglePortfolioItem(id: string, active: boolean) {
     active: boolean;
     featured?: boolean;
     service_featured_order?: number | null;
+    is_service_hero?: boolean;
   } = { active };
-  // If we're hiding an item, drop both featured flags so it never leaks to
-  // the homepage or to a service page featured strip.
+  // If we're hiding an item, drop all featured/hero flags so it never leaks
+  // to the homepage, a service page strip, or a service page hero.
   if (!active) {
     patch.featured = false;
     patch.service_featured_order = null;
+    patch.is_service_hero = false;
   }
   const { data: before } = await supabase
     .from("portfolio_items")
@@ -341,6 +343,76 @@ export async function setPortfolioItemServiceFeatured(
     await supabase
       .from("portfolio_items")
       .update({ service_featured_order: null })
+      .eq("id", id);
+  }
+
+  revalidatePath("/admin/portfolio");
+  if (target.service) {
+    revalidatePath(`/services/${target.service}`);
+  }
+  return { ok: true };
+}
+
+/**
+ * Set is_service_hero on a portfolio item. Only one item per service may be
+ * flagged; setting a new hero automatically clears the previous hero for
+ * that service. The item must be active and tagged with a service.
+ *
+ * Returns:
+ *   - { ok: true } when the flag was written (or was already correct)
+ *   - { ok: false, reason: "not_active" } if trying to promote an inactive item
+ *   - { ok: false, reason: "no_service" } if the item has no service tag
+ *   - { ok: false, reason: "not_found" } if the id does not exist
+ */
+export async function setPortfolioItemServiceHero(
+  id: string,
+  isHero: boolean
+): Promise<
+  | { ok: true }
+  | {
+      ok: false;
+      reason: "not_active" | "no_service" | "not_found";
+    }
+> {
+  const supabase = createServiceRoleClient();
+
+  const { data: target } = await supabase
+    .from("portfolio_items")
+    .select("id, active, service, is_service_hero")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (!target) return { ok: false, reason: "not_found" };
+
+  if (isHero) {
+    if (!target.active) return { ok: false, reason: "not_active" };
+    if (!target.service) return { ok: false, reason: "no_service" };
+
+    // Idempotent: already the hero for this service.
+    if (target.is_service_hero) {
+      revalidatePath("/admin/portfolio");
+      revalidatePath(`/services/${target.service}`);
+      return { ok: true };
+    }
+
+    // Clear any existing hero for this service before setting the new one.
+    // The partial unique index would reject two heroes at once, so we must
+    // clear first. Both writes happen server-side back-to-back; there's no
+    // multi-writer contention on this endpoint in practice.
+    await supabase
+      .from("portfolio_items")
+      .update({ is_service_hero: false })
+      .eq("service", target.service)
+      .eq("is_service_hero", true);
+
+    await supabase
+      .from("portfolio_items")
+      .update({ is_service_hero: true })
+      .eq("id", id);
+  } else {
+    await supabase
+      .from("portfolio_items")
+      .update({ is_service_hero: false })
       .eq("id", id);
   }
 
