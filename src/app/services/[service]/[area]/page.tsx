@@ -20,6 +20,7 @@ import {
   getPortfolioItemsByService,
   getServiceHeroPhoto,
 } from "@/lib/supabase/queries";
+import { loadPageContent, detectEditMode } from "@/lib/page-content/loader";
 
 // ADM-5: ISR -- pages regenerate hourly so admin edits surface without a deploy.
 export const revalidate = 3600;
@@ -56,6 +57,7 @@ export function generateStaticParams() {
 
 interface PageProps {
   params: Promise<{ service: string; area: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -66,8 +68,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return buildServiceAreaMetadata(service, area);
 }
 
-export default async function ServiceAreaPage({ params }: PageProps) {
+export default async function ServiceAreaPage({
+  params,
+  searchParams,
+}: PageProps) {
   const { service: serviceParam, area: areaParam } = await params;
+  const sp = await searchParams;
+  const isEditMode = await detectEditMode(sp);
+  const pageContent = await loadPageContent(
+    `service-area:${areaParam}`,
+    isEditMode
+  );
 
   const service =
     serviceParam in serviceRegistry
@@ -155,6 +166,7 @@ export default async function ServiceAreaPage({ params }: PageProps) {
         faqItems={faqItems}
         portfolioItems={galleryImages}
         heroImage={heroImage}
+        pageContent={pageContent}
       />
     </>
   );
