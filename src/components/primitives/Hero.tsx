@@ -9,17 +9,18 @@ export interface HeroStat {
 }
 
 export interface HeroCta {
-  label: string;
+  /** ReactNode so admin edit chrome (EditableText) can be inlined. */
+  label: ReactNode;
   href: string;
 }
 
 export interface HeroProps {
-  /** Small uppercase label above the headline */
-  eyebrow?: string;
+  /** Small uppercase label above the headline. ReactNode so edit chrome can be inlined. */
+  eyebrow?: ReactNode;
   /** Pass a ReactNode to include <span className="accent"> phrases */
   headline: ReactNode;
-  /** One compact paragraph of sub-copy */
-  subCopy: string;
+  /** One compact paragraph of sub-copy. ReactNode so edit chrome can be inlined. */
+  subCopy: ReactNode;
   primaryCta: HeroCta;
   secondaryCta?: HeroCta;
   /** Optional stat strip below the CTAs */
