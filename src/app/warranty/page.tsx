@@ -4,8 +4,12 @@ import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
 import { JsonLd, buildPageGraph, buildWebPageSchema } from "@/lib/seo/schema";
 import { buildWarrantyMetadata } from "@/lib/seo/routes";
+import { loadPageContent, detectEditMode } from "@/lib/page-content/loader";
+import { EditableText } from "@/components/editable/EditableText";
+import { EditModeOverlay } from "@/components/editable/EditModeOverlay";
 
 export const metadata: Metadata = buildWarrantyMetadata();
+export const revalidate = 3600;
 
 const faqItems = [
   {
@@ -30,7 +34,15 @@ const faqItems = [
   },
 ];
 
-export default function WarrantyPage() {
+interface PageProps {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}
+
+export default async function WarrantyPage({ searchParams }: PageProps) {
+  const sp = await searchParams;
+  const isEditMode = await detectEditMode(sp);
+  const content = await loadPageContent("warranty", isEditMode);
+
   return (
     <PageShell>
       <JsonLd
@@ -41,36 +53,54 @@ export default function WarrantyPage() {
           ),
         ])}
       />
-      {/* ── HERO ─────────────────────────────────────────────── */}
+      {/* -- HERO ------------------------------------------------------ */}
       <section className="bg-navy text-paper">
         <Container width="wide" className="py-20 lg:py-28">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
-            Our commitment
+            <EditableText content={content} blockKey="warranty.hero.eyebrow" fallback="Our commitment" />
           </p>
           <h1 className="mt-4 font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-paper max-w-3xl">
-            The Lifetime Transferable Workmanship Warranty
+            <EditableText
+              content={content}
+              blockKey="warranty.hero.headline"
+              fallback="The Lifetime Transferable Workmanship Warranty"
+              multiline
+            />
           </h1>
           <p className="mt-6 text-base sm:text-lg leading-relaxed text-soft-navy/90 max-w-2xl">
-            Every project M.R. Renovations completes is backed by a written lifetime warranty on our workmanship. It covers the life of the project and it transfers to the next owner when you sell. Almost no residential contractor in Minnesota offers this.
+            <EditableText
+              content={content}
+              blockKey="warranty.hero.subcopy"
+              fallback="Every project M.R. Renovations completes is backed by a written lifetime warranty on our workmanship. It covers the life of the project and it transfers to the next owner when you sell. Almost no residential contractor in Minnesota offers this."
+              multiline
+            />
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Link
               href="/consultation"
               className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-6 py-3.5 rounded-md transition"
             >
-              Request a Free Consultation
+              <EditableText
+                content={content}
+                blockKey="warranty.hero.cta.primary"
+                fallback="Request a Free Consultation"
+              />
             </Link>
             <a
               href="tel:7639002024"
               className="inline-flex items-center justify-center bg-paper/10 hover:bg-paper/20 text-paper border border-paper/40 font-display font-semibold px-6 py-3.5 rounded-md transition-colors"
             >
-              Call 763-900-2024
+              <EditableText
+                content={content}
+                blockKey="warranty.hero.cta.secondary"
+                fallback="Call 763-900-2024"
+              />
             </a>
           </div>
         </Container>
       </section>
 
-      {/* ── WHAT IT COVERS ───────────────────────────────────── */}
+      {/* -- WHAT IT COVERS ------------------------------------------- */}
       <section className="bg-paper">
         <Container width="wide" className="py-20 lg:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
@@ -79,10 +109,20 @@ export default function WarrantyPage() {
                 Coverage
               </p>
               <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink leading-[1.1]">
-                What the warranty covers
+                <EditableText
+                  content={content}
+                  blockKey="warranty.coverage.headline"
+                  fallback="What the warranty covers"
+                  multiline
+                />
               </h2>
               <p className="mt-5 text-base text-muted leading-relaxed">
-                The warranty covers all labor and installation performed by M.R. Renovations crews on your project.
+                <EditableText
+                  content={content}
+                  blockKey="warranty.coverage.intro"
+                  fallback="The warranty covers all labor and installation performed by M.R. Renovations crews on your project."
+                  multiline
+                />
               </p>
               <ul className="mt-7 space-y-4">
                 {[
@@ -130,10 +170,20 @@ export default function WarrantyPage() {
                 Conditions
               </p>
               <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink leading-[1.1]">
-                What voids coverage
+                <EditableText
+                  content={content}
+                  blockKey="warranty.conditions.headline"
+                  fallback="What voids coverage"
+                  multiline
+                />
               </h2>
               <p className="mt-5 text-base text-muted leading-relaxed">
-                The warranty is straightforward. There are two conditions that supersede it.
+                <EditableText
+                  content={content}
+                  blockKey="warranty.conditions.intro"
+                  fallback="The warranty is straightforward. There are two conditions that supersede it."
+                  multiline
+                />
               </p>
               <div className="mt-7 space-y-5">
                 <div className="rounded-xl border border-faint bg-soft-navy/40 p-6">
@@ -167,17 +217,27 @@ export default function WarrantyPage() {
         </Container>
       </section>
 
-      {/* ── CLAIM PROCESS ────────────────────────────────────── */}
+      {/* -- CLAIM PROCESS -------------------------------------------- */}
       <section className="bg-cream">
         <Container width="wide" className="py-20 lg:py-24">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
             Filing a claim
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink max-w-2xl leading-[1.1]">
-            How to report a warranty issue
+            <EditableText
+              content={content}
+              blockKey="warranty.filing.headline"
+              fallback="How to report a warranty issue"
+              multiline
+            />
           </h2>
           <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
-            Contact us within 24 hours of noticing the issue. Warranty claims are handled directly. No third-party administrators, no automated queues.
+            <EditableText
+              content={content}
+              blockKey="warranty.filing.intro"
+              fallback="Contact us within 24 hours of noticing the issue. Warranty claims are handled directly. No third-party administrators, no automated queues."
+              multiline
+            />
           </p>
 
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -231,14 +291,18 @@ export default function WarrantyPage() {
         </Container>
       </section>
 
-      {/* ── FAQ ──────────────────────────────────────────────── */}
+      {/* -- FAQ ------------------------------------------------------ */}
       <section className="bg-paper">
         <Container width="narrow" className="py-20 lg:py-24">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
             Common questions
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink leading-[1.1]">
-            Warranty FAQ
+            <EditableText
+              content={content}
+              blockKey="warranty.faq.headline"
+              fallback="Warranty FAQ"
+            />
           </h2>
 
           <dl className="mt-10 divide-y divide-faint">
@@ -256,15 +320,24 @@ export default function WarrantyPage() {
         </Container>
       </section>
 
-      {/* ── CTA STRIP ────────────────────────────────────────── */}
+      {/* -- CTA STRIP ------------------------------------------------- */}
       <section className="bg-navy text-paper">
         <Container width="wide" className="py-16 lg:py-20 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div>
             <p className="font-display font-bold text-paper text-xl sm:text-2xl max-w-xl leading-snug">
-              Ready to start a project backed by a lifetime warranty?
+              <EditableText
+                content={content}
+                blockKey="warranty.final.headline"
+                fallback="Ready to start a project backed by a lifetime warranty?"
+                multiline
+              />
             </p>
             <p className="mt-2 text-sm text-soft-navy/85">
-              No pressure. We respond within one business day.
+              <EditableText
+                content={content}
+                blockKey="warranty.final.subcopy"
+                fallback="No pressure. We respond within one business day."
+              />
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
@@ -272,17 +345,29 @@ export default function WarrantyPage() {
               href="/consultation"
               className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-6 py-3.5 rounded-md transition whitespace-nowrap"
             >
-              Request a Free Consultation
+              <EditableText
+                content={content}
+                blockKey="warranty.final.cta.primary"
+                fallback="Request a Free Consultation"
+              />
             </Link>
             <a
               href="tel:7639002024"
               className="inline-flex items-center justify-center bg-paper/10 hover:bg-paper/20 text-paper border border-paper/40 font-display font-semibold px-6 py-3.5 rounded-md transition-colors whitespace-nowrap"
             >
-              763-900-2024
+              <EditableText
+                content={content}
+                blockKey="warranty.final.cta.secondary"
+                fallback="763-900-2024"
+              />
             </a>
           </div>
         </Container>
       </section>
+
+      {content.isEditMode ? (
+        <EditModeOverlay currentPath="/warranty?edit=1" />
+      ) : null}
     </PageShell>
   );
 }

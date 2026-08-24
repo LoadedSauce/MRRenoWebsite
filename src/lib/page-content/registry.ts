@@ -209,12 +209,127 @@ const SERVICE_ENTRIES = Object.fromEntries(
   SERVICE_SLUGS.map((s) => [`service.${s.slug}`, buildServiceHub(s)])
 );
 
+// -- PROCESS PAGE ------------------------------------------------------------
+
+const PROCESS: PageRegistryEntry = {
+  key: "process",
+  label: "Process",
+  route: "/process",
+  order: 8,
+  photoSlots: [
+    { slotKey: "process.hero.image", label: "Hero photo", hint: "Right column of the hero. Aspect 4/3." },
+    { slotKey: "process.step.01.image", label: "Step 01 photo (Reach out)" },
+    { slotKey: "process.step.02.image", label: "Step 02 photo (Discovery appointment)" },
+    { slotKey: "process.step.03.image", label: "Step 03 photo (Estimate preparation)" },
+    { slotKey: "process.step.06.image", label: "Step 06 photo (Material selection)" },
+    { slotKey: "process.step.09.image", label: "Step 09 photo (The Work)" },
+    { slotKey: "process.step.10.image", label: "Step 10 photo (Final walkthrough)" },
+  ],
+  textBlocks: [
+    // Hero
+    { blockKey: "process.hero.eyebrow", label: "Hero eyebrow (large orange 'Our Process')" },
+    { blockKey: "process.hero.headline", label: "Hero headline", multiline: true },
+    { blockKey: "process.hero.subcopy", label: "Hero subcopy (intro to team roles)", multiline: true },
+    { blockKey: "process.hero.cta", label: "Hero CTA button label" },
+    // Phase labels
+    { blockKey: "process.phase.getting-started", label: "Phase label: Getting started" },
+    { blockKey: "process.phase.after-signing", label: "Phase label: After signing" },
+    // Ten steps (title + body each)
+    { blockKey: "process.step.01.title", label: "Step 01 title" },
+    { blockKey: "process.step.01.body", label: "Step 01 body", multiline: true },
+    { blockKey: "process.step.02.title", label: "Step 02 title" },
+    { blockKey: "process.step.02.body", label: "Step 02 body", multiline: true },
+    { blockKey: "process.step.03.title", label: "Step 03 title" },
+    { blockKey: "process.step.03.body", label: "Step 03 body", multiline: true },
+    { blockKey: "process.step.04.title", label: "Step 04 title" },
+    { blockKey: "process.step.04.body", label: "Step 04 body", multiline: true },
+    { blockKey: "process.step.05.title", label: "Step 05 title" },
+    { blockKey: "process.step.05.body", label: "Step 05 body", multiline: true },
+    { blockKey: "process.step.06.title", label: "Step 06 title" },
+    { blockKey: "process.step.06.body", label: "Step 06 body", multiline: true },
+    { blockKey: "process.step.06.badge", label: "Step 06 'What sets us apart' pill" },
+    { blockKey: "process.step.07.title", label: "Step 07 title" },
+    { blockKey: "process.step.07.body", label: "Step 07 body", multiline: true },
+    { blockKey: "process.step.08.title", label: "Step 08 title" },
+    { blockKey: "process.step.08.body", label: "Step 08 body", multiline: true },
+    { blockKey: "process.step.09.title", label: "Step 09 title" },
+    { blockKey: "process.step.09.body", label: "Step 09 body", multiline: true },
+    { blockKey: "process.step.10.title", label: "Step 10 title" },
+    { blockKey: "process.step.10.body", label: "Step 10 body", multiline: true },
+    // Final CTA strip
+    { blockKey: "process.final.headline", label: "Final CTA headline" },
+    { blockKey: "process.final.subcopy", label: "Final CTA subcopy", multiline: true },
+    { blockKey: "process.final.cta", label: "Final CTA button label" },
+  ],
+};
+
+// -- WARRANTY PAGE -----------------------------------------------------------
+
+const WARRANTY: PageRegistryEntry = {
+  key: "warranty",
+  label: "Warranty",
+  route: "/warranty",
+  order: 9,
+  photoSlots: [],
+  textBlocks: [
+    // Hero
+    { blockKey: "warranty.hero.eyebrow", label: "Hero eyebrow" },
+    { blockKey: "warranty.hero.headline", label: "Hero headline", multiline: true },
+    { blockKey: "warranty.hero.subcopy", label: "Hero subcopy", multiline: true },
+    { blockKey: "warranty.hero.cta.primary", label: "Hero primary CTA label" },
+    { blockKey: "warranty.hero.cta.secondary", label: "Hero secondary CTA label" },
+    // Coverage section
+    { blockKey: "warranty.coverage.headline", label: "Coverage section headline", multiline: true },
+    { blockKey: "warranty.coverage.intro", label: "Coverage section intro", multiline: true },
+    // Conditions section
+    { blockKey: "warranty.conditions.headline", label: "Conditions section headline", multiline: true },
+    { blockKey: "warranty.conditions.intro", label: "Conditions section intro", multiline: true },
+    // Claim / filing section
+    { blockKey: "warranty.filing.headline", label: "Filing a claim: headline", multiline: true },
+    { blockKey: "warranty.filing.intro", label: "Filing a claim: intro", multiline: true },
+    // FAQ headline
+    { blockKey: "warranty.faq.headline", label: "Warranty FAQ headline" },
+    // Final CTA strip
+    { blockKey: "warranty.final.headline", label: "Final CTA headline", multiline: true },
+    { blockKey: "warranty.final.subcopy", label: "Final CTA subcopy" },
+    { blockKey: "warranty.final.cta.primary", label: "Final CTA primary label" },
+    { blockKey: "warranty.final.cta.secondary", label: "Final CTA secondary label" },
+  ],
+};
+
+// -- CONSULTATION PAGE -------------------------------------------------------
+
+const CONSULTATION: PageRegistryEntry = {
+  key: "consultation",
+  label: "Consultation",
+  route: "/consultation",
+  order: 10,
+  photoSlots: [],
+  textBlocks: [
+    // Hero
+    { blockKey: "consultation.hero.eyebrow", label: "Hero eyebrow" },
+    { blockKey: "consultation.hero.headline", label: "Hero headline (accent phrase applied)", multiline: true },
+    { blockKey: "consultation.hero.subcopy", label: "Hero subcopy", multiline: true },
+    // What to expect column
+    { blockKey: "consultation.expect.eyebrow", label: "'What to expect' eyebrow" },
+    { blockKey: "consultation.expect.headline", label: "'What to expect' headline", multiline: true },
+    { blockKey: "consultation.expect.subcopy", label: "'What to expect' subcopy", multiline: true },
+    // Financing sidecard
+    { blockKey: "consultation.financing.eyebrow", label: "Financing sidecard eyebrow" },
+    { blockKey: "consultation.financing.title", label: "Financing sidecard title" },
+    { blockKey: "consultation.financing.subcopy", label: "Financing sidecard subcopy", multiline: true },
+    { blockKey: "consultation.financing.cta", label: "Financing sidecard CTA label" },
+  ],
+};
+
 // -- REGISTRY (exported) -----------------------------------------------------
 
 export const PAGE_REGISTRY: Record<string, PageRegistryEntry> = {
   home: HOME,
   ...SERVICE_ENTRIES,
-  // PR #111 adds process, warranty, consultation
+  process: PROCESS,
+  warranty: WARRANTY,
+  consultation: CONSULTATION,
   // PR #112 adds contact, team, careers
   // PR #113 adds resources, financing, legal
 };
