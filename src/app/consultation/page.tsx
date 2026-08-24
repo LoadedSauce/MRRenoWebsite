@@ -4,8 +4,12 @@ import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
 import { LeadFormShell } from "@/components/lead-form-shell";
 import { buildConsultationMetadata } from "@/lib/seo/routes";
+import { loadPageContent, detectEditMode } from "@/lib/page-content/loader";
+import { EditableText } from "@/components/editable/EditableText";
+import { EditModeOverlay } from "@/components/editable/EditModeOverlay";
 
 export const metadata: Metadata = buildConsultationMetadata();
+export const revalidate = 3600;
 
 const reassurances = [
   {
@@ -22,37 +26,65 @@ const reassurances = [
   },
 ];
 
-export default function ConsultationPage() {
+interface PageProps {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}
+
+export default async function ConsultationPage({ searchParams }: PageProps) {
+  const sp = await searchParams;
+  const isEditMode = await detectEditMode(sp);
+  const content = await loadPageContent("consultation", isEditMode);
+
   return (
     <PageShell>
-      {/* ── Hero strip ─────────────────────────────────────────── */}
+      {/* -- Hero strip ------------------------------------------------- */}
       <section className="bg-navy-deep text-paper">
         <Container width="wide" className="py-16 sm:py-20 lg:py-24">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-soft-orange/95">
-            Free Consultation
+            <EditableText content={content} blockKey="consultation.hero.eyebrow" fallback="Free Consultation" />
           </p>
           <h1 className="mt-4 font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-paper max-w-3xl">
-            Start with a <span className="accent">no-gimmick estimate.</span>
+            <EditableText
+              content={content}
+              blockKey="consultation.hero.headline"
+              fallback="Start with a no-gimmick estimate."
+              multiline
+            />
           </h1>
           <p className="mt-5 text-base sm:text-lg leading-relaxed text-soft-navy/90 max-w-2xl">
-            Tell us about your project. We&rsquo;ll get back to you within one business day with next steps &mdash; no pressure, no obligation.
+            <EditableText
+              content={content}
+              blockKey="consultation.hero.subcopy"
+              fallback="Tell us about your project. We will get back to you within one business day with next steps. No pressure, no obligation."
+              multiline
+            />
           </p>
         </Container>
       </section>
 
-      {/* ── Form section ───────────────────────────────────────── */}
+      {/* -- Form section ---------------------------------------------- */}
       <section className="bg-paper">
         <Container width="wide" className="py-16 sm:py-20 lg:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
             <div className="lg:col-span-5 lg:sticky lg:top-32">
               <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
-                What to expect
+                <EditableText content={content} blockKey="consultation.expect.eyebrow" fallback="What to expect" />
               </p>
               <h2 className="mt-3 font-display font-bold text-2xl sm:text-3xl tracking-tight text-ink leading-[1.15]">
-                A real conversation, then a clear next step.
+                <EditableText
+                  content={content}
+                  blockKey="consultation.expect.headline"
+                  fallback="A real conversation, then a clear next step."
+                  multiline
+                />
               </h2>
               <p className="mt-5 text-base text-muted leading-relaxed">
-                After you submit, a project manager will reach out to schedule a free in-home consultation. We&rsquo;ll listen first, then sketch.
+                <EditableText
+                  content={content}
+                  blockKey="consultation.expect.subcopy"
+                  fallback="After you submit, a project manager will reach out to schedule a free in-home consultation. We will listen first, then sketch."
+                  multiline
+                />
               </p>
 
               <ul className="mt-8 space-y-5">
@@ -90,19 +122,32 @@ export default function ConsultationPage() {
 
               <div className="mt-8 rounded-md border border-cream-deep bg-cream p-5">
                 <p className="font-display font-semibold tracking-[0.12em] uppercase text-[11px] text-orange">
-                  Financing
+                  <EditableText content={content} blockKey="consultation.financing.eyebrow" fallback="Financing" />
                 </p>
                 <p className="mt-2 font-display font-semibold text-ink">
-                  Ask about affordable monthly payments.
+                  <EditableText
+                    content={content}
+                    blockKey="consultation.financing.title"
+                    fallback="Ask about affordable monthly payments."
+                  />
                 </p>
                 <p className="mt-1 text-sm text-muted leading-relaxed">
-                  Flexible plans through our lending partners so your project fits your budget.
+                  <EditableText
+                    content={content}
+                    blockKey="consultation.financing.subcopy"
+                    fallback="Flexible plans through our lending partners so your project fits your budget."
+                    multiline
+                  />
                 </p>
                 <Link
                   href="/financing"
                   className="mt-3 inline-flex items-center justify-center bg-navy hover:bg-navy-deep text-paper font-display font-semibold text-sm px-5 py-2.5 rounded-md transition"
                 >
-                  See financing options
+                  <EditableText
+                    content={content}
+                    blockKey="consultation.financing.cta"
+                    fallback="See financing options"
+                  />
                 </Link>
               </div>
             </div>
@@ -114,7 +159,7 @@ export default function ConsultationPage() {
         </Container>
       </section>
 
-      {/* ── Closing reassurance band ───────────────────────────── */}
+      {/* -- Closing reassurance band ---------------------------------- */}
       <section className="bg-cream">
         <Container width="wide" className="py-14 lg:py-16">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10 text-center sm:text-left">
@@ -136,6 +181,10 @@ export default function ConsultationPage() {
           </div>
         </Container>
       </section>
+
+      {content.isEditMode ? (
+        <EditModeOverlay currentPath="/consultation?edit=1" />
+      ) : null}
     </PageShell>
   );
 }
