@@ -5,13 +5,35 @@ import { Container } from "@/components/container";
 import type { Metadata } from "next";
 import { buildHomeMetadata } from "@/lib/seo/routes";
 import { getRecentPortfolioItems } from "@/lib/supabase/queries";
+import { loadPageContent, detectEditMode } from "@/lib/page-content/loader";
+import { EditableText } from "@/components/editable/EditableText";
+import { EditablePhoto } from "@/components/editable/EditablePhoto";
+import { EditModeOverlay } from "@/components/editable/EditModeOverlay";
+import type { PortfolioItem } from "@/lib/supabase/types";
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = buildHomeMetadata();
 
-const services = [
+// -- Hardcoded fallbacks -----------------------------------------------------
+// Every string/image below is the fallback for its corresponding block/slot
+// in the page_content tables. Empty rows in the DB fall back to these values,
+// so this file remains the source of truth if the DB is ever wiped.
+
+type ServiceEntry = {
+  slug: string;
+  n: string;
+  name: string;
+  body: string;
+  href: string;
+  badge?: string;
+  image: string;
+  alt: string;
+};
+
+const services: readonly ServiceEntry[] = [
   {
+    slug: "kitchens",
     n: "01",
     name: "Kitchen Remodeling",
     body: "Custom cabinetry, quartz, islands, and the hidden electrical, plumbing, and structural work that separates a real remodel from a refresh.",
@@ -21,22 +43,25 @@ const services = [
     alt: "Recently completed M.R. Renovations kitchen with cherry cabinets and mosaic tile backsplash.",
   },
   {
+    slug: "bathrooms",
     n: "02",
     name: "Bathroom Remodeling",
     body: "From en-suite spa retreats to family-friendly mushroom baths. Tile work that lasts decades.",
     href: "/services/bathrooms",
     image: "/images/service-bathroom-primary-freestanding-tub-double-gray-vanity-marble-floor-mn.jpg",
-    alt: "Primary bathroom remodel with a freestanding soaking tub under a picture window, twin gray shaker vanities with matte-black fixtures, rectangular black-framed mirrors, and marble tile floor with mosaic bath-mat inlay.",
+    alt: "Primary bathroom remodel with a freestanding soaking tub, twin gray shaker vanities, and marble tile floor.",
   },
   {
+    slug: "basements",
     n: "03",
     name: "Basement Finishing",
     body: "Code-correct egress, true-height ceilings, finished living square footage that adds resale value.",
     href: "/services/basements",
     image: "/images/service-basement-lvp-tray-ceiling-linear-fireplace-built-in-entertainment-center.jpg",
-    alt: "Finished basement with luxury vinyl plank flooring, tray ceiling with cove lighting, linear fireplace under a wall-mounted TV, custom built-in cabinetry, and a light-fabric sectional in the family room.",
+    alt: "Finished basement with luxury vinyl plank flooring, tray ceiling with cove lighting, linear fireplace, custom built-ins, and a light-fabric sectional.",
   },
   {
+    slug: "additions",
     n: "04",
     name: "Home Additions",
     body: "Second-stories, primary-suite additions, four-season rooms. Engineered, permitted, beautiful.",
@@ -45,6 +70,7 @@ const services = [
     alt: "Home addition framing in progress, structural rough-in visible.",
   },
   {
+    slug: "whole-home",
     n: "05",
     name: "Whole-Home Renovation",
     body: "A single contract, a single project manager, one Lifetime Warranty covering the entire home.",
@@ -53,6 +79,7 @@ const services = [
     alt: "Open-concept kitchen and living area from a whole-home renovation.",
   },
   {
+    slug: "exterior",
     n: "06",
     name: "Roofing, Siding & Exterior",
     body: "Storm restoration, full exterior packages, windows, doors, and garages. James Hardie, GAF, Marvin, and Trex certified.",
@@ -60,114 +87,133 @@ const services = [
     image: "/images/service-exterior.jpg",
     alt: "Exterior of a craftsman-style home with mature landscaping.",
   },
-];
+] as const;
 
 const processSteps = [
   {
     n: "01",
+    key: "step1",
     title: "Listen & Design",
     body: "In-home consult. We listen first, then sketch. Free design phase included with up to three concepts and two revisions. You see real renderings before any construction begins.",
   },
   {
     n: "02",
+    key: "step2",
     title: "Plan & Price",
     body: "Line-itemized, guaranteed-price contract. Every selection priced with our contractor discount. Every assumption stated in writing. We help you stay in budget and on time.",
   },
   {
     n: "03",
+    key: "step3",
     title: "Build & Warranty",
     body: "Full team at your disposal. You call, we answer. Multiple points of contact. Weekly walk-throughs. Final punch-list signed by you. Then backed by our Lifetime Transferable Workmanship Warranty.",
   },
-];
+] as const;
 
-const projects = [
-  {
-    area: "Kitchen",
-    weeks: "6 weeks",
-    title: "The Miller Kitchen",
-    location: "Maple Grove, MN",
-    image: "/images/project-miller-kitchen.jpg",
-    alt: "Recently finished kitchen with white cabinetry and large island.",
-  },
-  {
-    area: "Basement",
-    weeks: "8 weeks",
-    title: "The Johnson Lower Level",
-    location: "Plymouth, MN",
-    image: "/images/project-johnson-lower.jpg",
-    alt: "Finished basement living area with built-in millwork.",
-  },
-  {
-    area: "Addition",
-    weeks: "12 weeks",
-    title: "The Carter Addition",
-    location: "Wayzata, MN",
-    image: "/images/project-carter-addition.jpg",
-    alt: "Two-story addition exterior shot in the Twin Cities.",
-  },
-];
+const fallbackProjects = [
+  { area: "Kitchen", weeks: "6 weeks", title: "The Miller Kitchen", location: "Maple Grove, MN" },
+  { area: "Basement", weeks: "8 weeks", title: "The Johnson Lower Level", location: "Plymouth, MN" },
+  { area: "Addition", weeks: "12 weeks", title: "The Carter Addition", location: "Wayzata, MN" },
+] as const;
 
 const offers = [
   {
+    key: "card1",
     label: "FREE",
     title: "No-Gimmick Estimates",
     body: "Real in-home consults with a real professional team. No \"today only\" pricing pressure. Ever.",
   },
   {
+    key: "card2",
     label: "2%",
     title: "Cash Discount",
     body: "Pay by check or wire and we credit 2% off the full project cost.",
   },
   {
+    key: "card3",
     label: "5%",
     title: "Service Discount",
     body: "First Responders, Veterans, and Seniors 65+ receive 5% off your project. Thank you for your service.",
   },
-];
+] as const;
 
-export default async function Home() {
-  const recentProjects = await getRecentPortfolioItems(3);
+/**
+ * Resolve the three recent-work cards. In order of preference:
+ *   1. Admin-set slot for that position (home.recent.1/2/3) -> renders that portfolio_item.
+ *   2. Live portfolio feed (getRecentPortfolioItems).
+ *   3. Static fallback (area/title/location placeholders).
+ */
+async function resolveRecentCards(slots: {
+  1: { src: string; alt: string } | null;
+  2: { src: string; alt: string } | null;
+  3: { src: string; alt: string } | null;
+}) {
+  const feed = await getRecentPortfolioItems(3);
+  return [1, 2, 3].map((i) => {
+    const idx = i as 1 | 2 | 3;
+    if (slots[idx]) {
+      return { kind: "slot" as const, src: slots[idx]!.src, alt: slots[idx]!.alt };
+    }
+    const item: PortfolioItem | undefined = feed[i - 1];
+    if (item) {
+      return {
+        kind: "feed" as const,
+        src: item.photo_url,
+        alt: item.caption ?? "Recent M.R. Renovations project",
+        service: item.service,
+        city: item.city,
+        caption: item.caption,
+      };
+    }
+    const fb = fallbackProjects[i - 1];
+    return { kind: "fallback" as const, area: fb.area, weeks: fb.weeks, title: fb.title, location: fb.location };
+  });
+}
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = await searchParams;
+  const isEditMode = await detectEditMode(sp);
+  const content = await loadPageContent("home", isEditMode);
+
+  // Precompute recent-card slot resolutions (they can override the feed).
+  const recent1 = content.photo("home.recent.1", { src: "", alt: "" });
+  const recent2 = content.photo("home.recent.2", { src: "", alt: "" });
+  const recent3 = content.photo("home.recent.3", { src: "", alt: "" });
+  const recentCards = await resolveRecentCards({
+    1: recent1.src ? recent1 : null,
+    2: recent2.src ? recent2 : null,
+    3: recent3.src ? recent3 : null,
+  });
+
+  const heroBg = content.photo("home.hero.background", {
+    src: "/images/hero-home.jpg",
+    alt: "",
+  });
 
   return (
     <PageShell>
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="relative isolate overflow-hidden text-paper bg-navy">
-        {/* Background photo */}
         <Image
-          src="/images/hero-home.jpg"
-          alt=""
+          src={heroBg.src}
+          alt={heroBg.alt}
           fill
           priority
           sizes="100vw"
           className="object-cover opacity-75"
         />
-        {/* Gradient overlay for text legibility. Round 2 mute (Aug 2026):
-            Mike asked for a further softening of the blue overlay. Stops
-            reduced from 94/60/15 to 78/40/15 to bring the photo further
-            forward. Contrast not re-measured after the mute -- if the H1 or
-            10px stat labels look thin over the photo at these values, tighten
-            the /78 or the scrim (line ~161) rather than the mid /40 stop. */}
         <div
           className="absolute inset-0 bg-gradient-to-r from-navy/78 via-navy/40 to-navy/15"
           aria-hidden="true"
         />
-        {/* Bottom scrim. The stat row spans the FULL container width, so its
-            10px labels sit over the open right end of the gradient. This band
-            keeps them legible without closing the right side of the photo
-            back up. Round 2 mute (Aug 2026): dropped from /60/55 to /45/40 to
-            match the main-gradient mute. The 70% stop still matters: the
-            labels sit at the TOP of the stat row, so a plain two-stop fade
-            decays too far on them and silently under-delivers. */}
         <div
           className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-navy-deep/45 via-navy-deep/40 via-70% to-transparent"
           aria-hidden="true"
         />
-        {/* Sunburst dampener. The source photo has a bright sun-through-tree
-            flare in its left third that reads on desktop as glare over the H1
-            copy. This radial dim sits over that region only, mixing with the
-            main gradient rather than replacing it. Position (16% x, 20% y)
-            targets the flare centroid on desktop crop; on mobile the flare
-            is cropped out of frame by object-cover anyway. */}
         <div
           className="absolute inset-0 hidden sm:block pointer-events-none"
           aria-hidden="true"
@@ -180,15 +226,32 @@ export default async function Home() {
         <Container width="wide" className="relative py-6 sm:py-10 lg:py-12">
           <div className="max-w-3xl">
             <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-soft-orange/95">
-              Maple Grove, MN &middot; Twin Cities
+              <EditableText
+                content={content}
+                blockKey="home.hero.eyebrow"
+                fallback="Maple Grove, MN \u00b7 Twin Cities"
+              />
             </p>
             <h1 className="mt-5 font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-paper">
-              <span className="accent">We Design.</span><br />
-              <span className="accent">We Build.</span><br />
-              <span className="accent">We Renovate.</span>
+              <span className="accent">
+                <EditableText content={content} blockKey="home.hero.headline.line1" fallback="We Design." />
+              </span>
+              <br />
+              <span className="accent">
+                <EditableText content={content} blockKey="home.hero.headline.line2" fallback="We Build." />
+              </span>
+              <br />
+              <span className="accent">
+                <EditableText content={content} blockKey="home.hero.headline.line3" fallback="We Renovate." />
+              </span>
             </h1>
             <p className="mt-6 text-base sm:text-lg leading-relaxed text-soft-navy/95 max-w-2xl">
-              Family-owned design-build for Twin Cities homeowners who want their renovation done with craft, transparency, and a Lifetime Transferable Workmanship Warranty.
+              <EditableText
+                content={content}
+                blockKey="home.hero.subcopy"
+                fallback="Family-owned design-build for Twin Cities homeowners who want their renovation done with craft, transparency, and a Lifetime Transferable Workmanship Warranty."
+                multiline
+              />
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
@@ -196,32 +259,40 @@ export default async function Home() {
                 href="/consultation"
                 className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-6 py-3.5 rounded-md transition"
               >
-                Get a Free Estimate
+                <EditableText content={content} blockKey="home.hero.cta.primary" fallback="Get a Free Estimate" />
               </Link>
               <Link
                 href="#projects"
                 className="inline-flex items-center justify-center bg-paper/10 hover:bg-paper/20 text-paper border border-paper/40 font-display font-semibold px-6 py-3.5 rounded-md transition-colors backdrop-blur-sm"
               >
-                See Our Work
+                <EditableText content={content} blockKey="home.hero.cta.secondary" fallback="See Our Work" />
               </Link>
             </div>
           </div>
 
           <dl className="mt-8 lg:mt-10 grid grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-8 border-t border-paper/15 pt-6">
             <div>
-              <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">Years of Craft</dt>
+              <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">
+                <EditableText content={content} blockKey="home.hero.stat1.label" fallback="Years of Craft" />
+              </dt>
               <dd className="mt-1 font-display font-bold text-3xl text-paper">40+</dd>
             </div>
             <div>
-              <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">Twin Cities Homes</dt>
+              <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">
+                <EditableText content={content} blockKey="home.hero.stat2.label" fallback="Twin Cities Homes" />
+              </dt>
               <dd className="mt-1 font-display font-bold text-3xl text-paper">500+</dd>
             </div>
             <div>
-              <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">Lifetime Warranty</dt>
+              <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">
+                <EditableText content={content} blockKey="home.hero.stat3.label" fallback="Lifetime Warranty" />
+              </dt>
               <dd className="mt-1 font-display font-bold text-3xl text-paper">&infin;</dd>
             </div>
             <div>
-              <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">Google Rating</dt>
+              <dt className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-soft-orange/90">
+                <EditableText content={content} blockKey="home.hero.stat4.label" fallback="Google Rating" />
+              </dt>
               <dd className="mt-1 font-display font-bold text-3xl text-paper">
                 5.0 <span aria-hidden="true">&#9733;</span>
               </dd>
@@ -233,7 +304,6 @@ export default async function Home() {
       {/* ── WARRANTY + DISCOUNTS + FINANCING STRIP ─────────────── */}
       <section id="warranty" className="bg-navy text-paper">
         <Container width="wide" className="py-6 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 md:items-center">
-          {/* Warranty */}
           <div className="flex items-start md:items-center gap-4">
             <span
               className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-paper/10 text-orange font-display font-bold text-xl shrink-0"
@@ -243,21 +313,21 @@ export default async function Home() {
             </span>
             <div>
               <p className="font-display font-bold text-paper text-base sm:text-lg">
-                Lifetime Transferable Workmanship Warranty
+                <EditableText content={content} blockKey="home.warranty.title" fallback="Lifetime Transferable Workmanship Warranty" />
               </p>
               <p className="text-sm text-soft-navy/90">
-                Stays with the home, even if you sell.
+                <EditableText content={content} blockKey="home.warranty.subtitle" fallback="Stays with the home, even if you sell." />
               </p>
               <Link
                 href="/warranty"
                 className="mt-2 inline-flex items-center justify-center bg-paper text-navy font-display font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-soft-navy transition-colors whitespace-nowrap"
               >
-                How the warranty works &rarr;
+                <EditableText content={content} blockKey="home.warranty.cta" fallback="How the warranty works" />{" "}
+                &rarr;
               </Link>
             </div>
           </div>
 
-          {/* Discounts */}
           <div className="flex items-start md:items-center gap-4 md:border-l md:border-paper/15 md:pl-8">
             <span
               className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-paper/10 text-orange font-display font-bold text-base shrink-0"
@@ -267,18 +337,17 @@ export default async function Home() {
             </span>
             <div>
               <p className="font-display font-bold text-paper text-base sm:text-lg">
-                Discounts
+                <EditableText content={content} blockKey="home.discounts.title" fallback="Discounts" />
               </p>
               <p className="text-sm text-soft-navy/90">
-                2% cash or check.
+                <EditableText content={content} blockKey="home.discounts.line1" fallback="2% cash or check." />
               </p>
               <p className="text-sm text-soft-navy/90">
-                5% Veterans, Seniors, First Responders.
+                <EditableText content={content} blockKey="home.discounts.line2" fallback="5% Veterans, Seniors, First Responders." />
               </p>
             </div>
           </div>
 
-          {/* Financing */}
           <div className="flex items-start md:items-center gap-4 md:border-l md:border-paper/15 md:pl-8">
             <span
               className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-paper/10 text-orange font-display font-bold text-lg shrink-0"
@@ -288,16 +357,17 @@ export default async function Home() {
             </span>
             <div className="min-w-0">
               <p className="font-display font-bold text-paper text-base sm:text-lg">
-                Financing available
+                <EditableText content={content} blockKey="home.financing.title" fallback="Financing available" />
               </p>
               <p className="text-sm text-soft-navy/90">
-                Flexible monthly payments to fit your budget.
+                <EditableText content={content} blockKey="home.financing.subtitle" fallback="Flexible monthly payments to fit your budget." />
               </p>
               <Link
                 href="/financing"
                 className="mt-2 inline-flex items-center justify-center bg-paper text-navy font-display font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-soft-navy transition-colors whitespace-nowrap"
               >
-                See financing options &rarr;
+                <EditableText content={content} blockKey="home.financing.cta" fallback="See financing options" />{" "}
+                &rarr;
               </Link>
             </div>
           </div>
@@ -308,26 +378,43 @@ export default async function Home() {
       <section id="services" className="bg-paper">
         <Container width="wide" className="py-20 lg:py-24">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-deep">
-            What we build
+            <EditableText content={content} blockKey="home.services.eyebrow" fallback="What we build" />
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink max-w-3xl leading-[1.1]">
-            Whole-home transformations and <span className="accent">specialty remodels</span> for Twin Cities families.
+            <EditableText
+              content={content}
+              blockKey="home.services.headline"
+              fallback="Whole-home transformations and specialty remodels for Twin Cities families."
+              multiline
+            />
           </h2>
           <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
-            Six core practices. Every project led by our full M.R. Renovation team. Every detail backed by our Lifetime Workmanship Warranty.
+            <EditableText
+              content={content}
+              blockKey="home.services.subcopy"
+              fallback="Six core practices. Every project led by our full M.R. Renovation team. Every detail backed by our Lifetime Workmanship Warranty."
+              multiline
+            />
           </p>
 
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {services.map((s) => (
-              <article key={s.n} className="group">
+              <article key={s.slug} className="group">
                 <Link href={s.href} className="block">
                   <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-navy">
-                    <Image
-                      src={s.image}
-                      alt={s.alt}
-                      fill
-                      sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    <EditablePhoto
+                      content={content}
+                      slotKey={`home.services.${s.slug}.image`}
+                      fallback={{ src: s.image, alt: s.alt }}
+                      render={(resolved) => (
+                        <Image
+                          src={resolved.src}
+                          alt={resolved.alt}
+                          fill
+                          sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      )}
                     />
                     {s.badge ? (
                       <span className="absolute top-3 left-3 inline-flex items-center bg-orange text-ink font-display font-semibold text-[10px] tracking-[0.1em] uppercase px-2.5 py-1 rounded">
@@ -340,9 +427,11 @@ export default async function Home() {
                     {s.badge ? <span className="text-xs text-muted">{s.badge}</span> : null}
                   </div>
                   <h3 className="mt-1 font-display font-bold text-xl text-ink group-hover:text-navy transition-colors">
-                    {s.name}
+                    <EditableText content={content} blockKey={`home.services.${s.slug}.name`} fallback={s.name} />
                   </h3>
-                  <p className="mt-2 text-sm text-muted leading-relaxed">{s.body}</p>
+                  <p className="mt-2 text-sm text-muted leading-relaxed">
+                    <EditableText content={content} blockKey={`home.services.${s.slug}.body`} fallback={s.body} multiline />
+                  </p>
                   <p className="mt-3 text-sm font-display font-semibold text-orange-deep">
                     View {s.name.toLowerCase().split(",")[0]} &rarr;
                   </p>
@@ -357,21 +446,40 @@ export default async function Home() {
       <section id="process" className="bg-cream">
         <Container width="wide" className="py-20 lg:py-24">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-deep">
-            How we move
+            <EditableText content={content} blockKey="home.process.eyebrow" fallback="How we move" />
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink max-w-3xl leading-[1.1]">
-            A transparent process, <span className="accent">start to finish.</span>
+            <EditableText
+              content={content}
+              blockKey="home.process.headline"
+              fallback="A transparent process, start to finish."
+              multiline
+            />
           </h2>
           <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
-            No mystery line items. No vanishing project managers. No surprise change orders. Just three clear phases and the same M.R. team from estimate to final walkthrough.
+            <EditableText
+              content={content}
+              blockKey="home.process.subcopy"
+              fallback="No mystery line items. No vanishing project managers. No surprise change orders. Just three clear phases and the same M.R. team from estimate to final walkthrough."
+              multiline
+            />
           </p>
 
           <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-x-12 gap-y-10 lg:divide-x lg:divide-cream-deep">
             {processSteps.map((step, i) => (
               <div key={step.n} className={i > 0 ? "lg:pl-12" : ""}>
                 <p className="font-display font-bold text-4xl text-orange-deep">{step.n}</p>
-                <p className="mt-4 font-display font-bold text-xl text-ink">{step.title}</p>
-                <p className="mt-3 text-sm text-muted leading-relaxed">{step.body}</p>
+                <p className="mt-4 font-display font-bold text-xl text-ink">
+                  <EditableText content={content} blockKey={`home.process.${step.key}.title`} fallback={step.title} />
+                </p>
+                <p className="mt-3 text-sm text-muted leading-relaxed">
+                  <EditableText
+                    content={content}
+                    blockKey={`home.process.${step.key}.body`}
+                    fallback={step.body}
+                    multiline
+                  />
+                </p>
               </div>
             ))}
           </div>
@@ -382,61 +490,94 @@ export default async function Home() {
       <section id="projects" className="bg-navy-deep text-paper">
         <Container width="wide" className="py-20 lg:py-24">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
-            Recent work
+            <EditableText content={content} blockKey="home.recent.eyebrow" fallback="Recent work" />
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-paper max-w-3xl leading-[1.1]">
-            A few <span className="accent">Twin Cities transformations.</span>
+            <EditableText
+              content={content}
+              blockKey="home.recent.headline"
+              fallback="A few Twin Cities transformations."
+              multiline
+            />
           </h2>
           <p className="mt-5 text-base sm:text-lg text-soft-navy/85 leading-relaxed max-w-2xl">
-            Real homes. Real budgets. Real timelines. Click any project for the full before-and-after story, scope, and homeowner interview.
+            <EditableText
+              content={content}
+              blockKey="home.recent.subcopy"
+              fallback="Real homes. Real budgets. Real timelines. Click any project for the full before-and-after story, scope, and homeowner interview."
+              multiline
+            />
           </p>
 
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {recentProjects.length > 0
-              ? recentProjects.map((p) => (
-                  <div
-                    key={p.id}
-                    className="group block rounded-lg overflow-hidden bg-navy"
-                  >
-                    <div className="relative aspect-[4/3] overflow-hidden">
-                      <Image
-                        src={p.photo_url}
-                        alt={p.caption ?? "Recent M.R. Renovations project"}
-                        fill
-                        sizes="(min-width: 1024px) 33vw, 50vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+            {recentCards.map((card, i) => {
+              const slotKey = `home.recent.${i + 1}` as const;
+              const fallback = { src: "", alt: "" };
+              return (
+                <div key={i} className="group block rounded-lg overflow-hidden bg-navy">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    {card.kind === "fallback" ? (
+                      <EditablePhoto
+                        content={content}
+                        slotKey={slotKey}
+                        fallback={fallback}
+                        render={() => (
+                          <div className="w-full h-full bg-navy-deep flex items-center justify-center">
+                            <span className="font-display font-bold text-5xl text-paper/15 select-none pointer-events-none tracking-tight" aria-hidden="true">
+                              {card.area}
+                            </span>
+                          </div>
+                        )}
                       />
-                    </div>
-                    <div className="p-5 border-t border-paper/15">
-                      <p className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-orange-on-dark">
-                        {[p.service, p.city].filter(Boolean).join(", ") || "Recent work"}
-                      </p>
-                      <p className="mt-1 font-display font-bold text-paper text-lg">
-                        {p.caption ?? "Project"}
-                      </p>
-                    </div>
+                    ) : (
+                      <EditablePhoto
+                        content={content}
+                        slotKey={slotKey}
+                        fallback={{ src: card.src, alt: card.alt }}
+                        render={(resolved) => (
+                          <Image
+                            src={resolved.src}
+                            alt={resolved.alt}
+                            fill
+                            sizes="(min-width: 1024px) 33vw, 50vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        )}
+                      />
+                    )}
                   </div>
-                ))
-              : projects.map((p) => (
-                  <Link
-                    key={p.title}
-                    href="#project"
-                    className="group block rounded-lg overflow-hidden bg-navy"
-                  >
-                    <div className="relative aspect-[4/3] overflow-hidden flex items-center justify-center bg-navy-deep">
-                      <span className="font-display font-bold text-5xl text-paper/15 select-none pointer-events-none tracking-tight" aria-hidden="true">
-                        {p.area}
-                      </span>
-                    </div>
-                    <div className="p-5 border-t border-paper/15">
-                      <p className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-orange-on-dark">
-                        {p.area} &middot; {p.weeks}
-                      </p>
-                      <p className="mt-1 font-display font-bold text-paper text-lg">{p.title}</p>
-                      <p className="text-sm text-soft-navy/85">{p.location}</p>
-                    </div>
-                  </Link>
-                ))}
+                  <div className="p-5 border-t border-paper/15">
+                    {card.kind === "feed" ? (
+                      <>
+                        <p className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-orange-on-dark">
+                          {[card.service, card.city].filter(Boolean).join(", ") || "Recent work"}
+                        </p>
+                        <p className="mt-1 font-display font-bold text-paper text-lg">
+                          {card.caption ?? "Project"}
+                        </p>
+                      </>
+                    ) : card.kind === "fallback" ? (
+                      <>
+                        <p className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-orange-on-dark">
+                          {card.area} &middot; {card.weeks}
+                        </p>
+                        <p className="mt-1 font-display font-bold text-paper text-lg">{card.title}</p>
+                        <p className="text-sm text-soft-navy/85">{card.location}</p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="font-display font-semibold tracking-[0.12em] uppercase text-[10px] text-orange-on-dark">
+                          Featured
+                        </p>
+                        <p className="mt-1 font-display font-bold text-paper text-lg">
+                          {card.alt || "Recent M.R. Renovations project"}
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </Container>
       </section>
@@ -449,11 +590,21 @@ export default async function Home() {
           </p>
           <blockquote className="mt-6">
             <p className="text-base sm:text-lg text-ink leading-relaxed">
-              &ldquo;I have completed 2 projects with M.R. Renovations and am just starting my third. The first was a kitchen renovation in the lower level of my house. MR did an excellent job assembling appropriate contractors for the project, managing them to achieve a high-quality result, and provided a lifetime warranty. They worked directly with us to identify options and select products from several suppliers to meet our stated budgets. Cost, quality and schedule were all very well managed. The second project was to improve the sump pump system and water drainage around a rental property. Again, M.R. quickly proposed an approach, found and managed appropriate contractors, and ensured that a quality job was completed. Currently, we are renovating our main kitchen and M.R. is consistently providing the same excellent services. M.R. has worked closely with us to get great results in all our projects. I definitely recommend their services.&rdquo;
+              <EditableText
+                content={content}
+                blockKey="home.testimonial.quote"
+                fallback="I have completed 2 projects with M.R. Renovations and am just starting my third. The first was a kitchen renovation in the lower level of my house. MR did an excellent job assembling appropriate contractors for the project, managing them to achieve a high-quality result, and provided a lifetime warranty. They worked directly with us to identify options and select products from several suppliers to meet our stated budgets. Cost, quality and schedule were all very well managed. The second project was to improve the sump pump system and water drainage around a rental property. Again, M.R. quickly proposed an approach, found and managed appropriate contractors, and ensured that a quality job was completed. Currently, we are renovating our main kitchen and M.R. is consistently providing the same excellent services. M.R. has worked closely with us to get great results in all our projects. I definitely recommend their services."
+                render={(v) => <>&ldquo;{v}&rdquo;</>}
+                multiline
+              />
             </p>
             <footer className="mt-6 text-sm">
               <p className="font-display font-semibold text-ink tracking-[0.08em] uppercase text-xs">
-                Ken G <span className="text-orange-deep">&middot;</span> Kitchen Remodel <span className="text-orange-deep">&middot;</span> Maple Grove
+                <EditableText
+                  content={content}
+                  blockKey="home.testimonial.attribution"
+                  fallback="Ken G \u00b7 Kitchen Remodel \u00b7 Maple Grove"
+                />
               </p>
             </footer>
           </blockquote>
@@ -464,18 +615,29 @@ export default async function Home() {
       <section id="offers" className="bg-paper">
         <Container width="wide" className="py-20 lg:py-24">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-deep">
-            Current offers
+            <EditableText content={content} blockKey="home.offers.eyebrow" fallback="Current offers" />
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink max-w-3xl leading-[1.1]">
-            Honest savings, <span className="accent">no gimmicks.</span>
+            <EditableText
+              content={content}
+              blockKey="home.offers.headline"
+              fallback="Honest savings, no gimmicks."
+              multiline
+            />
           </h2>
 
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-5">
             {offers.map((o) => (
-              <div key={o.title} className="rounded-xl bg-cream border border-cream-deep p-7">
-                <p className="font-display font-bold text-3xl text-orange-deep">{o.label}</p>
-                <p className="mt-4 font-display font-bold text-lg text-ink">{o.title}</p>
-                <p className="mt-2 text-sm text-muted leading-relaxed">{o.body}</p>
+              <div key={o.key} className="rounded-xl bg-cream border border-cream-deep p-7">
+                <p className="font-display font-bold text-3xl text-orange-deep">
+                  <EditableText content={content} blockKey={`home.offers.${o.key}.label`} fallback={o.label} />
+                </p>
+                <p className="mt-4 font-display font-bold text-lg text-ink">
+                  <EditableText content={content} blockKey={`home.offers.${o.key}.title`} fallback={o.title} />
+                </p>
+                <p className="mt-2 text-sm text-muted leading-relaxed">
+                  <EditableText content={content} blockKey={`home.offers.${o.key}.body`} fallback={o.body} multiline />
+                </p>
               </div>
             ))}
           </div>
@@ -485,12 +647,24 @@ export default async function Home() {
       {/* ── FINAL CTA ───────────────────────────────────────── */}
       <section className="bg-navy text-paper">
         <Container width="wide" className="py-20 lg:py-24 text-center">
-          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">Ready when you are</p>
+          <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
+            <EditableText content={content} blockKey="home.final.eyebrow" fallback="Ready when you are" />
+          </p>
           <h2 className="mt-3 font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-paper leading-[1.05] max-w-3xl mx-auto">
-            Let&rsquo;s build something <span className="accent">that lasts.</span>
+            <EditableText
+              content={content}
+              blockKey="home.final.headline"
+              fallback="Let's build something that lasts."
+              multiline
+            />
           </h2>
           <p className="mt-5 text-base sm:text-lg text-soft-navy/85 leading-relaxed max-w-xl mx-auto">
-            Tell us about your project. We&rsquo;ll get back to you within one business day with next steps &mdash; no pressure, no obligation.
+            <EditableText
+              content={content}
+              blockKey="home.final.subcopy"
+              fallback="Tell us about your project. We'll get back to you within one business day with next steps -- no pressure, no obligation."
+              multiline
+            />
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
@@ -498,17 +672,19 @@ export default async function Home() {
               href="/consultation"
               className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-6 py-3.5 rounded-md transition"
             >
-              Start your free estimate
+              <EditableText content={content} blockKey="home.final.cta.primary" fallback="Start your free estimate" />
             </Link>
             <a
               href="tel:7639002024"
               className="inline-flex items-center justify-center bg-paper/10 hover:bg-paper/20 text-paper border border-paper/40 font-display font-semibold px-6 py-3.5 rounded-md transition-colors"
             >
-              Or call 763-900-2024
+              <EditableText content={content} blockKey="home.final.cta.secondary" fallback="Or call 763-900-2024" />
             </a>
           </div>
         </Container>
       </section>
+
+      {isEditMode ? <EditModeOverlay currentPath="/?edit=1" /> : null}
     </PageShell>
   );
 }

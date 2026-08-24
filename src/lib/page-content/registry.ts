@@ -1,0 +1,161 @@
+// Page content registry.
+//
+// The single source of truth for which slots and blocks are editable on each
+// page. Every EditableText / EditablePhoto rendered by page code MUST use a
+// key that appears here, so the admin overlay can enumerate them and so that
+// runtime keys stay in sync with the schema-less DB tables (page_text_blocks,
+// page_photo_slots) that back them.
+//
+// The DB does not know about pages; pages here are a code concept keyed by
+// slot/block prefix. That means renames require both a code change AND a data
+// migration (UPDATE ... SET block_key = new WHERE block_key = old), but never
+// a schema change. This is the intended trade-off.
+//
+// Adding a new page: append to PAGE_REGISTRY. Adding a new slot/block on an
+// existing page: extend that page's entry. No DB changes required in either
+// case.
+
+export interface PageRegistryEntry {
+  key: string; // e.g. "home"
+  label: string; // human-readable, shown in admin
+  route: string; // public URL, so admin can jump into edit mode
+  order: number; // display order in admin left rail
+  photoSlots: Array<PhotoSlotDef>;
+  textBlocks: Array<TextBlockDef>;
+}
+
+export interface PhotoSlotDef {
+  slotKey: string; // dotted key stored in page_photo_slots.slot_key
+  label: string; // human-readable, shown in admin card
+  hint?: string; // optional guidance (aspect ratio, purpose, etc.)
+  // Fallback is provided by the render site (the page code) -- registry
+  // only enumerates what CAN be edited, not what it falls back to.
+}
+
+export interface TextBlockDef {
+  blockKey: string;
+  label: string;
+  hint?: string;
+  multiline?: boolean; // renders as textarea rather than input in edit mode
+}
+
+// -- HOME PAGE ---------------------------------------------------------------
+
+const HOME: PageRegistryEntry = {
+  key: "home",
+  label: "Home",
+  route: "/",
+  order: 1,
+  photoSlots: [
+    { slotKey: "home.hero.background", label: "Hero background photo", hint: "Wide landscape, high resolution. Text overlays the left third." },
+    { slotKey: "home.services.kitchens.image", label: "Services tile: Kitchens" },
+    { slotKey: "home.services.bathrooms.image", label: "Services tile: Bathrooms" },
+    { slotKey: "home.services.basements.image", label: "Services tile: Basements" },
+    { slotKey: "home.services.additions.image", label: "Services tile: Additions" },
+    { slotKey: "home.services.whole-home.image", label: "Services tile: Whole Home" },
+    { slotKey: "home.services.exterior.image", label: "Services tile: Exterior" },
+    { slotKey: "home.recent.1", label: "Recent work card 1 (override)", hint: "Leave empty to auto-pick from portfolio." },
+    { slotKey: "home.recent.2", label: "Recent work card 2 (override)", hint: "Leave empty to auto-pick from portfolio." },
+    { slotKey: "home.recent.3", label: "Recent work card 3 (override)", hint: "Leave empty to auto-pick from portfolio." },
+  ],
+  textBlocks: [
+    // Hero
+    { blockKey: "home.hero.eyebrow", label: "Hero eyebrow", hint: "Small caps above the headline." },
+    { blockKey: "home.hero.headline.line1", label: "Hero headline line 1" },
+    { blockKey: "home.hero.headline.line2", label: "Hero headline line 2" },
+    { blockKey: "home.hero.headline.line3", label: "Hero headline line 3" },
+    { blockKey: "home.hero.subcopy", label: "Hero subcopy", multiline: true },
+    { blockKey: "home.hero.cta.primary", label: "Hero primary CTA label" },
+    { blockKey: "home.hero.cta.secondary", label: "Hero secondary CTA label" },
+    { blockKey: "home.hero.stat1.label", label: "Hero stat 1 label" },
+    { blockKey: "home.hero.stat2.label", label: "Hero stat 2 label" },
+    { blockKey: "home.hero.stat3.label", label: "Hero stat 3 label" },
+    { blockKey: "home.hero.stat4.label", label: "Hero stat 4 label" },
+
+    // Warranty band
+    { blockKey: "home.warranty.title", label: "Warranty band: title" },
+    { blockKey: "home.warranty.subtitle", label: "Warranty band: subtitle" },
+    { blockKey: "home.warranty.cta", label: "Warranty band: CTA label" },
+    { blockKey: "home.discounts.title", label: "Discounts band: title" },
+    { blockKey: "home.discounts.line1", label: "Discounts band: line 1" },
+    { blockKey: "home.discounts.line2", label: "Discounts band: line 2" },
+    { blockKey: "home.financing.title", label: "Financing band: title" },
+    { blockKey: "home.financing.subtitle", label: "Financing band: subtitle" },
+    { blockKey: "home.financing.cta", label: "Financing band: CTA label" },
+
+    // Services section
+    { blockKey: "home.services.eyebrow", label: "Services section: eyebrow" },
+    { blockKey: "home.services.headline", label: "Services section: headline", multiline: true },
+    { blockKey: "home.services.subcopy", label: "Services section: subcopy", multiline: true },
+    { blockKey: "home.services.kitchens.name", label: "Services tile: Kitchens name" },
+    { blockKey: "home.services.kitchens.body", label: "Services tile: Kitchens body", multiline: true },
+    { blockKey: "home.services.bathrooms.name", label: "Services tile: Bathrooms name" },
+    { blockKey: "home.services.bathrooms.body", label: "Services tile: Bathrooms body", multiline: true },
+    { blockKey: "home.services.basements.name", label: "Services tile: Basements name" },
+    { blockKey: "home.services.basements.body", label: "Services tile: Basements body", multiline: true },
+    { blockKey: "home.services.additions.name", label: "Services tile: Additions name" },
+    { blockKey: "home.services.additions.body", label: "Services tile: Additions body", multiline: true },
+    { blockKey: "home.services.whole-home.name", label: "Services tile: Whole Home name" },
+    { blockKey: "home.services.whole-home.body", label: "Services tile: Whole Home body", multiline: true },
+    { blockKey: "home.services.exterior.name", label: "Services tile: Exterior name" },
+    { blockKey: "home.services.exterior.body", label: "Services tile: Exterior body", multiline: true },
+
+    // Process teaser
+    { blockKey: "home.process.eyebrow", label: "Process teaser: eyebrow" },
+    { blockKey: "home.process.headline", label: "Process teaser: headline", multiline: true },
+    { blockKey: "home.process.subcopy", label: "Process teaser: subcopy", multiline: true },
+    { blockKey: "home.process.step1.title", label: "Process teaser: step 1 title" },
+    { blockKey: "home.process.step1.body", label: "Process teaser: step 1 body", multiline: true },
+    { blockKey: "home.process.step2.title", label: "Process teaser: step 2 title" },
+    { blockKey: "home.process.step2.body", label: "Process teaser: step 2 body", multiline: true },
+    { blockKey: "home.process.step3.title", label: "Process teaser: step 3 title" },
+    { blockKey: "home.process.step3.body", label: "Process teaser: step 3 body", multiline: true },
+
+    // Recent work
+    { blockKey: "home.recent.eyebrow", label: "Recent work: eyebrow" },
+    { blockKey: "home.recent.headline", label: "Recent work: headline", multiline: true },
+    { blockKey: "home.recent.subcopy", label: "Recent work: subcopy", multiline: true },
+
+    // Testimonial
+    { blockKey: "home.testimonial.quote", label: "Testimonial quote", multiline: true },
+    { blockKey: "home.testimonial.attribution", label: "Testimonial attribution" },
+
+    // Offers
+    { blockKey: "home.offers.eyebrow", label: "Offers: eyebrow" },
+    { blockKey: "home.offers.headline", label: "Offers: headline", multiline: true },
+    { blockKey: "home.offers.card1.label", label: "Offer 1: label chip" },
+    { blockKey: "home.offers.card1.title", label: "Offer 1: title" },
+    { blockKey: "home.offers.card1.body", label: "Offer 1: body", multiline: true },
+    { blockKey: "home.offers.card2.label", label: "Offer 2: label chip" },
+    { blockKey: "home.offers.card2.title", label: "Offer 2: title" },
+    { blockKey: "home.offers.card2.body", label: "Offer 2: body", multiline: true },
+    { blockKey: "home.offers.card3.label", label: "Offer 3: label chip" },
+    { blockKey: "home.offers.card3.title", label: "Offer 3: title" },
+    { blockKey: "home.offers.card3.body", label: "Offer 3: body", multiline: true },
+
+    // Final CTA
+    { blockKey: "home.final.eyebrow", label: "Final CTA: eyebrow" },
+    { blockKey: "home.final.headline", label: "Final CTA: headline", multiline: true },
+    { blockKey: "home.final.subcopy", label: "Final CTA: subcopy", multiline: true },
+    { blockKey: "home.final.cta.primary", label: "Final CTA: primary button" },
+    { blockKey: "home.final.cta.secondary", label: "Final CTA: secondary button" },
+  ],
+};
+
+// -- REGISTRY (exported) -----------------------------------------------------
+
+export const PAGE_REGISTRY: Record<string, PageRegistryEntry> = {
+  home: HOME,
+  // PR #110 adds service pages
+  // PR #111 adds process, warranty, consultation
+  // PR #112 adds contact, team, careers
+  // PR #113 adds resources, financing, legal
+};
+
+export function getPageEntry(key: string): PageRegistryEntry | undefined {
+  return PAGE_REGISTRY[key];
+}
+
+export function listPages(): PageRegistryEntry[] {
+  return Object.values(PAGE_REGISTRY).sort((a, b) => a.order - b.order);
+}
