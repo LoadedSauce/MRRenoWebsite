@@ -109,3 +109,42 @@ export interface Candidate {
   resume_storage_path: string | null;
   status: string | null;
 }
+
+/**
+ * Matches public.page_text_blocks schema (migration 0013 + 0014).
+ * `content` is what visitors see. `draft_content` is a pending admin edit;
+ * public code never reads it. Publish action promotes draft to live.
+ */
+export interface PageTextBlock {
+  block_key: string;
+  content: string;
+  draft_content: string | null;
+  updated_at: string;
+  draft_updated_at: string | null;
+}
+
+/**
+ * Matches public.page_photo_slots schema (migration 0013 + 0014).
+ * Points at a row in portfolio_items. Slot is empty when portfolio_item_id is
+ * null (fallback to hardcoded default). Draft column is admin-only.
+ */
+export interface PagePhotoSlot {
+  slot_key: string;
+  portfolio_item_id: string | null;
+  draft_portfolio_item_id: string | null;
+  updated_at: string;
+  draft_updated_at: string | null;
+}
+
+/**
+ * Resolved photo slot: the referenced portfolio item's photo_url + caption.
+ * Draft flag indicates the value comes from a pending admin edit (only ever
+ * true when the caller is admin — public reads never see drafts).
+ */
+export interface ResolvedPhotoSlot {
+  slot_key: string;
+  photo_url: string | null;
+  alt: string | null;
+  portfolio_item_id: string | null;
+  is_draft: boolean;
+}

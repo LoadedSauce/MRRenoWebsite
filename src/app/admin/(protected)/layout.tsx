@@ -3,6 +3,7 @@ import { LogoutButton } from "../logout-button";
 
 const navItems = [
   { label: "Reports",       href: "/admin/reports" },
+  { label: "Edit content",  href: "/admin/edit" },
   { label: "Team",          href: "/admin/team" },
   { label: "Project Photos",href: "/admin/portfolio" },
   { label: "Testimonials",  href: "/admin/testimonials" },
