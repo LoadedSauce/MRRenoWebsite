@@ -2,21 +2,43 @@ import type { Metadata } from "next";
 import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
 import { buildAccessibilityMetadata } from "@/lib/seo/routes";
+import { loadPageContent, detectEditMode } from "@/lib/page-content/loader";
+import { EditableText } from "@/components/editable/EditableText";
+import { EditModeOverlay } from "@/components/editable/EditModeOverlay";
 
 export const metadata: Metadata = buildAccessibilityMetadata();
+export const revalidate = 3600;
 
-export default function AccessibilityPage() {
+export default async function AccessibilityPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = await searchParams;
+  const isEditMode = await detectEditMode(sp);
+  const content = await loadPageContent("accessibility", isEditMode);
+
   return (
     <PageShell>
       <section className="bg-paper">
         <Container width="narrow" className="py-16 lg:py-24">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
-            Legal
+            <EditableText
+              content={content}
+              blockKey="accessibility.eyebrow"
+              fallback="Legal"
+            />
           </p>
           <h1 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-tight text-navy leading-[1.05]">
             Accessibility Statement
           </h1>
-          <p className="mt-3 text-sm text-muted">Last updated: June 2026</p>
+          <p className="mt-3 text-sm text-muted">
+            <EditableText
+              content={content}
+              blockKey="accessibility.last-updated"
+              fallback="Last updated: June 2026"
+            />
+          </p>
 
           <div className="mt-10">
             <p className="text-muted leading-relaxed">
@@ -68,6 +90,7 @@ export default function AccessibilityPage() {
           </div>
         </Container>
       </section>
+      {content.isEditMode ? <EditModeOverlay currentPath="/accessibility?edit=1" /> : null}
     </PageShell>
   );
 }

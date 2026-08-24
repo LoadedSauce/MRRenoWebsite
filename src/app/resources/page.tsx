@@ -10,11 +10,21 @@ import {
 } from "@/lib/seo/schema";
 import { buildResourcesMetadata } from "@/lib/seo/routes";
 import { getPublishedResources } from "@/lib/resources";
+import { loadPageContent, detectEditMode } from "@/lib/page-content/loader";
+import { EditableText } from "@/components/editable/EditableText";
+import { EditModeOverlay } from "@/components/editable/EditModeOverlay";
 
 export const revalidate = 3600;
 export const metadata: Metadata = buildResourcesMetadata();
 
-export default function ResourcesPage() {
+export default async function ResourcesPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = await searchParams;
+  const isEditMode = await detectEditMode(sp);
+  const content = await loadPageContent("resources", isEditMode);
   const resources = getPublishedResources();
 
   return (
@@ -32,23 +42,35 @@ export default function ResourcesPage() {
         ])}
       />
 
-      {/* ── HERO ─────────────────────────────────────────────── */}
+      {/* HERO */}
       <section className="bg-navy">
         <Container width="wide" className="py-16 lg:py-20 text-center">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
-            Resources
+            <EditableText
+              content={content}
+              blockKey="resources.hero.eyebrow"
+              fallback="Resources"
+            />
           </p>
           <h1 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-tight text-paper leading-[1.05]">
-            Guides for planning your project
+            <EditableText
+              content={content}
+              blockKey="resources.hero.headline"
+              fallback="Guides for planning your project"
+            />
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base sm:text-lg text-soft-navy leading-relaxed">
-            Plain-language planning guides and cost breakdowns from a family
-            contractor with 40+ years in the northwest Twin Cities metro.
+            <EditableText
+              content={content}
+              blockKey="resources.hero.subcopy"
+              fallback="Plain-language planning guides and cost breakdowns from a family contractor with 40+ years in the northwest Twin Cities metro."
+              multiline
+            />
           </p>
         </Container>
       </section>
 
-      {/* ── LISTING ──────────────────────────────────────────── */}
+      {/* LISTING */}
       <section className="bg-paper">
         <Container width="wide" className="py-16 lg:py-20">
           {resources.length > 0 ? (
@@ -81,17 +103,29 @@ export default function ResourcesPage() {
                       href={`/resources/${r.slug}`}
                       className="font-display font-semibold text-sm text-orange hover:opacity-90 transition-opacity"
                     >
-                      Read more
+                      <EditableText
+                        content={content}
+                        blockKey="resources.card.cta"
+                        fallback="Read more"
+                      />
                     </Link>
                   </p>
                 </article>
               ))}
             </div>
           ) : (
-            <p className="text-base text-muted">More guides coming soon.</p>
+            <p className="text-base text-muted">
+              <EditableText
+                content={content}
+                blockKey="resources.empty.body"
+                fallback="More guides coming soon."
+              />
+            </p>
           )}
         </Container>
       </section>
+
+      {content.isEditMode ? <EditModeOverlay currentPath="/resources?edit=1" /> : null}
     </PageShell>
   );
 }
