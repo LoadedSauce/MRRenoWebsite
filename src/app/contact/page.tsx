@@ -4,11 +4,15 @@ import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
 import { ContactForm } from "@/components/contact-form";
 import { buildContactMetadata } from "@/lib/seo/routes";
+import { loadPageContent, detectEditMode } from "@/lib/page-content/loader";
+import { EditableText } from "@/components/editable/EditableText";
+import { EditModeOverlay } from "@/components/editable/EditModeOverlay";
 
 export const metadata: Metadata = buildContactMetadata();
+export const revalidate = 3600;
 
 const hours = [
-  { day: "Monday \u2013 Friday", time: "7:00 AM \u2013 5:00 PM" },
+  { day: "Monday to Friday", time: "7:00 AM to 5:00 PM" },
   { day: "Saturday", time: "By appointment" },
   { day: "Sunday", time: "Closed" },
 ];
@@ -22,25 +26,47 @@ const serviceArea = [
   "Eden Prairie",
 ];
 
-export default function ContactPage() {
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = await searchParams;
+  const isEditMode = await detectEditMode(sp);
+  const content = await loadPageContent("contact", isEditMode);
+
   return (
     <PageShell>
-      {/* ── Hero strip ─────────────────────────────────────────── */}
+      {/* Hero strip */}
       <section className="bg-navy-deep text-paper">
         <Container width="wide" className="py-16 sm:py-20 lg:py-24">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-soft-orange/95">
-            Contact
+            <EditableText
+              content={content}
+              blockKey="contact.hero.eyebrow"
+              fallback="Contact"
+            />
           </p>
           <h1 className="mt-4 font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-paper max-w-3xl">
-            Talk to a <span className="accent">real person.</span>
+            <EditableText
+              content={content}
+              blockKey="contact.hero.headline"
+              fallback="Talk to a real person."
+              multiline
+            />
           </h1>
           <p className="mt-5 text-base sm:text-lg leading-relaxed text-soft-navy/90 max-w-2xl">
-            Call, stop in, or send a message. Mike or someone on his team will get back to you within one business day.
+            <EditableText
+              content={content}
+              blockKey="contact.hero.subcopy"
+              fallback="Call, stop in, or send a message. Mike or someone on his team will get back to you within one business day."
+              multiline
+            />
           </p>
         </Container>
       </section>
 
-      {/* ── Main content ───────────────────────────────────────── */}
+      {/* Main content */}
       <section className="bg-paper">
         <Container width="wide" className="py-16 sm:py-20 lg:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
@@ -49,7 +75,11 @@ export default function ContactPage() {
               {/* Phone callout */}
               <div className="rounded-xl bg-soft-navy/70 border border-faint p-6 sm:p-7">
                 <p className="font-display font-semibold tracking-[0.12em] uppercase text-xs text-orange">
-                  Call us
+                  <EditableText
+                    content={content}
+                    blockKey="contact.phone.eyebrow"
+                    fallback="Call us"
+                  />
                 </p>
                 <a
                   href="tel:7639002024"
@@ -59,18 +89,26 @@ export default function ContactPage() {
                   763-900-2024
                 </a>
                 <p className="mt-2 text-sm text-muted">
-                  Mike or his team answers directly. No phone tree.
+                  <EditableText
+                    content={content}
+                    blockKey="contact.phone.subcopy"
+                    fallback="Mike or his team answers directly. No phone tree."
+                  />
                 </p>
               </div>
 
               {/* Address */}
               <div className="mt-8">
                 <p className="font-display font-semibold tracking-[0.12em] uppercase text-xs text-orange">
-                  Visit
+                  <EditableText
+                    content={content}
+                    blockKey="contact.address.eyebrow"
+                    fallback="Visit"
+                  />
                 </p>
                 {/* Office is the NAP-of-record. The Otsego shop is display-only
                     -- no second phone number, and it stays out of SITE.address
-                    and all structured data. */}
+                    and all structured data. Rule 25: never editable. */}
                 <address className="mt-3 not-italic text-base text-ink leading-relaxed space-y-4">
                   <div>
                     <p className="font-display font-semibold text-navy text-xs uppercase tracking-[0.12em] mb-1">
@@ -92,7 +130,11 @@ export default function ContactPage() {
               {/* Hours */}
               <div className="mt-8">
                 <p className="font-display font-semibold tracking-[0.12em] uppercase text-xs text-orange">
-                  Hours
+                  <EditableText
+                    content={content}
+                    blockKey="contact.hours.eyebrow"
+                    fallback="Hours"
+                  />
                 </p>
                 <dl className="mt-3 space-y-2 text-sm">
                   {hours.map((h) => (
@@ -107,10 +149,19 @@ export default function ContactPage() {
               {/* Service area */}
               <div className="mt-8">
                 <p className="font-display font-semibold tracking-[0.12em] uppercase text-xs text-orange">
-                  Service area
+                  <EditableText
+                    content={content}
+                    blockKey="contact.service-area.eyebrow"
+                    fallback="Service area"
+                  />
                 </p>
                 <p className="mt-3 text-sm text-muted leading-relaxed">
-                  We serve homeowners across the northwest Twin Cities metro, within roughly a 25-mile radius of Maple Grove.
+                  <EditableText
+                    content={content}
+                    blockKey="contact.service-area.subcopy"
+                    fallback="We serve homeowners across the northwest Twin Cities metro, within roughly a 25-mile radius of Maple Grove."
+                    multiline
+                  />
                 </p>
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {serviceArea.map((city) => (
@@ -123,23 +174,39 @@ export default function ContactPage() {
                   ))}
                 </ul>
                 <p className="mt-4 text-xs text-muted">
-                  Not sure if you&rsquo;re in our area? Send a message below and we&rsquo;ll let you know.
+                  <EditableText
+                    content={content}
+                    blockKey="contact.service-area.footnote"
+                    fallback="Not sure if you are in our area? Send a message below and we will let you know."
+                  />
                 </p>
               </div>
 
               {/* Ready to start? */}
               <div className="mt-8 rounded-xl bg-cream border border-cream-deep p-6">
                 <p className="font-display font-semibold tracking-[0.12em] uppercase text-xs text-orange">
-                  Ready to start a project?
+                  <EditableText
+                    content={content}
+                    blockKey="contact.ready.eyebrow"
+                    fallback="Ready to start a project?"
+                  />
                 </p>
                 <p className="mt-2 font-display font-bold text-lg text-ink">
-                  Skip the form &mdash; book a free consultation.
+                  <EditableText
+                    content={content}
+                    blockKey="contact.ready.headline"
+                    fallback="Skip the form. Book a free consultation."
+                  />
                 </p>
                 <Link
                   href="/consultation"
                   className="mt-4 inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold text-sm px-5 py-2.5 rounded-md transition"
                 >
-                  Get a free estimate &rarr;
+                  <EditableText
+                    content={content}
+                    blockKey="contact.ready.cta"
+                    fallback="Get a free estimate"
+                  />
                 </Link>
               </div>
             </div>
@@ -147,13 +214,27 @@ export default function ContactPage() {
             {/* Right: contact form */}
             <div className="lg:col-span-7">
               <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
-                Send a message
+                <EditableText
+                  content={content}
+                  blockKey="contact.form.eyebrow"
+                  fallback="Send a message"
+                />
               </p>
               <h2 className="mt-3 font-display font-bold text-2xl sm:text-3xl tracking-tight text-ink leading-[1.15]">
-                Have a question? We&rsquo;ll get back to you.
+                <EditableText
+                  content={content}
+                  blockKey="contact.form.headline"
+                  fallback="Have a question? We will get back to you."
+                  multiline
+                />
               </h2>
               <p className="mt-3 text-base text-muted leading-relaxed">
-                For general questions, warranty inquiries, or anything else. We respond within one business day.
+                <EditableText
+                  content={content}
+                  blockKey="contact.form.subcopy"
+                  fallback="For general questions, warranty inquiries, or anything else. We respond within one business day."
+                  multiline
+                />
               </p>
 
               <div className="mt-8">
@@ -163,6 +244,8 @@ export default function ContactPage() {
           </div>
         </Container>
       </section>
+
+      {content.isEditMode ? <EditModeOverlay currentPath="/contact?edit=1" /> : null}
     </PageShell>
   );
 }
