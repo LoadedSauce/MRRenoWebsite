@@ -248,6 +248,7 @@ export function EditModeOverlayClient({ drafts, currentPath }: Props) {
           </button>
           <Link
             href={exitHref}
+            data-edit-mode-nav="exit"
             className="text-xs px-3 py-1.5 rounded bg-paper/10 hover:bg-paper/20 border border-paper/30"
           >
             Exit edit mode
