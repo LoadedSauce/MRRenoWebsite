@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "./container";
+import type { PageContent } from "@/lib/page-content/loader";
+import { EditableText } from "./editable/EditableText";
 
 const services = [
   { label: "Kitchens", href: "/services/kitchens" },
@@ -32,7 +34,11 @@ const serviceArea = [
   "Elk River",
 ];
 
-export function SiteFooter() {
+interface SiteFooterProps {
+  content: PageContent;
+}
+
+export function SiteFooter({ content }: SiteFooterProps) {
   return (
     <footer className="bg-navy-deep text-paper">
       <Container width="wide" className="py-16 lg:py-20">
@@ -51,7 +57,12 @@ export function SiteFooter() {
               </p>
             </div>
             <p className="mt-5 text-sm text-soft-navy/85 leading-relaxed max-w-sm">
-              Family-owned design-build serving Maple Grove and the Twin Cities for 40+ years.
+              <EditableText
+                content={content}
+                blockKey="global.footer.brand.tagline"
+                fallback="Family-owned design-build serving Maple Grove and the Twin Cities for 40+ years."
+                multiline
+              />
             </p>
             {/* Office is the NAP-of-record. The Otsego shop is display-only --
                 it is deliberately absent from SITE.address, LocalBusiness
@@ -84,7 +95,11 @@ export function SiteFooter() {
 
           <div className="lg:col-span-3">
             <p className="font-display font-semibold text-paper text-xs uppercase tracking-[0.14em]">
-              Services
+              <EditableText
+                content={content}
+                blockKey="global.footer.services.label"
+                fallback="Services"
+              />
             </p>
             <ul className="mt-4 space-y-2.5">
               {services.map((link) => (
@@ -99,7 +114,11 @@ export function SiteFooter() {
 
           <div className="lg:col-span-2">
             <p className="font-display font-semibold text-paper text-xs uppercase tracking-[0.14em]">
-              Company
+              <EditableText
+                content={content}
+                blockKey="global.footer.company.label"
+                fallback="Company"
+              />
             </p>
             <ul className="mt-4 space-y-2.5">
               {company.map((link) => (
@@ -114,7 +133,11 @@ export function SiteFooter() {
 
           <div className="lg:col-span-2">
             <p className="font-display font-semibold text-paper text-xs uppercase tracking-[0.14em]">
-              Service Area
+              <EditableText
+                content={content}
+                blockKey="global.footer.service-area.label"
+                fallback="Service Area"
+              />
             </p>
             <ul className="mt-4 space-y-2.5">
               {serviceArea.map((label) => (
@@ -130,17 +153,34 @@ export function SiteFooter() {
       <div className="border-t border-paper/15">
         <Container width="wide" className="py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <p className="text-xs text-soft-navy/70">
-            &copy; {new Date().getFullYear()} M.&nbsp;R. Renovations, LLC. MN License #BC809200
+            &copy; {new Date().getFullYear()}{" "}
+            <EditableText
+              content={content}
+              blockKey="global.footer.copyright.suffix"
+              fallback="M. R. Renovations, LLC. MN License #BC809200"
+            />
           </p>
           <div className="flex items-center gap-5">
             <Link href="/privacy" className="text-xs text-soft-navy/70 hover:text-paper transition-colors">
-              Privacy
+              <EditableText
+                content={content}
+                blockKey="global.footer.legal.privacy"
+                fallback="Privacy"
+              />
             </Link>
             <Link href="/terms" className="text-xs text-soft-navy/70 hover:text-paper transition-colors">
-              Terms
+              <EditableText
+                content={content}
+                blockKey="global.footer.legal.terms"
+                fallback="Terms"
+              />
             </Link>
             <Link href="/accessibility" className="text-xs text-soft-navy/70 hover:text-paper transition-colors">
-              Accessibility
+              <EditableText
+                content={content}
+                blockKey="global.footer.legal.accessibility"
+                fallback="Accessibility"
+              />
             </Link>
           </div>
         </Container>

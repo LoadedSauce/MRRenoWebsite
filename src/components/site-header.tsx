@@ -27,7 +27,7 @@ const navLinksRight = [
   { label: "Team",      href: "/team"      },
 ];
 
-function BrandMark() {
+function BrandMark({ tagline }: { tagline: string }) {
   return (
     <Link href="/" className="flex items-center gap-3" aria-label="M.R. Renovations, Home">
       {/* Logo icon mark */}
@@ -44,7 +44,7 @@ function BrandMark() {
           M.R. RENOVATIONS, LLC
         </span>
         <span className="font-display font-medium text-orange text-[10px] sm:text-[11px] tracking-[0.16em] uppercase">
-          Committed to Quality
+          {tagline}
         </span>
       </span>
     </Link>
@@ -126,7 +126,16 @@ function ServicesDropdown() {
 
 // -- Main header -------------------------------------------------------------
 
-export function SiteHeader() {
+export interface SiteHeaderStrings {
+  utilityFamilyOwned: string;
+  utilityYears: string;
+  utilityWarranty: string;
+  brandTagline: string;
+  cta: string;
+  mobileCallLabel: string;
+}
+
+export function SiteHeader({ strings }: { strings: SiteHeaderStrings }) {
   const [open, setOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
@@ -158,14 +167,14 @@ export function SiteHeader() {
                 <span className="text-orange" aria-hidden="true">&#9679;</span>
                 Maple Grove, MN
               </span>
-              <span className="hidden sm:inline whitespace-nowrap">Family-owned</span>
-              <span className="hidden sm:inline whitespace-nowrap">40+ Years</span>
+              <span className="hidden sm:inline whitespace-nowrap">{strings.utilityFamilyOwned}</span>
+              <span className="hidden sm:inline whitespace-nowrap">{strings.utilityYears}</span>
               <Link
                 href="/warranty"
                 className="hidden md:inline-flex items-center gap-1.5 whitespace-nowrap hover:text-paper transition-colors"
               >
                 <span aria-hidden="true">&infin;</span>
-                Lifetime Transferable Workmanship Warranty
+                {strings.utilityWarranty}
               </Link>
             </div>
             <a
@@ -179,7 +188,7 @@ export function SiteHeader() {
 
         {/* Main bar */}
         <Container as="nav" width="wide" className="flex items-center justify-between h-16 sm:h-20">
-          <BrandMark />
+          <BrandMark tagline={strings.brandTagline} />
 
           {/* Desktop nav */}
           <div className="hidden lg:flex items-center gap-8">
@@ -210,7 +219,7 @@ export function SiteHeader() {
               href="/consultation"
               className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold text-sm px-5 py-2.5 rounded-md transition"
             >
-              Free Estimate
+              {strings.cta}
             </Link>
           </div>
 
@@ -320,14 +329,14 @@ export function SiteHeader() {
                 onClick={() => setOpen(false)}
                 className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-5 py-3 rounded-md transition"
               >
-                Free Estimate
+                {strings.cta}
               </Link>
               <a
                 href="tel:7639002024"
                 onClick={() => setOpen(false)}
                 className="inline-flex items-center justify-center bg-soft-navy text-navy font-display font-semibold px-5 py-3 rounded-md hover:bg-faint transition-colors"
               >
-                Call 763-900-2024
+                {strings.mobileCallLabel}
               </a>
             </div>
           </Container>
