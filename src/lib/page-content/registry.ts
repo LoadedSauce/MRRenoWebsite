@@ -494,6 +494,41 @@ const ACCESSIBILITY: PageRegistryEntry = {
   ],
 };
 
+// -- GLOBAL LAYOUT (header + footer, shared across every route) -------------
+// SiteHeader is a client component (dropdown + mobile menu state), so header
+// strings are passed in as props from PageShell and edited via the admin
+// sidebar rather than inline click-to-edit. SiteFooter is a server component
+// so its editable copy renders inline with the standard EditableText chrome.
+// Rule 25: header phone number, footer office / shop addresses, footer phone,
+// and the Maple Grove NAP badge stay hard-coded and out of this surface.
+
+const GLOBAL: PageRegistryEntry = {
+  key: "global",
+  label: "Global (header + footer)",
+  route: "/",
+  order: 0,
+  photoSlots: [],
+  textBlocks: [
+    // Header utility strip
+    { blockKey: "global.header.utility.family-owned", label: "Header utility: 'Family-owned' badge" },
+    { blockKey: "global.header.utility.years", label: "Header utility: '40+ Years' badge" },
+    { blockKey: "global.header.utility.warranty", label: "Header utility: warranty link label" },
+    // Header brand + primary CTA
+    { blockKey: "global.header.brand.tagline", label: "Header brand tagline under logo" },
+    { blockKey: "global.header.cta", label: "Header 'Free Estimate' CTA label" },
+    { blockKey: "global.header.mobile.call-label", label: "Mobile menu 'Call ...' button label" },
+    // Footer
+    { blockKey: "global.footer.brand.tagline", label: "Footer brand tagline", multiline: true },
+    { blockKey: "global.footer.services.label", label: "Footer 'Services' section label" },
+    { blockKey: "global.footer.company.label", label: "Footer 'Company' section label" },
+    { blockKey: "global.footer.service-area.label", label: "Footer 'Service Area' section label" },
+    { blockKey: "global.footer.copyright.suffix", label: "Footer copyright suffix (year is dynamic)" },
+    { blockKey: "global.footer.legal.privacy", label: "Footer 'Privacy' link label" },
+    { blockKey: "global.footer.legal.terms", label: "Footer 'Terms' link label" },
+    { blockKey: "global.footer.legal.accessibility", label: "Footer 'Accessibility' link label" },
+  ],
+};
+
 // -- CAREERS PAGE ------------------------------------------------------------
 // The listings themselves come from the DB (getActiveJobListings); this only
 // covers the surrounding copy.
@@ -534,6 +569,7 @@ export const PAGE_REGISTRY: Record<string, PageRegistryEntry> = {
   privacy: PRIVACY,
   terms: TERMS,
   accessibility: ACCESSIBILITY,
+  global: GLOBAL,
 };
 
 export function getPageEntry(key: string): PageRegistryEntry | undefined {
