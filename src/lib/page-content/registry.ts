@@ -395,6 +395,105 @@ const TEAM: PageRegistryEntry = {
   ],
 };
 
+// -- RESOURCES INDEX PAGE ----------------------------------------------------
+// The resource cards themselves come from getPublishedResources(); this only
+// covers the hero + empty-state copy.
+
+const RESOURCES: PageRegistryEntry = {
+  key: "resources",
+  label: "Resources",
+  route: "/resources",
+  order: 14,
+  photoSlots: [],
+  textBlocks: [
+    { blockKey: "resources.hero.eyebrow", label: "Hero eyebrow" },
+    { blockKey: "resources.hero.headline", label: "Hero headline" },
+    { blockKey: "resources.hero.subcopy", label: "Hero subcopy", multiline: true },
+    { blockKey: "resources.empty.body", label: "Empty state (no guides published) message" },
+    { blockKey: "resources.card.cta", label: "Per-card 'Read more' link label" },
+  ],
+};
+
+// -- FINANCING PAGE ----------------------------------------------------------
+// Hearth legal disclosure and the 3-step card body / key-details strip stay
+// structural (compliance-reviewed prose and dense data). Marketing copy above
+// and around them is editable.
+
+const FINANCING: PageRegistryEntry = {
+  key: "financing",
+  label: "Financing",
+  route: "/financing",
+  order: 15,
+  photoSlots: [],
+  textBlocks: [
+    // Hero
+    { blockKey: "financing.hero.eyebrow", label: "Hero eyebrow" },
+    { blockKey: "financing.hero.headline", label: "Hero headline" },
+    { blockKey: "financing.hero.subcopy", label: "Hero subcopy", multiline: true },
+    // Intro band + primary CTA
+    { blockKey: "financing.intro.body", label: "Intro paragraph", multiline: true },
+    { blockKey: "financing.intro.cta", label: "Intro CTA label" },
+    // 'How it works' section
+    { blockKey: "financing.how.eyebrow", label: "'How it works' eyebrow" },
+    { blockKey: "financing.how.headline", label: "'How it works' headline" },
+    // 'Cash alternative' card
+    { blockKey: "financing.cash.eyebrow", label: "'Cash alternative' eyebrow" },
+    { blockKey: "financing.cash.headline", label: "'Cash alternative' headline" },
+    { blockKey: "financing.cash.body", label: "'Cash alternative' body", multiline: true },
+    { blockKey: "financing.cash.cta", label: "'Cash alternative' CTA label" },
+    // Primary CTA strip
+    { blockKey: "financing.cta.headline", label: "Primary CTA headline" },
+    { blockKey: "financing.cta.subcopy", label: "Primary CTA subcopy" },
+    { blockKey: "financing.cta.label", label: "Primary CTA button label" },
+    // Secondary links row
+    { blockKey: "financing.secondary.estimate", label: "Secondary 'Get a free estimate' link" },
+    { blockKey: "financing.secondary.phone", label: "Secondary phone link label" },
+  ],
+};
+
+// -- LEGAL PAGES (privacy, terms, accessibility) -----------------------------
+// Legal prose is intentionally NOT editable via the inline UI -- copy must go
+// through legal review before publishing. Only the 'Last updated' timestamp
+// and eyebrow are surfaced so an admin can reflect a review cadence without
+// touching the paragraphs. Everything else stays hard-coded and version-
+// controlled in the repo.
+
+const PRIVACY: PageRegistryEntry = {
+  key: "privacy",
+  label: "Legal / Privacy",
+  route: "/privacy",
+  order: 16,
+  photoSlots: [],
+  textBlocks: [
+    { blockKey: "privacy.eyebrow", label: "Eyebrow (e.g. 'Legal')" },
+    { blockKey: "privacy.last-updated", label: "'Last updated' line" },
+  ],
+};
+
+const TERMS: PageRegistryEntry = {
+  key: "terms",
+  label: "Legal / Terms",
+  route: "/terms",
+  order: 17,
+  photoSlots: [],
+  textBlocks: [
+    { blockKey: "terms.eyebrow", label: "Eyebrow (e.g. 'Legal')" },
+    { blockKey: "terms.last-updated", label: "'Last updated' line" },
+  ],
+};
+
+const ACCESSIBILITY: PageRegistryEntry = {
+  key: "accessibility",
+  label: "Legal / Accessibility",
+  route: "/accessibility",
+  order: 18,
+  photoSlots: [],
+  textBlocks: [
+    { blockKey: "accessibility.eyebrow", label: "Eyebrow (e.g. 'Legal')" },
+    { blockKey: "accessibility.last-updated", label: "'Last updated' line" },
+  ],
+};
+
 // -- CAREERS PAGE ------------------------------------------------------------
 // The listings themselves come from the DB (getActiveJobListings); this only
 // covers the surrounding copy.
@@ -430,7 +529,11 @@ export const PAGE_REGISTRY: Record<string, PageRegistryEntry> = {
   contact: CONTACT,
   team: TEAM,
   careers: CAREERS,
-  // PR #113 adds resources, financing, legal
+  resources: RESOURCES,
+  financing: FINANCING,
+  privacy: PRIVACY,
+  terms: TERMS,
+  accessibility: ACCESSIBILITY,
 };
 
 export function getPageEntry(key: string): PageRegistryEntry | undefined {

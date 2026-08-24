@@ -3,8 +3,12 @@ import Link from "next/link";
 import { Container } from "@/components/container";
 import { PageShell } from "@/components/page-shell";
 import { buildFinancingMetadata } from "@/lib/seo/routes";
+import { loadPageContent, detectEditMode } from "@/lib/page-content/loader";
+import { EditableText } from "@/components/editable/EditableText";
+import { EditModeOverlay } from "@/components/editable/EditModeOverlay";
 
 export const metadata: Metadata = buildFinancingMetadata();
+export const revalidate = 3600;
 
 const steps = [
   {
@@ -31,51 +35,89 @@ const keyDetails = [
   { label: "Prepayment",     value: "No penalties"         },
 ];
 
-export default function FinancingPage() {
+export default async function FinancingPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = await searchParams;
+  const isEditMode = await detectEditMode(sp);
+  const content = await loadPageContent("financing", isEditMode);
+
   return (
     <PageShell>
       <main>
 
-      {/* ── HERO ─────────────────────────────────────────────────────────── */}
+      {/* HERO */}
       <section className="bg-navy text-paper">
         <Container width="default" className="py-16 lg:py-20">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-soft-orange/90">
-            Financing
+            <EditableText
+              content={content}
+              blockKey="financing.hero.eyebrow"
+              fallback="Financing"
+            />
           </p>
           <h1 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-tight text-paper leading-[1.05]">
-            Flexible financing for your project.
+            <EditableText
+              content={content}
+              blockKey="financing.hero.headline"
+              fallback="Flexible financing for your project."
+            />
           </h1>
           <p className="mt-5 text-lg text-paper/75 leading-relaxed max-w-2xl">
-            Your project does not have to wait. M.R. Renovations offers financing options through Hearth, giving you the ability to move forward on your timeline.
+            <EditableText
+              content={content}
+              blockKey="financing.hero.subcopy"
+              fallback="Your project does not have to wait. M.R. Renovations offers financing options through Hearth, giving you the ability to move forward on your timeline."
+              multiline
+            />
           </p>
         </Container>
       </section>
 
-      {/* ── INTRO + FREE CONSULTATION CTA ────────────────────────────────── */}
+      {/* INTRO + FREE CONSULTATION CTA */}
       <section className="bg-paper">
         <Container width="default" className="py-14 lg:py-16">
           <p className="text-lg text-muted leading-relaxed max-w-2xl">
-            Renovations are a significant investment. Hearth financing lets homeowners make decisions based on what they want, not just what they have available right now.
+            <EditableText
+              content={content}
+              blockKey="financing.intro.body"
+              fallback="Renovations are a significant investment. Hearth financing lets homeowners make decisions based on what they want, not just what they have available right now."
+              multiline
+            />
           </p>
           <div className="mt-8">
             <Link
               href="/consultation"
               className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-7 py-3 rounded-md transition"
             >
-              Request a Free Consultation
+              <EditableText
+                content={content}
+                blockKey="financing.intro.cta"
+                fallback="Request a Free Consultation"
+              />
             </Link>
           </div>
         </Container>
       </section>
 
-      {/* ── HOW IT WORKS ─────────────────────────────────────────────────── */}
+      {/* HOW IT WORKS */}
       <section className="bg-paper border-t border-faint">
         <Container width="default" className="py-14 lg:py-16">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
-            How it works
+            <EditableText
+              content={content}
+              blockKey="financing.how.eyebrow"
+              fallback="How it works"
+            />
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-navy">
-            Three steps.
+            <EditableText
+              content={content}
+              blockKey="financing.how.headline"
+              fallback="Three steps."
+            />
           </h2>
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-8">
             {steps.map((step) => (
@@ -95,7 +137,7 @@ export default function FinancingPage() {
         </Container>
       </section>
 
-      {/* ── KEY DETAILS STRIP ────────────────────────────────────────────── */}
+      {/* KEY DETAILS STRIP */}
       <section className="bg-soft-navy">
         <Container width="wide" className="py-10">
           <dl className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
@@ -114,39 +156,64 @@ export default function FinancingPage() {
         </Container>
       </section>
 
-      {/* ── CASH ALTERNATIVE ─────────────────────────────────────────────── */}
+      {/* CASH ALTERNATIVE */}
       <section className="bg-paper">
         <Container width="default" className="py-14 lg:py-16">
           <div className="bg-soft-orange rounded-lg p-8 max-w-2xl">
             <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
-              Cash Alternative
+              <EditableText
+                content={content}
+                blockKey="financing.cash.eyebrow"
+                fallback="Cash Alternative"
+              />
             </p>
             <h2 className="mt-3 font-display font-bold text-2xl text-navy tracking-tight">
-              Prefer to pay cash?
+              <EditableText
+                content={content}
+                blockKey="financing.cash.headline"
+                fallback="Prefer to pay cash?"
+              />
             </h2>
             <p className="mt-3 text-base text-muted leading-relaxed">
-              M.R. Renovations offers a 2% discount on the full project cost for clients who pay in full by cash or check. Two clear paths; choose what works for your situation. Ask your project manager for details when you receive your written proposal.
+              <EditableText
+                content={content}
+                blockKey="financing.cash.body"
+                fallback="M.R. Renovations offers a 2% discount on the full project cost for clients who pay in full by cash or check. Two clear paths; choose what works for your situation. Ask your project manager for details when you receive your written proposal."
+                multiline
+              />
             </p>
             <div className="mt-6">
               <Link
                 href="/consultation"
                 className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-7 py-3 rounded-md transition"
               >
-                Request a Free Consultation
+                <EditableText
+                  content={content}
+                  blockKey="financing.cash.cta"
+                  fallback="Request a Free Consultation"
+                />
               </Link>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* ── PRIMARY CTA ──────────────────────────────────────────────────── */}
+      {/* PRIMARY CTA */}
       <section className="bg-paper border-t border-faint">
         <Container width="default" className="py-14 lg:py-16 text-center">
           <h2 className="font-display font-bold text-2xl sm:text-3xl tracking-tight text-navy">
-            Check your financing options.
+            <EditableText
+              content={content}
+              blockKey="financing.cta.headline"
+              fallback="Check your financing options."
+            />
           </h2>
           <p className="mt-3 text-base text-muted max-w-md mx-auto">
-            No impact to your credit score. No commitment required.
+            <EditableText
+              content={content}
+              blockKey="financing.cta.subcopy"
+              fallback="No impact to your credit score. No commitment required."
+            />
           </p>
           <div className="mt-6">
             <a
@@ -155,28 +222,41 @@ export default function FinancingPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold px-7 py-3 rounded-md transition"
             >
-              View Financing Options
+              <EditableText
+                content={content}
+                blockKey="financing.cta.label"
+                fallback="View Financing Options"
+              />
             </a>
           </div>
 
-          {/* Legal disclosure */}
+          {/* Legal disclosure -- compliance-reviewed text, intentionally not editable */}
           <p className="mt-8 text-xs text-muted/60 max-w-2xl mx-auto leading-relaxed">
-            Hearth is a technology company licensed as a broker as may be required by state law. Hearth does not accept applications for credit, does not make loans, and does not make credit decisions. Annual percentage rates, terms, and amounts are provided by Hearth's lending partners. NMLS ID# 1628533.
+            Hearth is a technology company licensed as a broker as may be required by state law. Hearth does not accept applications for credit, does not make loans, and does not make credit decisions. Annual percentage rates, terms, and amounts are provided by Hearth&apos;s lending partners. NMLS ID# 1628533.
           </p>
 
           {/* Secondary links */}
           <div className="mt-6 flex items-center justify-center gap-6 text-sm">
             <Link href="/consultation" className="text-navy hover:text-orange font-medium transition-colors">
-              Get a Free Estimate &rarr;
+              <EditableText
+                content={content}
+                blockKey="financing.secondary.estimate"
+                fallback="Get a Free Estimate"
+              />
             </Link>
             <a href="tel:7639002024" className="text-navy hover:text-orange font-medium transition-colors">
-              Call 763-900-2024
+              <EditableText
+                content={content}
+                blockKey="financing.secondary.phone"
+                fallback="Call 763-900-2024"
+              />
             </a>
           </div>
         </Container>
       </section>
 
       </main>
+      {content.isEditMode ? <EditModeOverlay currentPath="/financing?edit=1" /> : null}
     </PageShell>
   );
 }
