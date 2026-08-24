@@ -3,12 +3,14 @@ import { type ReactNode } from "react";
 import { Container } from "./container";
 
 interface CTAAction {
-  label: string;
+  /** ReactNode so admin edit chrome (EditableText) can be inlined. */
+  label: ReactNode;
   href: string;
 }
 
 interface CTABandProps {
-  eyebrow?: string;
+  /** ReactNode so admin edit chrome can be inlined. */
+  eyebrow?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
   primary: CTAAction;

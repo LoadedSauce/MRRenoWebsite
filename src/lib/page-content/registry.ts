@@ -142,11 +142,78 @@ const HOME: PageRegistryEntry = {
   ],
 };
 
+// -- SERVICE HUB PAGES -------------------------------------------------------
+//
+// All six service hubs share the same editable-slot shape. Only the copy
+// differs. The factory below emits one PageRegistryEntry per slug and each
+// slug's route is /services/<slug>. Tier 3 area pages (/services/kitchens/
+// maple-grove) inherit the same template but stay non-editable in this PR --
+// city-scoped edits are deferred.
+
+const SERVICE_SLUGS = [
+  { slug: "kitchens", label: "Kitchens", order: 2 },
+  { slug: "bathrooms", label: "Bathrooms", order: 3 },
+  { slug: "basements", label: "Basements", order: 4 },
+  { slug: "additions", label: "Additions", order: 5 },
+  { slug: "whole-home", label: "Whole Home", order: 6 },
+  { slug: "exterior", label: "Exterior", order: 7 },
+] as const;
+
+function buildServiceHub({
+  slug,
+  label,
+  order,
+}: {
+  slug: string;
+  label: string;
+  order: number;
+}): PageRegistryEntry {
+  const p = `service.${slug}`;
+  return {
+    key: `service.${slug}`,
+    label: `Service: ${label}`,
+    route: `/services/${slug}`,
+    order,
+    photoSlots: [
+      { slotKey: `${p}.hero.image`, label: "Hero photo", hint: "Overrides the per-service hero photo picker from migration 0012." },
+    ],
+    textBlocks: [
+      // Hero
+      { blockKey: `${p}.hero.eyebrow`, label: "Hero eyebrow" },
+      { blockKey: `${p}.hero.headline`, label: "Hero headline (main phrase, accent color applied)" },
+      { blockKey: `${p}.hero.subcopy`, label: "Hero subcopy", multiline: true },
+      { blockKey: `${p}.hero.cta.primary`, label: "Hero primary CTA label" },
+      { blockKey: `${p}.hero.cta.secondary`, label: "Hero secondary CTA label" },
+      // Gallery
+      { blockKey: `${p}.gallery.eyebrow`, label: "Gallery eyebrow" },
+      { blockKey: `${p}.gallery.headline`, label: "Gallery headline", multiline: true },
+      // FAQ
+      { blockKey: `${p}.faq.eyebrow`, label: "FAQ eyebrow" },
+      { blockKey: `${p}.faq.headline`, label: "FAQ headline", multiline: true },
+      // Financing CTA band
+      { blockKey: `${p}.financing.eyebrow`, label: "Financing band eyebrow" },
+      { blockKey: `${p}.financing.title`, label: "Financing band title" },
+      { blockKey: `${p}.financing.description`, label: "Financing band description", multiline: true },
+      { blockKey: `${p}.financing.cta`, label: "Financing band CTA label" },
+      // Final CTA band
+      { blockKey: `${p}.final.eyebrow`, label: "Final CTA eyebrow" },
+      { blockKey: `${p}.final.headline`, label: "Final CTA headline", multiline: true },
+      { blockKey: `${p}.final.subcopy`, label: "Final CTA subcopy", multiline: true },
+      { blockKey: `${p}.final.cta.primary`, label: "Final CTA primary label" },
+      { blockKey: `${p}.final.cta.secondary`, label: "Final CTA secondary label" },
+    ],
+  };
+}
+
+const SERVICE_ENTRIES = Object.fromEntries(
+  SERVICE_SLUGS.map((s) => [`service.${s.slug}`, buildServiceHub(s)])
+);
+
 // -- REGISTRY (exported) -----------------------------------------------------
 
 export const PAGE_REGISTRY: Record<string, PageRegistryEntry> = {
   home: HOME,
-  // PR #110 adds service pages
+  ...SERVICE_ENTRIES,
   // PR #111 adds process, warranty, consultation
   // PR #112 adds contact, team, careers
   // PR #113 adds resources, financing, legal

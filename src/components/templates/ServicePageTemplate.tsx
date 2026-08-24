@@ -11,6 +11,9 @@ import { FaqAccordion } from "@/components/primitives/FaqAccordion";
 import { CTABand } from "@/components/cta-band";
 import { getResource } from "@/lib/resources/index";
 import Link from "next/link";
+import type { PageContent } from "@/lib/page-content/loader";
+import { EditableText } from "@/components/editable/EditableText";
+import { EditModeOverlay } from "@/components/editable/EditModeOverlay";
 
 // -- Testimonial props -------------------------------------------------------
 //
@@ -68,6 +71,12 @@ export interface ServicePageTemplateProps {
   // overrides service.galleryImages[0] as the Hero primitive image; also
   // overrides the first portfolioItems entry if that fallback would apply.
   heroImage?: { src: string; alt: string };
+  // Inline-edit-mode content bag. Passed only from Tier 2 hub pages; Tier 3
+  // area pages render this template without pageContent so their strings stay
+  // read-only (deferred to a later PR). When present, editable chrome is
+  // rendered around specific hub-page copy and the bottom overlay bar is
+  // included in the output.
+  pageContent?: PageContent;
 }
 
 // -- Template ----------------------------------------------------------------
@@ -80,6 +89,7 @@ export function ServicePageTemplate({
   beforeAfterImages,
   portfolioItems,
   heroImage,
+  pageContent,
 }: ServicePageTemplateProps) {
   // Hero sub-copy: area service note > service default
   const heroCopy =
@@ -115,15 +125,39 @@ export function ServicePageTemplate({
   //   2. First live portfolioItems entry if any exist (admin has featured items but no explicit hero)
   //   3. First static service-data.ts galleryImages entry
   //   4. undefined -> Hero primitive renders the design-system placeholder
+  // If the page passed in pageContent, let a framework-set hero photo (from
+  // page_photo_slots) override the migration 0012 admin hero. Registered slot
+  // key is `service.<slug>.hero.image`.
+  const contentHeroPhoto = pageContent?.photo(`service.${service.slug}.hero.image`, {
+    src: "",
+    alt: "",
+  });
   const heroSrc =
+    (contentHeroPhoto?.src || undefined) ??
     heroImage?.src ??
     portfolioItems?.[0]?.src ??
     service.galleryImages[0]?.src;
   const heroAlt =
+    (contentHeroPhoto?.alt || undefined) ??
     heroImage?.alt ??
     portfolioItems?.[0]?.alt ??
     service.galleryImages[0]?.alt ??
     `${service.displayName} project${cityLabel ? ` in ${cityLabel}` : ""}`;
+
+  // Little helpers to keep the JSX below readable. When pageContent is absent
+  // (Tier 3 area page render), each call collapses to the fallback string.
+  const p = `service.${service.slug}`;
+  const eText = (blockKey: string, fallback: string, multiline = false) =>
+    pageContent ? (
+      <EditableText
+        content={pageContent}
+        blockKey={blockKey}
+        fallback={fallback}
+        multiline={multiline}
+      />
+    ) : (
+      <>{fallback}</>
+    );
 
   return (
     <PageShell>
@@ -133,7 +167,7 @@ export function ServicePageTemplate({
         eyebrow={
           cityLabel
             ? `${cityLabel} \u00b7 ${service.displayName}`
-            : service.displayName
+            : eText(`${p}.hero.eyebrow`, service.displayName)
         }
         headline={
           cityLabel ? (
@@ -142,12 +176,30 @@ export function ServicePageTemplate({
               <span className="accent">{cityLabel}</span>
             </>
           ) : (
-            <span className="accent">{service.displayName}</span>
+            <span className="accent">
+              {eText(`${p}.hero.headline`, service.displayName)}
+            </span>
           )
         }
-        subCopy={heroCopy}
-        primaryCta={{ label: "Get a Free Estimate", href: "/consultation" }}
-        secondaryCta={{ label: "See Our Work", href: "#gallery" }}
+        subCopy={
+          pageContent && !cityLabel
+            ? eText(`${p}.hero.subcopy`, heroCopy, true)
+            : heroCopy
+        }
+        primaryCta={{
+          label:
+            pageContent && !cityLabel
+              ? eText(`${p}.hero.cta.primary`, "Get a Free Estimate")
+              : "Get a Free Estimate",
+          href: "/consultation",
+        }}
+        secondaryCta={{
+          label:
+            pageContent && !cityLabel
+              ? eText(`${p}.hero.cta.secondary`, "See Our Work")
+              : "See Our Work",
+          href: "#gallery",
+        }}
         stats={heroStats}
         imageSrc={heroSrc}
         imageAlt={heroAlt}
@@ -157,11 +209,13 @@ export function ServicePageTemplate({
       <section id="gallery" className="bg-navy">
         <Container width="wide" className="py-16 lg:py-20">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
-            Recent work
+            {eText(`${p}.gallery.eyebrow`, "Recent work")}
           </p>
           <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-paper leading-[1.1]">
             {cityLabel ? (
               <>A few <span className="accent">local transformations.</span></>
+            ) : pageContent ? (
+              eText(`${p}.gallery.headline`, "A few recent transformations.", true)
             ) : (
               <>A few <span className="accent">recent transformations.</span></>
             )}
@@ -288,13 +342,17 @@ export function ServicePageTemplate({
         <section aria-labelledby="faq-heading" className="bg-paper">
           <Container width="default" className="py-16 lg:py-20">
             <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
-              Common questions
+              {eText(`${p}.faq.eyebrow`, "Common questions")}
             </p>
             <h2
               id="faq-heading"
               className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink leading-[1.1] mb-8"
             >
-              Answers before <span className="accent">you call.</span>
+              {pageContent && !cityLabel ? (
+                eText(`${p}.faq.headline`, "Answers before you call.", true)
+              ) : (
+                <>Answers before <span className="accent">you call.</span></>
+              )}
             </h2>
             <FaqAccordion items={faqItems} tone="light" />
           </Container>
@@ -320,43 +378,84 @@ export function ServicePageTemplate({
           carries the required Hearth broker disclosure (NMLS 1628533). */}
       <CTABand
         tone="tinted"
-        eyebrow="Financing Available"
-        title="Payments starting as low as your grocery bill"
-        description="Loans from $1,000 to $250,000 through Hearth. Check your rate in under 60 seconds. No impact to your credit score."
-        primary={{ label: "View Financing Options", href: "/financing" }}
+        eyebrow={
+          pageContent && !cityLabel
+            ? eText(`${p}.financing.eyebrow`, "Financing Available")
+            : "Financing Available"
+        }
+        title={
+          pageContent && !cityLabel
+            ? eText(`${p}.financing.title`, "Payments starting as low as your grocery bill")
+            : "Payments starting as low as your grocery bill"
+        }
+        description={
+          pageContent && !cityLabel
+            ? eText(
+                `${p}.financing.description`,
+                "Loans from $1,000 to $250,000 through Hearth. Check your rate in under 60 seconds. No impact to your credit score.",
+                true
+              )
+            : "Loans from $1,000 to $250,000 through Hearth. Check your rate in under 60 seconds. No impact to your credit score."
+        }
+        primary={{
+          label:
+            pageContent && !cityLabel
+              ? eText(`${p}.financing.cta`, "View Financing Options")
+              : "View Financing Options",
+          href: "/financing",
+        }}
       />
 
       {/* -- CTA BAND ----------------------------------------------------- */}
       <section className="bg-navy text-paper">
         <Container width="wide" className="py-16 lg:py-20 text-center">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
-            Ready when you are
+            {eText(`${p}.final.eyebrow`, "Ready when you are")}
           </p>
           <h2 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-tight text-paper leading-[1.05] max-w-2xl mx-auto">
-            Let&rsquo;s build something{" "}
-            <span className="accent">that lasts.</span>
+            {pageContent && !cityLabel ? (
+              eText(`${p}.final.headline`, "Let's build something that lasts.", true)
+            ) : (
+              <>
+                Let&rsquo;s build something{" "}
+                <span className="accent">that lasts.</span>
+              </>
+            )}
           </h2>
           <p className="mt-5 text-base sm:text-lg text-soft-navy/85 leading-relaxed max-w-lg mx-auto">
-            Tell us about your{cityLabel ? ` ${area!.cityName}` : ""} project. We&rsquo;ll get back to
-            you within one business day.
+            {pageContent && !cityLabel ? (
+              eText(
+                `${p}.final.subcopy`,
+                "Tell us about your project. We'll get back to you within one business day.",
+                true
+              )
+            ) : (
+              <>
+                Tell us about your{cityLabel ? ` ${area!.cityName}` : ""} project. We&rsquo;ll get back to
+                you within one business day.
+              </>
+            )}
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/consultation"
               className="inline-flex items-center justify-center w-full sm:w-auto bg-orange hover:brightness-105 text-ink font-display font-semibold px-6 py-3.5 rounded-md transition"
             >
-              Start your free estimate
+              {eText(`${p}.final.cta.primary`, "Start your free estimate")}
             </Link>
             <a
               href="tel:7639002024"
               className="inline-flex items-center justify-center w-full sm:w-auto bg-paper/10 hover:bg-paper/20 text-paper border border-paper/40 font-display font-semibold px-6 py-3.5 rounded-md transition-colors"
             >
-              Or call 763-900-2024
+              {eText(`${p}.final.cta.secondary`, "Or call 763-900-2024")}
             </a>
           </div>
         </Container>
       </section>
 
+      {pageContent?.isEditMode ? (
+        <EditModeOverlay currentPath={`/services/${service.slug}?edit=1`} />
+      ) : null}
     </PageShell>
   );
 }

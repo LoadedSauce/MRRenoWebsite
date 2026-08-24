@@ -29,6 +29,7 @@ import {
   getPortfolioItemsByService,
   getServiceHeroPhoto,
 } from "@/lib/supabase/queries";
+import { loadPageContent, detectEditMode } from "@/lib/page-content/loader";
 
 // ADM-5: ISR -- pages regenerate hourly so admin edits surface without a deploy.
 export const revalidate = 3600;
@@ -36,6 +37,9 @@ export const revalidate = 3600;
 type ServiceSlug = keyof typeof serviceRegistry;
 
 // -- Static params -----------------------------------------------------------
+// Note: hub pages become dynamic-render at request time because the page now
+// reads `searchParams` to detect edit mode. `generateStaticParams` is retained
+// for the URL surface (metadata / SEO); ISR is capped by revalidate = 3600.
 
 export function generateStaticParams() {
   return Object.keys(serviceRegistry).map((slug) => ({ service: slug }));
@@ -45,6 +49,7 @@ export function generateStaticParams() {
 
 interface PageProps {
   params: Promise<{ service: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -56,8 +61,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 // -- Page --------------------------------------------------------------------
 
-export default async function ServiceHubPage({ params }: PageProps) {
+export default async function ServiceHubPage({ params, searchParams }: PageProps) {
   const { service: serviceParam } = await params;
+  const sp = await searchParams;
 
   const service =
     serviceParam in serviceRegistry
@@ -65,6 +71,11 @@ export default async function ServiceHubPage({ params }: PageProps) {
       : undefined;
 
   if (!service) notFound();
+
+  // Inline-edit mode (framework introduced in PR #109). Only enabled on hub
+  // pages -- Tier 3 area pages fall through with pageContent undefined.
+  const isEditMode = await detectEditMode(sp);
+  const pageContent = await loadPageContent(`service.${serviceParam}`, isEditMode);
 
   // -- Testimonial (live, service-matched with sitewide fallback) -----------
 
@@ -138,6 +149,7 @@ export default async function ServiceHubPage({ params }: PageProps) {
         faqItems={faqItems}
         portfolioItems={galleryImages}
         heroImage={heroImage}
+        pageContent={pageContent}
       />
     </>
   );
