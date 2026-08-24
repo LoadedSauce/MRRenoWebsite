@@ -529,6 +529,89 @@ const GLOBAL: PageRegistryEntry = {
   ],
 };
 
+// -- SERVICE AREA (Tier 3) ---------------------------------------------------
+// One page-key per statically-generated city (maple-grove, rogers, plymouth,
+// coon-rapids). Each page-key exposes the city-specific copy layered on top
+// of the shared ServicePageTemplate:
+//   - `hero-blurb`: one or two sentences under the eyebrow on the city block.
+//   - `drive-time-text`: e.g. 'About 12 minutes from our Maple Grove office.'
+//   - `service-note.<serviceSlug>`: per-service hero sub-copy override.
+// Fallbacks live in src/lib/service-area-data/<city>.ts so structural
+// defaults stay in code. Structural bits deliberately NOT exposed here:
+//   - `neighborhoods` list (dense structural list; deferred to a later
+//     structured-editor pass)
+//   - `recentProjectExamples` (structured title + summary per service; same)
+//   - City name / state abbreviation / URL slug (route identity)
+// A single ServiceAreaTextBlock helper builds the 8-block layout so every
+// city definition stays identical in shape.
+
+const SERVICE_AREA_SERVICES: ReadonlyArray<{ slug: string; label: string }> = [
+  { slug: "kitchens", label: "Kitchens" },
+  { slug: "bathrooms", label: "Bathrooms" },
+  { slug: "basements", label: "Basements" },
+  { slug: "additions", label: "Additions" },
+  { slug: "whole-home", label: "Whole-Home" },
+  { slug: "exterior", label: "Exterior" },
+];
+
+function buildServiceAreaTextBlocks(cityLabel: string): TextBlockDef[] {
+  const blocks: TextBlockDef[] = [
+    {
+      blockKey: `service-area.hero-blurb`,
+      label: `${cityLabel}: hero blurb (one or two sentences under the city block eyebrow)`,
+      multiline: true,
+    },
+    {
+      blockKey: `service-area.drive-time-text`,
+      label: `${cityLabel}: drive-time line from the Maple Grove office`,
+    },
+  ];
+  for (const s of SERVICE_AREA_SERVICES) {
+    blocks.push({
+      blockKey: `service-area.service-note.${s.slug}`,
+      label: `${cityLabel}: ${s.label} service note (per-service hero sub-copy override)`,
+      multiline: true,
+    });
+  }
+  return blocks;
+}
+
+const SERVICE_AREA_MAPLE_GROVE: PageRegistryEntry = {
+  key: "service-area:maple-grove",
+  label: "Service Area: Maple Grove",
+  route: "/services/kitchens/maple-grove",
+  order: 20,
+  photoSlots: [],
+  textBlocks: buildServiceAreaTextBlocks("Maple Grove"),
+};
+
+const SERVICE_AREA_ROGERS: PageRegistryEntry = {
+  key: "service-area:rogers",
+  label: "Service Area: Rogers",
+  route: "/services/kitchens/rogers",
+  order: 21,
+  photoSlots: [],
+  textBlocks: buildServiceAreaTextBlocks("Rogers"),
+};
+
+const SERVICE_AREA_PLYMOUTH: PageRegistryEntry = {
+  key: "service-area:plymouth",
+  label: "Service Area: Plymouth",
+  route: "/services/kitchens/plymouth",
+  order: 22,
+  photoSlots: [],
+  textBlocks: buildServiceAreaTextBlocks("Plymouth"),
+};
+
+const SERVICE_AREA_COON_RAPIDS: PageRegistryEntry = {
+  key: "service-area:coon-rapids",
+  label: "Service Area: Coon Rapids",
+  route: "/services/kitchens/coon-rapids",
+  order: 23,
+  photoSlots: [],
+  textBlocks: buildServiceAreaTextBlocks("Coon Rapids"),
+};
+
 // -- CAREERS PAGE ------------------------------------------------------------
 // The listings themselves come from the DB (getActiveJobListings); this only
 // covers the surrounding copy.
@@ -570,6 +653,10 @@ export const PAGE_REGISTRY: Record<string, PageRegistryEntry> = {
   terms: TERMS,
   accessibility: ACCESSIBILITY,
   global: GLOBAL,
+  "service-area:maple-grove": SERVICE_AREA_MAPLE_GROVE,
+  "service-area:rogers": SERVICE_AREA_ROGERS,
+  "service-area:plymouth": SERVICE_AREA_PLYMOUTH,
+  "service-area:coon-rapids": SERVICE_AREA_COON_RAPIDS,
 };
 
 export function getPageEntry(key: string): PageRegistryEntry | undefined {

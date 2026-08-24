@@ -71,11 +71,12 @@ export interface ServicePageTemplateProps {
   // overrides service.galleryImages[0] as the Hero primitive image; also
   // overrides the first portfolioItems entry if that fallback would apply.
   heroImage?: { src: string; alt: string };
-  // Inline-edit-mode content bag. Passed only from Tier 2 hub pages; Tier 3
-  // area pages render this template without pageContent so their strings stay
-  // read-only (deferred to a later PR). When present, editable chrome is
-  // rendered around specific hub-page copy and the bottom overlay bar is
-  // included in the output.
+  // Inline-edit-mode content bag. May be passed from Tier 2 hub pages OR
+  // Tier 3 area pages. On Tier 2 hubs the pageKey is `service.<slug>` and
+  // edits the hub-only chrome. On Tier 3 area pages the pageKey is
+  // `service-area:<citySlug>` and edits city-specific copy (hero blurb,
+  // drive-time, per-service note). The template branches on `cityLabel`
+  // (== `area != null`) to route reads to the correct namespace.
   pageContent?: PageContent;
 }
 
@@ -91,9 +92,22 @@ export function ServicePageTemplate({
   heroImage,
   pageContent,
 }: ServicePageTemplateProps) {
-  // Hero sub-copy: area service note > service default
+  // Hero sub-copy: pageContent service-note override (Tier 3 only) > area
+  // service note from service-area-data.ts > service default. On Tier 2
+  // hub renders `area` is undefined so the service default is the only
+  // source.
+  const areaServiceNoteFallback = area?.serviceNotes?.[service.slug];
+  const resolvedAreaServiceNote =
+    area && pageContent
+      ? pageContent.text(
+          `service-area.service-note.${service.slug}`,
+          areaServiceNoteFallback ?? ""
+        )
+      : areaServiceNoteFallback;
   const heroCopy =
-    (area?.serviceNotes?.[service.slug] ?? service.heroDefaultSubcopy);
+    (resolvedAreaServiceNote && resolvedAreaServiceNote.length > 0
+      ? resolvedAreaServiceNote
+      : service.heroDefaultSubcopy);
 
   // Approved stat strip values (locked)
   // Experience and Google Rating are sitewide constants -- do not vary per page.
@@ -108,9 +122,19 @@ export function ServicePageTemplate({
   const cityLabel = area ? `${area.cityName}, ${area.stateAbbr}` : null;
 
   // P1.33: city-specific content, surfaced on Tier 3 (area) pages only.
-  // Sourced from the ServiceAreaData already passed in via `area` -- the
-  // registry data was always flowing through; it was just never rendered.
-  const areaServiceNote = area?.serviceNotes?.[service.slug];
+  // Sourced from the ServiceAreaData already passed in via `area`. When the
+  // page-content bag is present (Tier 3 area render with page_text_blocks
+  // rows keyed by `service-area:<city>`), inline overrides layer on top of
+  // the structural fallbacks that ship in service-area-data.ts.
+  const areaServiceNote = resolvedAreaServiceNote;
+  const areaHeroBlurb =
+    area && pageContent
+      ? pageContent.text("service-area.hero-blurb", area.heroBlurb)
+      : area?.heroBlurb;
+  const areaDriveTime =
+    area && pageContent
+      ? pageContent.text("service-area.drive-time-text", area.driveTimeText)
+      : area?.driveTimeText;
   const areaRecentProjects = (area?.recentProjectExamples ?? []).filter(
     (p) => p.serviceSlug === service.slug
   );
@@ -280,22 +304,40 @@ export function ServicePageTemplate({
 
       {/* -- CITY-SPECIFIC CONTENT (Tier 3 area pages only) --------------- */}
       {area &&
-        (area.heroBlurb || areaServiceNote || areaRecentProjects.length > 0) && (
+        (areaHeroBlurb || areaServiceNote || areaRecentProjects.length > 0) && (
           <section className="bg-cream">
             <Container width="wide" className="py-16 lg:py-20">
               <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
                 {service.displayName} in {area.cityName}
               </p>
 
-              {area.heroBlurb && (
+              {areaHeroBlurb && (
                 <p className="mt-4 text-base sm:text-lg text-muted leading-relaxed max-w-3xl">
-                  {area.heroBlurb}
+                  {pageContent ? (
+                    <EditableText
+                      content={pageContent}
+                      blockKey="service-area.hero-blurb"
+                      fallback={area.heroBlurb}
+                      multiline
+                    />
+                  ) : (
+                    areaHeroBlurb
+                  )}
                 </p>
               )}
 
               {areaServiceNote && (
                 <p className="mt-4 text-base text-muted leading-relaxed max-w-3xl">
-                  {areaServiceNote}
+                  {pageContent ? (
+                    <EditableText
+                      content={pageContent}
+                      blockKey={`service-area.service-note.${service.slug}`}
+                      fallback={areaServiceNoteFallback ?? ""}
+                      multiline
+                    />
+                  ) : (
+                    areaServiceNote
+                  )}
                 </p>
               )}
 
@@ -329,8 +371,18 @@ export function ServicePageTemplate({
                 </p>
               )}
 
-              {area.driveTimeText && (
-                <p className="mt-3 text-sm text-muted">{area.driveTimeText}</p>
+              {areaDriveTime && (
+                <p className="mt-3 text-sm text-muted">
+                  {pageContent ? (
+                    <EditableText
+                      content={pageContent}
+                      blockKey="service-area.drive-time-text"
+                      fallback={area.driveTimeText}
+                    />
+                  ) : (
+                    areaDriveTime
+                  )}
+                </p>
               )}
             </Container>
           </section>
@@ -454,7 +506,13 @@ export function ServicePageTemplate({
       </section>
 
       {pageContent?.isEditMode ? (
-        <EditModeOverlay currentPath={`/services/${service.slug}?edit=1`} />
+        <EditModeOverlay
+          currentPath={
+            area
+              ? `/services/${service.slug}/${area.citySlug}?edit=1`
+              : `/services/${service.slug}?edit=1`
+          }
+        />
       ) : null}
     </PageShell>
   );
