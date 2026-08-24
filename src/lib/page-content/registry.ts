@@ -322,6 +322,103 @@ const CONSULTATION: PageRegistryEntry = {
   ],
 };
 
+// -- CONTACT PAGE ------------------------------------------------------------
+// Rule 25: Otsego shop is display-only and stays out of the editable surface.
+// The Maple Grove office is the NAP-of-record and also stays hard-coded so
+// admin edits cannot break structured data / schema.org alignment.
+
+const CONTACT: PageRegistryEntry = {
+  key: "contact",
+  label: "Contact",
+  route: "/contact",
+  order: 11,
+  photoSlots: [],
+  textBlocks: [
+    // Hero
+    { blockKey: "contact.hero.eyebrow", label: "Hero eyebrow" },
+    { blockKey: "contact.hero.headline", label: "Hero headline", multiline: true },
+    { blockKey: "contact.hero.subcopy", label: "Hero subcopy", multiline: true },
+    // Left column: business info
+    { blockKey: "contact.phone.eyebrow", label: "Phone callout eyebrow" },
+    { blockKey: "contact.phone.subcopy", label: "Phone callout subcopy" },
+    { blockKey: "contact.address.eyebrow", label: "Visit / address eyebrow" },
+    { blockKey: "contact.hours.eyebrow", label: "Hours eyebrow" },
+    { blockKey: "contact.service-area.eyebrow", label: "Service area eyebrow" },
+    { blockKey: "contact.service-area.subcopy", label: "Service area subcopy", multiline: true },
+    { blockKey: "contact.service-area.footnote", label: "Service area footnote" },
+    // Ready-to-start card
+    { blockKey: "contact.ready.eyebrow", label: "'Ready to start' card eyebrow" },
+    { blockKey: "contact.ready.headline", label: "'Ready to start' card headline" },
+    { blockKey: "contact.ready.cta", label: "'Ready to start' CTA label" },
+    // Right column: form intro
+    { blockKey: "contact.form.eyebrow", label: "Form column eyebrow" },
+    { blockKey: "contact.form.headline", label: "Form column headline", multiline: true },
+    { blockKey: "contact.form.subcopy", label: "Form column subcopy", multiline: true },
+  ],
+};
+
+// -- TEAM PAGE ---------------------------------------------------------------
+// The team roster itself is structural data (still hard-coded, not editable
+// this PR). Copy around the roster is editable.
+
+const TEAM: PageRegistryEntry = {
+  key: "team",
+  label: "Team",
+  route: "/team",
+  order: 12,
+  photoSlots: [
+    { slotKey: "team.why.image", label: "'Why M.R.' section photo", hint: "Portrait aspect 4/5. Replaces /images/about-team.jpg." },
+  ],
+  textBlocks: [
+    // Hero
+    { blockKey: "team.hero.eyebrow", label: "Hero eyebrow" },
+    { blockKey: "team.hero.headline", label: "Hero headline" },
+    { blockKey: "team.hero.subcopy", label: "Hero subcopy", multiline: true },
+    // Intro band
+    { blockKey: "team.intro.headline", label: "Intro band headline" },
+    { blockKey: "team.intro.subcopy", label: "Intro band subcopy", multiline: true },
+    // Crew section label
+    { blockKey: "team.crew.label", label: "Crew section label" },
+    // Why M.R.
+    { blockKey: "team.why.eyebrow", label: "'Why M.R.' eyebrow" },
+    { blockKey: "team.why.headline", label: "'Why M.R.' headline (accent phrase applied)", multiline: true },
+    { blockKey: "team.why.subcopy", label: "'Why M.R.' intro subcopy", multiline: true },
+    // Closing CTA (join us)
+    { blockKey: "team.join.eyebrow", label: "Closing CTA eyebrow" },
+    { blockKey: "team.join.headline", label: "Closing CTA headline" },
+    { blockKey: "team.join.subcopy", label: "Closing CTA subcopy", multiline: true },
+    { blockKey: "team.join.cta", label: "Closing CTA button label" },
+    // Apply section
+    { blockKey: "team.apply.eyebrow", label: "'Apply Now' eyebrow" },
+    { blockKey: "team.apply.headline", label: "'Apply Now' headline" },
+    { blockKey: "team.apply.subcopy", label: "'Apply Now' subcopy", multiline: true },
+  ],
+};
+
+// -- CAREERS PAGE ------------------------------------------------------------
+// The listings themselves come from the DB (getActiveJobListings); this only
+// covers the surrounding copy.
+
+const CAREERS: PageRegistryEntry = {
+  key: "careers",
+  label: "Careers",
+  route: "/careers",
+  order: 13,
+  photoSlots: [],
+  textBlocks: [
+    // Hero
+    { blockKey: "careers.hero.eyebrow", label: "Hero eyebrow" },
+    { blockKey: "careers.hero.headline", label: "Hero headline" },
+    { blockKey: "careers.hero.subcopy", label: "Hero subcopy", multiline: true },
+    // Empty state (no jobs)
+    { blockKey: "careers.empty.headline", label: "'No open positions' headline" },
+    // Empty-state body kept structural because it embeds a mailto link.
+    // Has-jobs state
+    { blockKey: "careers.list.headline", label: "'Open positions' headline" },
+    { blockKey: "careers.apply.cta", label: "Per-listing apply CTA label" },
+  ],
+};
+
 // -- REGISTRY (exported) -----------------------------------------------------
 
 export const PAGE_REGISTRY: Record<string, PageRegistryEntry> = {
@@ -330,7 +427,9 @@ export const PAGE_REGISTRY: Record<string, PageRegistryEntry> = {
   process: PROCESS,
   warranty: WARRANTY,
   consultation: CONSULTATION,
-  // PR #112 adds contact, team, careers
+  contact: CONTACT,
+  team: TEAM,
+  careers: CAREERS,
   // PR #113 adds resources, financing, legal
 };
 

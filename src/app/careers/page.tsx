@@ -4,6 +4,9 @@ import { PageShell } from "@/components/page-shell";
 import { Container } from "@/components/container";
 import { canonical } from "@/lib/seo/canonical";
 import { getActiveJobListings } from "@/lib/supabase/queries";
+import { loadPageContent, detectEditMode } from "@/lib/page-content/loader";
+import { EditableText } from "@/components/editable/EditableText";
+import { EditModeOverlay } from "@/components/editable/EditModeOverlay";
 
 export const revalidate = 3600;
 
@@ -14,7 +17,14 @@ export const metadata: Metadata = {
   alternates: { canonical: canonical("/careers") },
 };
 
-export default async function CareersPage() {
+export default async function CareersPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = await searchParams;
+  const isEditMode = await detectEditMode(sp);
+  const content = await loadPageContent("careers", isEditMode);
   const jobs = await getActiveJobListings();
 
   return (
@@ -23,14 +33,26 @@ export default async function CareersPage() {
       <section className="bg-navy text-paper">
         <Container width="wide" className="py-20 lg:py-28">
           <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange-on-dark">
-            Join the team
+            <EditableText
+              content={content}
+              blockKey="careers.hero.eyebrow"
+              fallback="Join the team"
+            />
           </p>
           <h1 className="mt-4 font-display font-bold text-4xl sm:text-5xl tracking-tight leading-[1.05] text-paper max-w-2xl">
-            Build something that lasts.
+            <EditableText
+              content={content}
+              blockKey="careers.hero.headline"
+              fallback="Build something that lasts."
+            />
           </h1>
           <p className="mt-5 text-base sm:text-lg text-soft-navy/90 max-w-xl leading-relaxed">
-            Family-owned design-build serving the Twin Cities for 40 years. We hire
-            craftspeople who take pride in their work.
+            <EditableText
+              content={content}
+              blockKey="careers.hero.subcopy"
+              fallback="Family-owned design-build serving the Twin Cities for 40 years. We hire craftspeople who take pride in their work."
+              multiline
+            />
           </p>
         </Container>
       </section>
@@ -41,7 +63,11 @@ export default async function CareersPage() {
           {jobs.length === 0 ? (
             <div className="max-w-lg">
               <h2 className="font-display font-bold text-2xl text-ink">
-                No open positions at this time.
+                <EditableText
+                  content={content}
+                  blockKey="careers.empty.headline"
+                  fallback="No open positions at this time."
+                />
               </h2>
               <p className="mt-4 text-base text-muted leading-relaxed">
                 We do not always have open listings, but we are always interested in
@@ -58,7 +84,11 @@ export default async function CareersPage() {
           ) : (
             <div className="space-y-6 max-w-2xl">
               <h2 className="font-display font-bold text-2xl text-ink">
-                Open positions
+                <EditableText
+                  content={content}
+                  blockKey="careers.list.headline"
+                  fallback="Open positions"
+                />
               </h2>
               {jobs.map((job) => (
                 <div
@@ -76,7 +106,11 @@ export default async function CareersPage() {
                       href="/contact"
                       className="inline-flex items-center justify-center bg-orange hover:brightness-105 text-ink font-display font-semibold text-sm px-5 py-2.5 rounded-md transition"
                     >
-                      Apply via contact form
+                      <EditableText
+                        content={content}
+                        blockKey="careers.apply.cta"
+                        fallback="Apply via contact form"
+                      />
                     </Link>
                   </div>
                 </div>
@@ -85,6 +119,8 @@ export default async function CareersPage() {
           )}
         </Container>
       </section>
+
+      {content.isEditMode ? <EditModeOverlay currentPath="/careers?edit=1" /> : null}
     </PageShell>
   );
 }

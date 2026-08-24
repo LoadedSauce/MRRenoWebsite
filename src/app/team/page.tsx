@@ -6,8 +6,13 @@ import { Container } from "@/components/container";
 import { JsonLd, buildPageGraph, buildWebPageSchema } from "@/lib/seo/schema";
 import { buildTeamMetadata } from "@/lib/seo/routes";
 import { CandidateForm } from "@/components/candidate-form";
+import { loadPageContent, detectEditMode } from "@/lib/page-content/loader";
+import { EditableText } from "@/components/editable/EditableText";
+import { EditablePhoto } from "@/components/editable/EditablePhoto";
+import { EditModeOverlay } from "@/components/editable/EditModeOverlay";
 
 export const metadata: Metadata = buildTeamMetadata();
+export const revalidate = 3600;
 
 type Card =
   | {
@@ -176,7 +181,15 @@ const WHY_MR = [
   },
 ];
 
-export default function TeamPage() {
+export default async function TeamPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = await searchParams;
+  const isEditMode = await detectEditMode(sp);
+  const content = await loadPageContent("team", isEditMode);
+
   return (
     <PageShell>
       <JsonLd
@@ -185,86 +198,135 @@ export default function TeamPage() {
         ])}
       />
 
-      {/* ── HERO ─────────────────────────────────────────────── */}
+      {/* HERO */}
       <section className="relative bg-navy px-6 py-20 text-center md:py-24">
         <p className="font-display text-xs font-medium uppercase tracking-[0.22em] text-orange-on-dark">
-          Our People
+          <EditableText
+            content={content}
+            blockKey="team.hero.eyebrow"
+            fallback="Our People"
+          />
         </p>
         <h1 className="mt-3 font-display text-4xl font-bold leading-tight text-paper md:text-5xl">
-          Meet the Team
+          <EditableText
+            content={content}
+            blockKey="team.hero.headline"
+            fallback="Meet the Team"
+          />
         </h1>
         <p className="mx-auto mt-5 max-w-2xl font-body text-lg leading-relaxed text-soft-navy">
-          You get the full team at your disposal. One project manager, start to finish. The same person from the first sketch to the final walkthrough. No handoffs, no excuses.
+          <EditableText
+            content={content}
+            blockKey="team.hero.subcopy"
+            fallback="You get the full team at your disposal. One project manager, start to finish. The same person from the first sketch to the final walkthrough. No handoffs, no excuses."
+            multiline
+          />
         </p>
         <span className="absolute bottom-0 left-1/2 h-[3px] w-12 -translate-x-1/2 bg-orange" />
       </section>
 
-      {/* ── INTRO BAND ───────────────────────────────────────── */}
+      {/* INTRO BAND */}
       <section className="bg-soft-navy px-6 py-12 text-center">
         <h2 className="font-display text-2xl font-bold text-ink">
-          What Makes Our Team Special
+          <EditableText
+            content={content}
+            blockKey="team.intro.headline"
+            fallback="What Makes Our Team Special"
+          />
         </h2>
         <p className="mx-auto mt-4 max-w-2xl font-body text-base leading-relaxed text-muted">
-          Our strength lies in the diverse roles and experience of our team.
-          From our owner to our skilled carpenters, each member brings a unique
-          perspective to every project, with all aspects handled with precision
-          and care.
+          <EditableText
+            content={content}
+            blockKey="team.intro.subcopy"
+            fallback="Our strength lies in the diverse roles and experience of our team. From our owner to our skilled carpenters, each member brings a unique perspective to every project, with all aspects handled with precision and care."
+            multiline
+          />
         </p>
       </section>
 
-      {/* ── OWNER ────────────────────────────────────────────── */}
+      {/* OWNER */}
       <section className="bg-paper px-6 py-12">
         <div className="mx-auto w-[200px] max-w-[60vw]">
           <MemberCard member={OWNER} featured />
         </div>
       </section>
 
-      {/* ── OFFICE / MANAGEMENT ──────────────────────────────── */}
+      {/* OFFICE / MANAGEMENT */}
       <section className="bg-soft-navy px-6 py-12">
         <div className="mx-auto grid max-w-3xl grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-4">
           {ROW_TWO.map((c, i) => renderCard(c, i))}
         </div>
       </section>
 
-      {/* ── SALES: Chris + open sales spaces ─────────────────── */}
+      {/* SALES: Chris + open sales spaces */}
       <section className="bg-paper px-6 py-12">
         <div className="mx-auto grid max-w-md grid-cols-3 gap-x-5 gap-y-8">
           {ROW_THREE.map((c, i) => renderCard(c, i))}
         </div>
       </section>
 
-      {/* ── OUR CREW (with interspersed open roles) ──────────── */}
+      {/* OUR CREW (with interspersed open roles) */}
       <section className="bg-soft-navy px-6 py-14">
-        <SectionLabel>Our Crew</SectionLabel>
+        <SectionLabel>
+          <EditableText
+            content={content}
+            blockKey="team.crew.label"
+            fallback="Our Crew"
+          />
+        </SectionLabel>
         <div className="mx-auto grid max-w-3xl grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
           {CREW.map((c, i) => renderCard(c, i))}
         </div>
       </section>
 
-      {/* ── WHY M.R. (moved from home page About) ────────────── */}
+      {/* WHY M.R. */}
       <section className="bg-paper">
         <Container width="wide" className="py-16 lg:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             <div className="lg:col-span-5">
               <div className="relative aspect-[4/5] rounded-lg overflow-hidden bg-navy">
-                <Image
-                  src="/images/about-team.jpg"
-                  alt="M.R. Renovations team reviewing project plans."
-                  fill
-                  sizes="(min-width: 1024px) 480px, 100vw"
-                  className="object-cover"
+                <EditablePhoto
+                  content={content}
+                  slotKey="team.why.image"
+                  fallback={{
+                    src: "/images/about-team.jpg",
+                    alt: "M.R. Renovations team reviewing project plans.",
+                  }}
+                  render={({ src, alt }) => (
+                    <Image
+                      src={src}
+                      alt={alt}
+                      fill
+                      sizes="(min-width: 1024px) 480px, 100vw"
+                      className="object-cover"
+                    />
+                  )}
                 />
               </div>
             </div>
             <div className="lg:col-span-7">
               <p className="font-display font-semibold tracking-[0.14em] uppercase text-xs text-orange">
-                Why M.R.
+                <EditableText
+                  content={content}
+                  blockKey="team.why.eyebrow"
+                  fallback="Why M.R."
+                />
               </p>
               <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink leading-[1.1]">
-                A family contractor with the <span className="accent">process of a design firm.</span>
+                <EditableText
+                  content={content}
+                  blockKey="team.why.headline"
+                  fallback="A family contractor with the process of a design firm."
+                  multiline
+                />
               </h2>
               <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed">
-                40+ years of remodeling experience, run with the calm, written, on-time discipline you&rsquo;d expect from a much bigger firm.
+                <EditableText
+                  content={content}
+                  blockKey="team.why.subcopy"
+                  fallback="40+ years of remodeling experience, run with the calm, written, on-time discipline you would expect from a much bigger firm."
+                  multiline
+                />
               </p>
 
               <ul className="mt-8 space-y-5">
@@ -273,10 +335,9 @@ export default function TeamPage() {
                     <span className="mt-1.5 inline-block w-2 h-2 rounded-full bg-orange shrink-0" aria-hidden="true" />
                     <div>
                       <p className="font-display font-semibold text-ink">{item.title}</p>
-                      <p
-                        className="mt-1 text-sm text-muted leading-relaxed"
-                        dangerouslySetInnerHTML={{ __html: item.body }}
-                      />
+                      <p className="mt-1 text-sm text-muted leading-relaxed">
+                        {item.body}
+                      </p>
                     </div>
                   </li>
                 ))}
@@ -286,45 +347,74 @@ export default function TeamPage() {
         </Container>
       </section>
 
-      {/* ── CLOSING CTA ──────────────────────────────────────── */}
+      {/* CLOSING CTA */}
       <section className="bg-navy-deep px-6 py-16 text-center">
         <p className="font-display text-xs font-medium uppercase tracking-[0.22em] text-orange-on-dark">
-          Join Us
+          <EditableText
+            content={content}
+            blockKey="team.join.eyebrow"
+            fallback="Join Us"
+          />
         </p>
         <h2 className="mt-3 font-display text-3xl font-bold text-paper">
-          Build Something That Lasts
+          <EditableText
+            content={content}
+            blockKey="team.join.headline"
+            fallback="Build Something That Lasts"
+          />
         </h2>
         <p className="mx-auto mt-4 max-w-md font-body leading-relaxed text-soft-navy">
-          If you take pride in your craft and want to work with a team that has
-          been building homes in the northwest metro for 40 years, we want to
-          hear from you.
+          <EditableText
+            content={content}
+            blockKey="team.join.subcopy"
+            fallback="If you take pride in your craft and want to work with a team that has been building homes in the northwest metro for 40 years, we want to hear from you."
+            multiline
+          />
         </p>
         <Link
           href="/careers"
           className="mt-7 inline-block rounded-md bg-orange px-8 py-3.5 font-display text-xs font-medium uppercase tracking-wider text-ink transition hover:brightness-105"
         >
-          Get in Touch
+          <EditableText
+            content={content}
+            blockKey="team.join.cta"
+            fallback="Get in Touch"
+          />
         </Link>
       </section>
 
-      {/* ── CANDIDATE APPLICATION (Ticket D) ─────────────────── */}
+      {/* CANDIDATE APPLICATION */}
       <section id="apply" className="bg-paper px-6 py-16 lg:py-20">
         <div className="mx-auto max-w-xl text-center">
           <p className="font-display text-xs font-medium uppercase tracking-[0.22em] text-orange">
-            Apply Now
+            <EditableText
+              content={content}
+              blockKey="team.apply.eyebrow"
+              fallback="Apply Now"
+            />
           </p>
           <h2 className="mt-3 font-display text-3xl font-bold text-ink">
-            Send Us Your Resume
+            <EditableText
+              content={content}
+              blockKey="team.apply.headline"
+              fallback="Send Us Your Resume"
+            />
           </h2>
           <p className="mt-4 font-body text-base leading-relaxed text-muted">
-            Tell us a little about yourself and the work you do. Attach a resume
-            and we will reach out if there is a fit.
+            <EditableText
+              content={content}
+              blockKey="team.apply.subcopy"
+              fallback="Tell us a little about yourself and the work you do. Attach a resume and we will reach out if there is a fit."
+              multiline
+            />
           </p>
         </div>
         <div className="mt-8">
           <CandidateForm />
         </div>
       </section>
+
+      {content.isEditMode ? <EditModeOverlay currentPath="/team?edit=1" /> : null}
     </PageShell>
   );
 }
