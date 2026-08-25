@@ -49,6 +49,25 @@ export type ResourceBlock =
       images: { src: string; alt: string }[];
     }
   | {
+      /**
+       * Render a gallery whose images are pulled from public.portfolio_items
+       * for a given service slug at render time. Order matches
+       * getPortfolioItemsByService: the admin's per-service Featured strip
+       * first, then remaining active items by display_order. This is the
+       * same source the /services/<slug> hub uses, so a resource cost guide
+       * and its service hub always show the same photos in the same order.
+       *
+       * When no active portfolio_items exist for the slug, the [slug] page
+       * omits the block entirely rather than rendering an empty grid.
+       */
+      type: "portfolioGallery";
+      heading?: string;
+      /** Slug used against portfolio_items.service (e.g. "kitchens"). */
+      serviceSlug: string;
+      /** Cap on rendered images. Defaults to 3 in the renderer. */
+      limit?: number;
+    }
+  | {
       type: "cta";
       heading: string;
       body?: string;
@@ -171,22 +190,9 @@ const RESOURCES: Resource[] = [
         ],
       },
       {
-        type: "gallery",
+        type: "portfolioGallery",
         heading: "Recent kitchens",
-        images: [
-          {
-            src: "/images/kitchen/mr-renovations-kitchen-01.jpg",
-            alt: "Kitchen remodel with navy island, quartz countertops, and stainless appliances",
-          },
-          {
-            src: "/images/kitchen/mr-renovations-kitchen-02.jpg",
-            alt: "Full custom kitchen remodel, open-concept after wall removal",
-          },
-          {
-            src: "/images/kitchen/mr-renovations-kitchen-03.jpg",
-            alt: "Custom kitchen cabinetry and tile backsplash detail",
-          },
-        ],
+        serviceSlug: "kitchens",
       },
       {
         type: "prose",
@@ -312,22 +318,9 @@ const RESOURCES: Resource[] = [
         ],
       },
       {
-        type: "gallery",
+        type: "portfolioGallery",
         heading: "Recent bathrooms",
-        images: [
-          {
-            src: "/images/bathroom/mr-renovations-bathroom-01.jpg",
-            alt: "Primary bathroom remodel with freestanding tub and large-format tile",
-          },
-          {
-            src: "/images/bathroom/mr-renovations-bathroom-02.jpg",
-            alt: "Walk-in shower conversion with glass enclosure",
-          },
-          {
-            src: "/images/bathroom/mr-renovations-bathroom-03.jpg",
-            alt: "Double vanity bathroom remodel with custom tile flooring",
-          },
-        ],
+        serviceSlug: "bathrooms",
       },
       {
         type: "prose",
@@ -454,22 +447,9 @@ const RESOURCES: Resource[] = [
         ],
       },
       {
-        type: "gallery",
+        type: "portfolioGallery",
         heading: "Recent basements",
-        images: [
-          {
-            src: "/images/basement/mr-renovations-basement-01.jpg",
-            alt: "Finished basement rec room with custom built-ins",
-          },
-          {
-            src: "/images/basement/mr-renovations-basement-02.jpg",
-            alt: "Basement bathroom addition with walk-in shower",
-          },
-          {
-            src: "/images/basement/mr-renovations-basement-03.jpg",
-            alt: "Basement guest bedroom with egress window",
-          },
-        ],
+        serviceSlug: "basements",
       },
       {
         type: "prose",
@@ -595,22 +575,9 @@ const RESOURCES: Resource[] = [
         ],
       },
       {
-        type: "gallery",
+        type: "portfolioGallery",
         heading: "Recent additions",
-        images: [
-          {
-            src: "/images/additions/mr-renovations-addition-01.jpg",
-            alt: "Family room home addition matching the existing siding",
-          },
-          {
-            src: "/images/additions/mr-renovations-addition-02.jpg",
-            alt: "Primary suite home addition with vaulted ceiling",
-          },
-          {
-            src: "/images/additions/mr-renovations-addition-03.jpg",
-            alt: "Exterior view of a home addition with roofline tied into the existing structure",
-          },
-        ],
+        serviceSlug: "additions",
       },
       {
         type: "prose",
@@ -779,22 +746,9 @@ const RESOURCES: Resource[] = [
         ],
       },
       {
-        type: "gallery",
+        type: "portfolioGallery",
         heading: "Recent exterior projects",
-        images: [
-          {
-            src: "/images/exterior/mr-renovations-exterior-01.jpg",
-            alt: "Complete roof replacement with architectural asphalt shingles on a two-story home",
-          },
-          {
-            src: "/images/exterior/mr-renovations-exterior-02.jpg",
-            alt: "James Hardie fiber cement siding installation with new trim and fascia",
-          },
-          {
-            src: "/images/exterior/mr-renovations-exterior-03.jpg",
-            alt: "Trex composite deck with aluminum railing off the back of a home",
-          },
-        ],
+        serviceSlug: "exterior",
       },
       {
         type: "prose",

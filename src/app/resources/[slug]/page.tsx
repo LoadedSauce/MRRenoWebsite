@@ -15,6 +15,7 @@ import {
 import { buildResourceMetadata } from "@/lib/seo/routes";
 import { getPublishedResources, getResource } from "@/lib/resources";
 import type { ResourceBlock } from "@/lib/resources";
+import { getPortfolioItemsByService } from "@/lib/supabase/queries";
 
 export const revalidate = 3600;
 
@@ -148,6 +149,12 @@ function Block({ block }: { block: ResourceBlock }) {
         </div>
       );
 
+    case "portfolioGallery":
+      // Resolved to a `gallery` block server-side (see resolveBlocks below),
+      // so this arm only fires if resolution was skipped for some reason.
+      // Render nothing in that case rather than fabricating placeholder art.
+      return null;
+
     case "cta":
       return (
         <div className="rounded-lg bg-navy p-6 sm:p-8">
@@ -205,6 +212,38 @@ function Block({ block }: { block: ResourceBlock }) {
   }
 }
 
+/**
+ * Resolve `portfolioGallery` blocks into plain `gallery` blocks by fetching
+ * public.portfolio_items for the referenced service slug. Runs once per
+ * request, one Supabase call per portfolioGallery block, in parallel.
+ *
+ * A portfolioGallery with no matching active items is dropped from the
+ * output entirely (rather than rendering an empty grid).
+ */
+async function resolveBlocks(blocks: ResourceBlock[]): Promise<ResourceBlock[]> {
+  const resolved = await Promise.all(
+    blocks.map(async (block): Promise<ResourceBlock | null> => {
+      if (block.type !== "portfolioGallery") return block;
+
+      const items = await getPortfolioItemsByService(block.serviceSlug);
+      const limit = block.limit ?? 3;
+      const images = items.slice(0, limit).map((item) => ({
+        src: item.photo_url,
+        alt: item.caption ?? "M.R. Renovations remodeling project photo",
+      }));
+
+      if (images.length === 0) return null;
+
+      return {
+        type: "gallery",
+        heading: block.heading,
+        images,
+      };
+    })
+  );
+  return resolved.filter((b): b is ResourceBlock => b !== null);
+}
+
 export default async function ResourcePostPage({ params }: PageProps) {
   const { slug } = await params;
   const resource = getResource(slug);
@@ -213,7 +252,8 @@ export default async function ResourcePostPage({ params }: PageProps) {
 
   // Gated posts show the first block as a teaser then gate behind the form;
   // ungated posts render the full body straight through.
-  const blocks = resource.gated ? resource.body.slice(0, 1) : resource.body;
+  const rawBlocks = resource.gated ? resource.body.slice(0, 1) : resource.body;
+  const blocks = await resolveBlocks(rawBlocks);
 
   // FAQPage JSON-LD is emitted only for FAQ content that is actually visible on
   // the page (so gated teasers never advertise hidden answers). Same array feeds
