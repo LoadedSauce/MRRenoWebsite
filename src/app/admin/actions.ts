@@ -154,6 +154,19 @@ export async function deleteJobListing(id: string) {
 
 // -- PORTFOLIO ITEMS --
 
+/**
+ * Every public surface that shows service-tagged portfolio_items rows.
+ * The /services/<slug> hub uses them for the featured strip, hero photo,
+ * and gallery. The /resources/<slug> cost-guide pages render a
+ * portfolioGallery block that pulls the same rows, so both must be
+ * revalidated together whenever a service-tagged item changes.
+ */
+function revalidateServiceSurfacesForSlug(service: string | null | undefined) {
+  if (!service) return;
+  revalidatePath(`/services/${service}`);
+  revalidatePath(`/resources/${service}`);
+}
+
 export async function addPortfolioItem(formData: FormData) {
   const supabase = createServiceRoleClient();
   const photo_url = formData.get("photo_url") as string;
@@ -165,6 +178,7 @@ export async function addPortfolioItem(formData: FormData) {
     .insert({ photo_url, caption, service, city, active: true });
   revalidatePath("/admin/portfolio");
   revalidatePath("/");
+  revalidateServiceSurfacesForSlug(service);
 }
 
 export async function updatePortfolioItem(id: string, formData: FormData) {
@@ -172,12 +186,24 @@ export async function updatePortfolioItem(id: string, formData: FormData) {
   const caption = (formData.get("caption") as string) || null;
   const service = (formData.get("service") as string) || null;
   const city = (formData.get("city") as string) || null;
+  // Grab the current service tag BEFORE the update so we also invalidate
+  // the item's previous service surface if the admin retagged it.
+  const { data: before } = await supabase
+    .from("portfolio_items")
+    .select("service")
+    .eq("id", id)
+    .maybeSingle();
+
   await supabase
     .from("portfolio_items")
     .update({ caption, service, city })
     .eq("id", id);
   revalidatePath("/admin/portfolio");
   revalidatePath("/");
+  revalidateServiceSurfacesForSlug(before?.service ?? null);
+  if (service && service !== before?.service) {
+    revalidateServiceSurfacesForSlug(service);
+  }
 }
 
 export async function togglePortfolioItem(id: string, active: boolean) {
@@ -203,14 +229,21 @@ export async function togglePortfolioItem(id: string, active: boolean) {
   await supabase.from("portfolio_items").update(patch).eq("id", id);
   revalidatePath("/admin/portfolio");
   revalidatePath("/");
-  if (before?.service) revalidatePath(`/services/${before.service}`);
+  revalidateServiceSurfacesForSlug(before?.service ?? null);
 }
 
 export async function deletePortfolioItem(id: string) {
   const supabase = createServiceRoleClient();
+  // Grab service BEFORE delete so we know which surfaces to invalidate.
+  const { data: before } = await supabase
+    .from("portfolio_items")
+    .select("service")
+    .eq("id", id)
+    .maybeSingle();
   await supabase.from("portfolio_items").delete().eq("id", id);
   revalidatePath("/admin/portfolio");
   revalidatePath("/");
+  revalidateServiceSurfacesForSlug(before?.service ?? null);
 }
 
 /**
@@ -305,7 +338,7 @@ export async function setPortfolioItemServiceFeatured(
     // Already featured? Idempotent.
     if (target.service_featured_order !== null) {
       revalidatePath("/admin/portfolio");
-      revalidatePath(`/services/${target.service}`);
+      revalidateServiceSurfacesForSlug(target.service);
       return { ok: true };
     }
 
@@ -347,9 +380,7 @@ export async function setPortfolioItemServiceFeatured(
   }
 
   revalidatePath("/admin/portfolio");
-  if (target.service) {
-    revalidatePath(`/services/${target.service}`);
-  }
+  revalidateServiceSurfacesForSlug(target.service);
   return { ok: true };
 }
 
@@ -391,7 +422,7 @@ export async function setPortfolioItemServiceHero(
     // Idempotent: already the hero for this service.
     if (target.is_service_hero) {
       revalidatePath("/admin/portfolio");
-      revalidatePath(`/services/${target.service}`);
+      revalidateServiceSurfacesForSlug(target.service);
       return { ok: true };
     }
 
@@ -417,9 +448,7 @@ export async function setPortfolioItemServiceHero(
   }
 
   revalidatePath("/admin/portfolio");
-  if (target.service) {
-    revalidatePath(`/services/${target.service}`);
-  }
+  revalidateServiceSurfacesForSlug(target.service);
   return { ok: true };
 }
 
