@@ -10,72 +10,39 @@ import { loadPageContent, detectEditMode } from "@/lib/page-content/loader";
 import { EditableText } from "@/components/editable/EditableText";
 import { EditablePhoto } from "@/components/editable/EditablePhoto";
 import { EditModeOverlay } from "@/components/editable/EditModeOverlay";
+import { getActiveTeamMembers } from "@/lib/supabase/queries";
+import type { TeamMember, TeamSection } from "@/lib/supabase/types";
 
 export const metadata: Metadata = buildTeamMetadata();
 export const revalidate = 3600;
 
-type Card =
-  | {
-      kind: "member";
-      name: string;
-      role: string;
-      slug: string;
-      /** No real photo on file yet -- render the silhouette placeholder. */
-      photoPending?: boolean;
-    }
-  | { kind: "hiring"; role: string };
-
-// Owner, alone at the top
-const OWNER: Extract<Card, { kind: "member" }> = {
-  kind: "member",
-  name: "Mike Randolph",
-  role: "Owner / CEO",
-  slug: "mike-randolph",
-};
-
-// Office / management row
-const ROW_TWO: Card[] = [
-  { kind: "member", name: "Miya Walker",     role: "Customer Service Manager", slug: "miya-walker"     },
-  { kind: "member", name: "Aidan Gould",     role: "Project Coordinator",        slug: "aidan-gould"     },
-  { kind: "member", name: "Audra Karschnia", role: "Project Coordinator",        slug: "audra-karschnia" },
-  { kind: "member", name: "Nate Hatfield",   role: "Production Manager",       slug: "nate-hatfield"   },
-];
-
-// Sales row: Chris plus two open sales spaces
-const ROW_THREE: Card[] = [
-  { kind: "member", name: "Chris Hunter", role: "Sales Consultant", slug: "chris-hunter" },
-  { kind: "hiring", role: "Sales Consultant" },
-  { kind: "hiring", role: "Sales Consultant" },
-];
-
-// The crew, with the open trade roles interspersed.
-// Roster verified against the live m-r-reno.com/meet-the-team page, 2026-07-07.
-const CREW: Card[] = [
-  { kind: "member", name: "Craig Jones",     role: "Lead Tile / Stone Installer", slug: "craig-jones"     },
-  { kind: "member", name: "Eric Engwer",     role: "Lead Painter",                slug: "eric-engwer"     },
-  { kind: "member", name: "Chris Fautsch",   role: "Lead Carpenter",              slug: "chris-fautsch", photoPending: true   },
-  { kind: "member", name: "Samuel Bredesen", role: "Lead Carpenter",              slug: "samuel-bredesen" },
-  { kind: "member", name: "Clinton David",   role: "Lead Carpenter",              slug: "clinton-david", photoPending: true   },
-  { kind: "member", name: "Reggie Carter",   role: "Carpenter",                   slug: "reggie-carter"   },
-  { kind: "member", name: "Nick Pexa",       role: "Carpenter",                   slug: "nick-pexa"       },
-  { kind: "hiring", role: "Carpenter" },
-  { kind: "member", name: "Mario Coletta",   role: "Tile Installer",              slug: "mario-coletta"   },
-  { kind: "member", name: "Daniel Farrell",  role: "Painter",                     slug: "daniel-farrell"  },
-  { kind: "member", name: "Aaron Sund",      role: "Apprentice Carpenter",        slug: "aaron-sund", photoPending: true    },
-  { kind: "hiring", role: "Apprentice Carpenter" },
-];
+// Section keys used to route DB rows into their layout section on this page.
+// These MUST match the TEAM_SECTIONS values in src/lib/supabase/types.ts.
+const SECTION_OWNER: TeamSection = "Owner";
+const SECTION_CSPC: TeamSection = "Customer Service, Production & Coordination";
+const SECTION_SALES: TeamSection = "Sales";
+const SECTION_CREW: TeamSection = "Crew";
 
 function MemberCard({
   member,
   featured = false,
 }: {
-  member: Extract<Card, { kind: "member" }>;
+  member: TeamMember;
   featured?: boolean;
 }) {
+  const hasPhoto = Boolean(member.photo_url);
   return (
     <figure className="group">
       <div className="relative aspect-square overflow-hidden rounded-md bg-navy-deep">
-        {member.photoPending ? (
+        {hasPhoto ? (
+          <Image
+            src={member.photo_url as string}
+            alt={`${member.name}, ${member.role} at M.R. Renovations`}
+            fill
+            className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
+            sizes={featured ? "(max-width: 768px) 60vw, 240px" : "(max-width: 640px) 50vw, 180px"}
+          />
+        ) : (
           <div className="flex h-full w-full items-center justify-center">
             <svg
               className="h-[56%] w-[56%] text-paper opacity-[0.25]"
@@ -86,14 +53,6 @@ function MemberCard({
               <path d="M50 50c9.4 0 17-9 17-20S59.4 10 50 10 33 19 33 30s7.6 20 17 20zm0 6c-15 0-34 7.8-34 23v6h68v-6c0-15.2-19-23-34-23z" />
             </svg>
           </div>
-        ) : (
-          <Image
-            src={`/images/team/${member.slug}.jpg`}
-            alt={`${member.name}, ${member.role} at M.R. Renovations`}
-            fill
-            className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
-            sizes={featured ? "(max-width: 768px) 60vw, 240px" : "(max-width: 640px) 50vw, 180px"}
-          />
         )}
       </div>
       <figcaption className="pt-3 text-center">
@@ -113,40 +72,6 @@ function MemberCard({
         </p>
       </figcaption>
     </figure>
-  );
-}
-
-function HiringCard({ role }: { role: string }) {
-  return (
-    <figure>
-      <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-md border border-dashed border-faint bg-soft-navy">
-        <svg
-          className="mt-[6%] h-[56%] w-[56%] text-ink opacity-[0.22]"
-          viewBox="0 0 100 100"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path d="M50 50c9.4 0 17-9 17-20S59.4 10 50 10 33 19 33 30s7.6 20 17 20zm0 6c-15 0-34 7.8-34 23v6h68v-6c0-15.2-19-23-34-23z" />
-        </svg>
-        <span className="absolute left-1/2 top-2 -translate-x-1/2 whitespace-nowrap rounded-sm bg-orange px-2 py-[3px] font-display text-[8px] font-bold uppercase tracking-widest text-ink">
-          Now Hiring
-        </span>
-      </div>
-      <figcaption className="pt-3 text-center">
-        <h3 className="font-display text-xs font-bold uppercase tracking-wider text-orange">
-          Hiring
-        </h3>
-        <p className="mt-1 font-body text-xs italic text-muted">{role}</p>
-      </figcaption>
-    </figure>
-  );
-}
-
-function renderCard(card: Card, key: string | number) {
-  return card.kind === "member" ? (
-    <MemberCard key={key} member={card} />
-  ) : (
-    <HiringCard key={key} role={card.role} />
   );
 }
 
@@ -189,6 +114,16 @@ export default async function TeamPage({
   const sp = await searchParams;
   const isEditMode = await detectEditMode(sp);
   const content = await loadPageContent("team", isEditMode);
+
+  // All roster data now lives in public.team_members. getActiveTeamMembers
+  // already filters to active=true and orders by display_order. We further
+  // bucket rows by section, preserving that display_order within each bucket.
+  const roster = await getActiveTeamMembers();
+  const bySection = (s: TeamSection) => roster.filter((m) => m.section === s);
+  const owner = bySection(SECTION_OWNER)[0] ?? null;
+  const cspc = bySection(SECTION_CSPC);
+  const sales = bySection(SECTION_SALES);
+  const crew = bySection(SECTION_CREW);
 
   return (
     <PageShell>
@@ -245,39 +180,53 @@ export default async function TeamPage({
       </section>
 
       {/* OWNER */}
-      <section className="bg-paper px-6 py-12">
-        <div className="mx-auto w-[200px] max-w-[60vw]">
-          <MemberCard member={OWNER} featured />
-        </div>
-      </section>
+      {owner ? (
+        <section className="bg-paper px-6 py-12">
+          <div className="mx-auto w-[200px] max-w-[60vw]">
+            <MemberCard member={owner} featured />
+          </div>
+        </section>
+      ) : null}
 
-      {/* OFFICE / MANAGEMENT */}
-      <section className="bg-soft-navy px-6 py-12">
-        <div className="mx-auto grid max-w-3xl grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-4">
-          {ROW_TWO.map((c, i) => renderCard(c, i))}
-        </div>
-      </section>
+      {/* CUSTOMER SERVICE, PRODUCTION & COORDINATION */}
+      {cspc.length > 0 ? (
+        <section className="bg-soft-navy px-6 py-12">
+          <div className="mx-auto grid max-w-3xl grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-4">
+            {cspc.map((m) => (
+              <MemberCard key={m.id} member={m} />
+            ))}
+          </div>
+        </section>
+      ) : null}
 
-      {/* SALES: Chris + open sales spaces */}
-      <section className="bg-paper px-6 py-12">
-        <div className="mx-auto grid max-w-md grid-cols-3 gap-x-5 gap-y-8">
-          {ROW_THREE.map((c, i) => renderCard(c, i))}
-        </div>
-      </section>
+      {/* SALES */}
+      {sales.length > 0 ? (
+        <section className="bg-paper px-6 py-12">
+          <div className="mx-auto grid max-w-md grid-cols-3 gap-x-5 gap-y-8">
+            {sales.map((m) => (
+              <MemberCard key={m.id} member={m} />
+            ))}
+          </div>
+        </section>
+      ) : null}
 
-      {/* OUR CREW (with interspersed open roles) */}
-      <section className="bg-soft-navy px-6 py-14">
-        <SectionLabel>
-          <EditableText
-            content={content}
-            blockKey="team.crew.label"
-            fallback="Our Crew"
-          />
-        </SectionLabel>
-        <div className="mx-auto grid max-w-3xl grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
-          {CREW.map((c, i) => renderCard(c, i))}
-        </div>
-      </section>
+      {/* OUR CREW */}
+      {crew.length > 0 ? (
+        <section className="bg-soft-navy px-6 py-14">
+          <SectionLabel>
+            <EditableText
+              content={content}
+              blockKey="team.crew.label"
+              fallback="Our Crew"
+            />
+          </SectionLabel>
+          <div className="mx-auto grid max-w-3xl grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
+            {crew.map((m) => (
+              <MemberCard key={m.id} member={m} />
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       {/* WHY M.R. */}
       <section className="bg-paper">
