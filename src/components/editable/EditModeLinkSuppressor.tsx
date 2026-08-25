@@ -7,19 +7,25 @@ import { useEffect } from "react";
  * <EditableText> or <EditablePhoto> that happens to be inside an <a>/<Link>
  * opens the edit chrome instead of navigating away.
  *
- * Attaches a capture-phase click listener on document.body that:
+ * Attaches a capture-phase click listener on document that:
  *   1. Finds the nearest ancestor anchor with an href.
  *   2. If none, does nothing (non-link clicks are unaffected).
  *   3. If the anchor opts in with `data-edit-mode-nav`, does nothing --
- *      this is the escape hatch used by the EditModeOverlay's Exit link and
- *      admin sidebar links so admins can still navigate away from edit mode.
- *   4. Otherwise, calls preventDefault + stopPropagation, which cancels
- *      both the browser's native anchor navigation and Next.js's client-side
- *      Link handler (Next's onClick lives on the same anchor).
+ *      this is the escape hatch used by the EditModeOverlay's Exit link.
+ *   4. Otherwise, calls preventDefault(). This cancels both the browser's
+ *      native anchor navigation AND Next.js's client-side Link handler,
+ *      because next/link bails out when e.defaultPrevented is true.
+ *
+ * CRITICAL: we do NOT call stopPropagation(). If we did, the inner
+ * EditableTextClient's onClick would never fire and clicking a text block
+ * inside a <Link> would appear to do nothing. preventDefault alone is
+ * sufficient to cancel navigation while letting every other click handler
+ * on the path (including the child edit-chrome trigger) still run.
  *
  * Rendered only from EditModeOverlay, which only renders when isEditMode is
  * true, so this listener is scoped to edit-mode renders and unmounts cleanly
- * when the admin exits edit mode.\n */
+ * when the admin exits edit mode.
+ */
 export function EditModeLinkSuppressor() {
   useEffect(() => {
     function onClick(e: MouseEvent) {
@@ -35,11 +41,12 @@ export function EditModeLinkSuppressor() {
       const anchor = target.closest("a[href]");
       if (!anchor) return;
 
-      // Explicit opt-out for admin nav (Exit edit mode, sidebar links).
+      // Explicit opt-out for admin nav (Exit edit mode).
       if (anchor.hasAttribute("data-edit-mode-nav")) return;
 
+      // preventDefault ONLY. stopPropagation would kill the inner span's
+      // onClick and the edit chrome would never open.
       e.preventDefault();
-      e.stopPropagation();
     }
 
     document.addEventListener("click", onClick, { capture: true });
