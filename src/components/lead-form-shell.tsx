@@ -115,8 +115,17 @@ export function LeadFormShell() {
       setErrorMsg("Please enter your last name.");
       return;
     }
-    if (!email.trim() && !phone.trim()) {
-      setErrorMsg("Please provide an email or phone number so we can reach you.");
+    if (!email.trim()) {
+      setErrorMsg("Please enter your email address.");
+      return;
+    }
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    if (!emailOk) {
+      setErrorMsg("Please enter a valid email address.");
+      return;
+    }
+    if (!phone.trim()) {
+      setErrorMsg("Please enter your phone number.");
       return;
     }
     if (!streetAddress.trim()) {
@@ -403,7 +412,7 @@ export function LeadFormShell() {
             {/* Contact */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="email" className={labelBase}>Email</label>
+                <label htmlFor="email" className={labelBase}>Email <span className="text-orange">*</span></label>
                 <input
                   id="email"
                   type="email"
@@ -412,10 +421,12 @@ export function LeadFormShell() {
                   className={fieldBase}
                   placeholder="you@example.com"
                   autoComplete="email"
+                  required
+                  aria-required="true"
                 />
               </div>
               <div>
-                <label htmlFor="phone" className={labelBase}>Phone</label>
+                <label htmlFor="phone" className={labelBase}>Phone <span className="text-orange">*</span></label>
                 <input
                   id="phone"
                   type="tel"
@@ -424,6 +435,8 @@ export function LeadFormShell() {
                   className={fieldBase}
                   placeholder="(763) 555-0100"
                   autoComplete="tel"
+                  required
+                  aria-required="true"
                 />
               </div>
             </div>
