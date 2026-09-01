@@ -30,7 +30,7 @@ export async function PageShell({ children }: PageShellProps) {
       "global.header.utility.warranty",
       "Lifetime Transferable Workmanship Warranty"
     ),
-    brandTagline: globalContent.text("global.header.brand.tagline", "Committed to Quality"),
+    brandTagline: globalContent.text("global.header.brand.tagline", "Design | Build | Renovate"),
     cta: globalContent.text("global.header.cta", "Free Estimate"),
     mobileCallLabel: globalContent.text("global.header.mobile.call-label", "Call 763-900-2024"),
   };
