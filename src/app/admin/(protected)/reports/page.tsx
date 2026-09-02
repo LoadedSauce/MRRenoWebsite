@@ -9,6 +9,8 @@ import {
   type Bucket,
 } from "@/lib/admin/reports";
 import { CampaignReconciliation } from "./campaign-reconciliation";
+import { QrPerformance } from "./qr-performance";
+import type { QrPerformanceRow } from "@/lib/supabase/types";
 
 // Ticket D (Phase A): read-only business-KPI dashboard sourced from Supabase.
 // Distinct from GA4/Clarity (on-site behavior) -- these are lead/business
@@ -121,7 +123,7 @@ function ExportButton({ dataset, label }: { dataset: string; label: string }) {
 export default async function AdminReportsPage() {
   const supabase = createServiceRoleClient();
 
-  const [leadsRes, guidesRes] = await Promise.all([
+  const [leadsRes, guidesRes, qrRes] = await Promise.all([
     supabase
       .from("leads")
       .select(LEAD_SELECT)
@@ -130,11 +132,17 @@ export default async function AdminReportsPage() {
       .from("guide_requests")
       .select("id,created_at,guide_slug,utm_source")
       .order("created_at", { ascending: false }),
+    // INT-004. Ordered so the codes actually pulling scans sit at the top.
+    supabase
+      .from("qr_performance")
+      .select()
+      .order("scans", { ascending: false }),
   ]);
 
   const leads: LeadRow[] = (leadsRes.data as LeadRow[] | null) ?? [];
   const guides: GuideRequestRow[] =
     (guidesRes.data as GuideRequestRow[] | null) ?? [];
+  const qrRows: QrPerformanceRow[] = (qrRes.data as QrPerformanceRow[] | null) ?? [];
 
   const weekly = weeklyLeadCounts(leads, 12);
   const maxWeek = Math.max(1, ...weekly.map((w) => w.count));
@@ -168,6 +176,7 @@ export default async function AdminReportsPage() {
         <div className="flex flex-wrap gap-2 shrink-0">
           <ExportButton dataset="leads" label="Export leads CSV" />
           <ExportButton dataset="guide-requests" label="Export guides CSV" />
+          <ExportButton dataset="qr-performance" label="Export QR CSV" />
         </div>
       </div>
 
@@ -249,6 +258,11 @@ export default async function AdminReportsPage() {
           buckets={byGuide}
           total={guides.length}
         />
+      </div>
+
+      {/* INT-004 — QR / print campaign ROI */}
+      <div className="mt-6">
+        <QrPerformance rows={qrRows} />
       </div>
 
       {/* Ticket E — pixel reconciliation */}
