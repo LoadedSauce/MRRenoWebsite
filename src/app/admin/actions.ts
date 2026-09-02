@@ -6,6 +6,7 @@ import {
   MAX_FEATURED_PORTFOLIO_ITEMS,
   MAX_FEATURED_PORTFOLIO_ITEMS_PER_SERVICE,
   TEAM_SECTIONS,
+  QR_SLUG_PATTERN,
   type TeamSection,
 } from "@/lib/supabase/types";
 
@@ -489,4 +490,165 @@ export async function deleteTestimonial(id: string) {
   const supabase = createServiceRoleClient();
   await supabase.from("testimonials").delete().eq("id", id);
   revalidatePath("/admin/testimonials");
+}
+
+// -- QR CODES (INT-004) --
+
+/**
+ * Parse a dollar amount ("450", "450.00", "$450") into integer cents.
+ * Returns null for blank. Returns undefined for unparseable input so the
+ * caller can tell "leave it alone" from "clear it".
+ */
+function parseCostCents(raw: FormDataEntryValue | null): number | null | undefined {
+  const s = ((raw as string) ?? "").trim().replace(/[$,]/g, "");
+  if (s.length === 0) return null;
+  const n = Number(s);
+  if (!Number.isFinite(n) || n < 0) return undefined;
+  return Math.round(n * 100);
+}
+
+function parseIntOrNull(raw: FormDataEntryValue | null): number | null {
+  const s = ((raw as string) ?? "").trim();
+  if (s.length === 0) return null;
+  const n = Number.parseInt(s, 10);
+  return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
+function textOrNull(raw: FormDataEntryValue | null): string | null {
+  const s = ((raw as string) ?? "").trim();
+  return s.length > 0 ? s : null;
+}
+
+/**
+ * Normalize a destination into a same-origin path.
+ *
+ * The scan route refuses absolute URLs at redirect time; rejecting them here
+ * too means the admin sees the problem while they are typing rather than
+ * discovering it when a printed code sends people somewhere unexpected.
+ */
+function normalizeDestination(raw: FormDataEntryValue | null): string {
+  const s = ((raw as string) ?? "").trim();
+  if (s.length === 0) return "/";
+  if (/^[a-z][a-z0-9+.-]*:/i.test(s) || s.startsWith("//")) return "/";
+  return s.startsWith("/") ? s : `/${s}`;
+}
+
+export interface QrActionResult {
+  ok: boolean;
+  error?: string;
+}
+
+/**
+ * Fields shared by add and update. The slug is deliberately NOT here: it is
+ * printed on paper and can never change once a piece has shipped, so it is
+ * settable only at creation time.
+ */
+function readQrFields(formData: FormData) {
+  const cost = parseCostCents(formData.get("cost_dollars"));
+  return {
+    cost,
+    values: {
+      label: ((formData.get("label") as string) ?? "").trim(),
+      channel: ((formData.get("channel") as string) ?? "print").trim() || "print",
+      destination_path: normalizeDestination(formData.get("destination_path")),
+      utm_source: ((formData.get("utm_source") as string) ?? "").trim(),
+      utm_medium: ((formData.get("utm_medium") as string) ?? "print").trim() || "print",
+      utm_campaign: textOrNull(formData.get("utm_campaign")),
+      utm_content: textOrNull(formData.get("utm_content")),
+      roofr_tag: textOrNull(formData.get("roofr_tag")),
+      source_channel: textOrNull(formData.get("source_channel")),
+      quantity: parseIntOrNull(formData.get("quantity")),
+      run_starts_on: textOrNull(formData.get("run_starts_on")),
+      run_ends_on: textOrNull(formData.get("run_ends_on")),
+      notes: textOrNull(formData.get("notes")),
+    },
+  };
+}
+
+export async function addQrCode(formData: FormData): Promise<QrActionResult> {
+  const slug = ((formData.get("slug") as string) ?? "").trim().toLowerCase();
+
+  if (!QR_SLUG_PATTERN.test(slug)) {
+    return {
+      ok: false,
+      error:
+        "Slug must be 2-31 characters, lowercase letters, numbers and hyphens only, and start with a letter or number.",
+    };
+  }
+
+  const { cost, values } = readQrFields(formData);
+  if (cost === undefined) return { ok: false, error: "Cost must be a number." };
+  if (values.label.length === 0) return { ok: false, error: "Label is required." };
+  if (values.utm_source.length === 0) {
+    return { ok: false, error: "utm_source is required." };
+  }
+
+  const supabase = createServiceRoleClient();
+  const { error } = await supabase
+    .from("qr_codes")
+    .insert({ ...values, slug, cost_cents: cost, is_active: true });
+
+  if (error) {
+    // 23505 = unique_violation on qr_codes.slug
+    if (error.code === "23505") {
+      return { ok: false, error: `The slug "${slug}" is already in use.` };
+    }
+    console.error("[addQrCode]", error);
+    return { ok: false, error: "Could not save this code. Please try again." };
+  }
+
+  revalidatePath("/admin/qr-codes");
+  revalidatePath("/admin/reports");
+  return { ok: true };
+}
+
+export async function updateQrCode(
+  id: string,
+  formData: FormData
+): Promise<QrActionResult> {
+  const { cost, values } = readQrFields(formData);
+  if (cost === undefined) return { ok: false, error: "Cost must be a number." };
+  if (values.label.length === 0) return { ok: false, error: "Label is required." };
+  if (values.utm_source.length === 0) {
+    return { ok: false, error: "utm_source is required." };
+  }
+
+  const supabase = createServiceRoleClient();
+  const { error } = await supabase
+    .from("qr_codes")
+    .update({ ...values, cost_cents: cost })
+    .eq("id", id);
+
+  if (error) {
+    console.error("[updateQrCode]", error);
+    return { ok: false, error: "Could not save this code. Please try again." };
+  }
+
+  revalidatePath("/admin/qr-codes");
+  revalidatePath("/admin/reports");
+  return { ok: true };
+}
+
+/**
+ * Retire or re-activate a code. An inactive code still redirects scanners to
+ * the home page (see /r/[slug]) rather than 404ing -- the printed piece is
+ * still out in the world.
+ */
+export async function toggleQrCode(id: string, is_active: boolean) {
+  const supabase = createServiceRoleClient();
+  await supabase.from("qr_codes").update({ is_active }).eq("id", id);
+  revalidatePath("/admin/qr-codes");
+  revalidatePath("/admin/reports");
+}
+
+/**
+ * Hard delete. Cascades to qr_scans, so the scan history goes with it and any
+ * leads that came through the code keep their slug but lose the scan join.
+ * The UI warns about this; deactivating is almost always the right move.
+ */
+export async function deleteQrCode(id: string) {
+  const supabase = createServiceRoleClient();
+  await supabase.from("qr_codes").delete().eq("id", id);
+  revalidatePath("/admin/qr-codes");
+  revalidatePath("/admin/reports");
 }
