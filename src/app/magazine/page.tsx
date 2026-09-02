@@ -28,7 +28,11 @@ import { canonical } from "@/lib/seo/canonical";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "M.R. Renovations | Remodeling Contractor in Maple Grove, MN",
+  // `absolute` bypasses the root layout's "%s | M.R. Renovations" template.
+  // Without it the brand name lands twice, since it is already in the title.
+  title: {
+    absolute: "M.R. Renovations | Remodeling Contractor in Maple Grove, MN",
+  },
   description:
     "Family-owned design-build remodeling for Twin Cities homeowners. Kitchens, bathrooms, basements, additions, and whole-home renovations.",
   robots: {
