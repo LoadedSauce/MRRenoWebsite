@@ -9,6 +9,7 @@ const navItems = [
   { label: "Testimonials",  href: "/admin/testimonials" },
   { label: "Now Hiring",    href: "/admin/jobs" },
   { label: "Candidates",    href: "/admin/candidates" },
+  { label: "QR Codes",      href: "/admin/qr-codes" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

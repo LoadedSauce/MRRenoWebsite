@@ -23,6 +23,13 @@ const cards = [
     color: "border-orange",
   },
   {
+    label: "QR Codes",
+    href: "/admin/qr-codes",
+    description:
+      "Every printed QR code and where it points. Because the destination lives here and not in the printed image, you can repoint a live magazine ad without reprinting. Scans and leads per code show on each row.",
+    color: "border-orange",
+  },
+  {
     label: "Now Hiring",
     href: "/admin/jobs",
     description:
