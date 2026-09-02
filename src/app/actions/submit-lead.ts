@@ -49,7 +49,20 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
 
   const hasEmail = !!(payload.email && payload.email.trim());
   const hasPhone = !!(payload.phone && payload.phone.trim());
-  if (!hasEmail && !hasPhone) {
+
+  // Estimate requests require BOTH email and phone. The consultation form
+  // enforces this client-side (#121); mirror it here so a submission that
+  // bypasses the browser -- a stale cached page, a bot, JS disabled -- cannot
+  // store a lead the sales team has no reliable way to act on.
+  // The contact form still accepts either.
+  if (payload.form_type === "consultation") {
+    if (!hasEmail) {
+      return { ok: false, error: "Please enter your email address." };
+    }
+    if (!hasPhone) {
+      return { ok: false, error: "Please enter your phone number." };
+    }
+  } else if (!hasEmail && !hasPhone) {
     return { ok: false, error: "Please provide an email or phone number." };
   }
   if (hasEmail) {
