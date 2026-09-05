@@ -25,6 +25,11 @@ export default function robots(): MetadataRoute.Robots {
           "/thanks",
           "/admin",
           "/admin/",
+          // INT-004: /magazine duplicates the home page body on purpose and
+          // is reached by QR scan, never by search. /r/ entries are scan
+          // redirects, not content.
+          "/magazine",
+          "/r/",
         ],
       },
     ],

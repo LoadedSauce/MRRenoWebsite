@@ -1,6 +1,8 @@
 "use server";
 
+import { cookies } from "next/headers";
 import type { LeadSubmission, SubmitResult } from "@/lib/lead-types";
+import { QR_COOKIE_NAME, parseQrCookie } from "@/lib/qr/constants";
 
 const SOURCE_CHANNEL = "Website" as const;
 
@@ -29,6 +31,65 @@ const SOURCE_CHANNEL = "Website" as const;
  *    via Supabase connector). Migration form_photos_lead_photo_urls added it.
  *  - lead-photos bucket created as private (public: false) before this PR.
  */
+/**
+ * INT-004: resolve QR attribution for this submission.
+ *
+ * The `mr_qr` cookie was set by /r/<slug> when the person scanned a printed
+ * code, possibly weeks ago. It is httpOnly, so it cannot be forged by the page
+ * and does not depend on the client sending anything in the payload -- which
+ * is why this is read here and not in readAttribution().
+ *
+ * Returns nulls for a plain web lead. Every failure path returns nulls too: a
+ * lead must never be lost because attribution could not be resolved.
+ */
+async function resolveQrAttribution(
+  baseUrl: string,
+  serviceKey: string
+): Promise<{
+  qr_code_slug: string | null;
+  qr_scan_id: string | null;
+  source_channel: string | null;
+}> {
+  const none = { qr_code_slug: null, qr_scan_id: null, source_channel: null };
+
+  try {
+    const store = await cookies();
+    const parsed = parseQrCookie(store.get(QR_COOKIE_NAME)?.value);
+    if (!parsed) return none;
+
+    // The registry names the channel ("Maple Grove Magazine"), which is what
+    // the Reports "Leads by source" breakdown should show instead of the
+    // generic "Website". A code deleted since the scan yields no channel, but
+    // we still keep the slug -- the scan genuinely happened.
+    let sourceChannel: string | null = null;
+    try {
+      const res = await fetch(
+        `${baseUrl}/rest/v1/qr_codes?slug=eq.${encodeURIComponent(parsed.slug)}&select=source_channel&limit=1`,
+        {
+          headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}` },
+          cache: "no-store",
+        }
+      );
+      if (res.ok) {
+        const rows = (await res.json()) as Array<{ source_channel: string | null }>;
+        const raw = rows?.[0]?.source_channel;
+        sourceChannel = raw && raw.trim().length > 0 ? raw.trim() : null;
+      }
+    } catch (err) {
+      console.error("[submitLead] QR channel lookup failed:", err);
+    }
+
+    return {
+      qr_code_slug: parsed.slug,
+      qr_scan_id: parsed.scanId,
+      source_channel: sourceChannel,
+    };
+  } catch (err) {
+    console.error("[submitLead] QR attribution failed:", err);
+    return none;
+  }
+}
+
 export async function submitLead(payload: LeadSubmission): Promise<SubmitResult> {
   if (!payload || typeof payload !== "object") {
     return { ok: false, error: "Invalid submission." };
@@ -101,6 +162,11 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
     return trimmed.length > 0 ? trimmed : null;
   };
 
+  // INT-004: read the QR cookie before building the row, so a print-sourced
+  // lead carries its slug, its exact scan id, and the channel name the
+  // registry gives it.
+  const qr = await resolveQrAttribution(baseUrl, serviceKey);
+
   const row = {
     form_type: payload.form_type,
     first_name: firstName,
@@ -114,7 +180,11 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
     city: clean(payload.city),
     state: clean(payload.state),
     zip: clean(payload.zip),
-    source_channel: SOURCE_CHANNEL,
+    // A QR scan names its own channel ("Maple Grove Magazine"); everything
+    // else is generic website traffic. This is what makes print separable in
+    // the Reports breakdown, and it feeds the Roofr job-name tag through the
+    // int001 trigger.
+    source_channel: qr.source_channel ?? SOURCE_CHANNEL,
     source_campaign: clean(payload.source_campaign),
     landing_url: clean(payload.landing_url),
     utm_source: clean(payload.utm_source),
@@ -124,6 +194,10 @@ export async function submitLead(payload: LeadSubmission): Promise<SubmitResult>
     utm_content: clean(payload.utm_content),
     gclid: clean(payload.gclid),
     fbclid: clean(payload.fbclid),
+    // INT-004. qr_scan_id is the exact join back to the scan; qr_code_slug is
+    // what public.qr_performance aggregates on.
+    qr_code_slug: qr.qr_code_slug,
+    qr_scan_id: qr.qr_scan_id,
   };
 
   let leadId: string | null = null;

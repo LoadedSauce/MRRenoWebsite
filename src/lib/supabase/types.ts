@@ -148,3 +148,73 @@ export interface ResolvedPhotoSlot {
   portfolio_item_id: string | null;
   is_draft: boolean;
 }
+
+// ── INT-004: QR code tracking ───────────────────────────────────────────────
+
+/** Channels a printed code can live on. Matches qr_codes.channel. */
+export const QR_CHANNELS = [
+  "print",
+  "signage",
+  "vehicle",
+  "event",
+  "mail",
+] as const;
+
+export type QrChannel = (typeof QR_CHANNELS)[number];
+
+/** Matches public.qr_codes schema */
+export interface QrCode {
+  id: string;
+  created_at: string;
+  /** Path segment in /r/<slug>. Immutable in practice once printed. */
+  slug: string;
+  label: string;
+  channel: string;
+  destination_path: string;
+  utm_source: string;
+  utm_medium: string;
+  utm_campaign: string | null;
+  utm_content: string | null;
+  /** Appended to the Roofr job name, e.g. "Jane Doe- Kitchen (MGMAG)". */
+  roofr_tag: string | null;
+  /** Human channel name written onto leads, e.g. "Maple Grove Magazine". */
+  source_channel: string | null;
+  cost_cents: number | null;
+  quantity: number | null;
+  run_starts_on: string | null;
+  run_ends_on: string | null;
+  notes: string | null;
+  is_active: boolean;
+}
+
+/**
+ * Matches the public.qr_performance view. Read-only, service-role only.
+ * `scans` excludes bots and same-device repeats; `total_hits` does not.
+ */
+export interface QrPerformanceRow {
+  slug: string;
+  label: string;
+  channel: string;
+  utm_campaign: string | null;
+  is_active: boolean;
+  run_starts_on: string | null;
+  run_ends_on: string | null;
+  cost_dollars: number | null;
+  scans: number;
+  total_hits: number;
+  bot_hits: number;
+  first_scan_at: string | null;
+  last_scan_at: string | null;
+  leads: number;
+  consultations: number;
+  reached_roofr: number;
+  cost_per_scan: number | null;
+  cost_per_lead: number | null;
+  scan_to_lead_pct: number | null;
+}
+
+/**
+ * Slug rule mirrors the qr_codes_slug_format CHECK constraint. Validated in
+ * the admin action so a bad slug is a friendly error, not a 500 from Postgres.
+ */
+export const QR_SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{1,30}$/;
