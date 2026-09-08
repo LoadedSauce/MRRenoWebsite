@@ -95,7 +95,27 @@ export interface JobListing {
   description: string;
   active: boolean;
   display_order: number;
+  /**
+   * Which /team section this opening's hiring card appears in. Mirrors
+   * TeamSection so a role lands where its card was once it is filled.
+   * Defaults to "Crew" at the DB level for newly added listings.
+   */
+  section: TeamSection;
 }
+
+/**
+ * Sections a job listing's hiring card can appear under on /team. Reuses the
+ * team roster sections so a filled role lands exactly where its card was.
+ *
+ * "Owner" is intentionally absent -- /team has no grid slot for a single
+ * featured opening, and the page folds any stray Owner listing into Crew
+ * rather than dropping it silently.
+ */
+export const JOB_SECTIONS: readonly TeamSection[] = [
+  "Customer Service, Production & Coordination",
+  "Sales",
+  "Crew",
+];
 
 /** Matches public.candidates schema (migration 0008) */
 export interface Candidate {
