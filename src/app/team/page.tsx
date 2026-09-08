@@ -130,6 +130,37 @@ function HiringCard({ opening }: { opening: JobListing }) {
   );
 }
 
+/**
+ * Roster rows are centred flex-wrap, not grid.
+ *
+ * A grid left-aligns whatever is left over on the final row, which is why a
+ * two-item Sales row inside a three-column grid sat off to the left. Flex with
+ * justify-center centres every row, including a partial one, so sections stay
+ * balanced no matter how many people or openings are in them.
+ *
+ * Fixed card width rather than fractional columns: it keeps a 5-across row and
+ * a 2-across row the same size, so the page does not visibly resize its people
+ * from one band to the next.
+ */
+const CARD_W = "w-[140px] sm:w-[160px]";
+
+function RosterRow({
+  children,
+  width = "max-w-3xl",
+}: {
+  children: React.ReactNode;
+  /** Caps how many cards fit per row before wrapping. */
+  width?: string;
+}) {
+  return (
+    <div
+      className={`mx-auto flex ${width} flex-wrap justify-center gap-x-5 gap-y-8`}
+    >
+      {children}
+    </div>
+  );
+}
+
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div className="mx-auto mb-6 flex max-w-3xl items-center gap-4">
@@ -271,28 +302,38 @@ export default async function TeamPage({
       {/* CUSTOMER SERVICE, PRODUCTION & COORDINATION */}
       {cspc.length > 0 || cspcOpenings.length > 0 ? (
         <section className="bg-soft-navy px-6 py-12">
-          <div className="mx-auto grid max-w-3xl grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-4">
+          {/* max-w-4xl fits five cards across, so the four managers and the
+              open Project Coordinator slot share one row. */}
+          <RosterRow width="max-w-4xl">
             {cspc.map((m) => (
-              <MemberCard key={m.id} member={m} />
+              <div key={m.id} className={CARD_W}>
+                <MemberCard member={m} />
+              </div>
             ))}
             {cspcOpenings.map((o) => (
-              <HiringCard key={o.id} opening={o} />
+              <div key={o.id} className={CARD_W}>
+                <HiringCard opening={o} />
+              </div>
             ))}
-          </div>
+          </RosterRow>
         </section>
       ) : null}
 
       {/* SALES */}
       {sales.length > 0 || salesOpenings.length > 0 ? (
         <section className="bg-paper px-6 py-12">
-          <div className="mx-auto grid max-w-md grid-cols-3 gap-x-5 gap-y-8">
+          <RosterRow width="max-w-3xl">
             {sales.map((m) => (
-              <MemberCard key={m.id} member={m} />
+              <div key={m.id} className={CARD_W}>
+                <MemberCard member={m} />
+              </div>
             ))}
             {salesOpenings.map((o) => (
-              <HiringCard key={o.id} opening={o} />
+              <div key={o.id} className={CARD_W}>
+                <HiringCard opening={o} />
+              </div>
             ))}
-          </div>
+          </RosterRow>
         </section>
       ) : null}
 
@@ -306,14 +347,18 @@ export default async function TeamPage({
               fallback="Our Crew"
             />
           </SectionLabel>
-          <div className="mx-auto grid max-w-3xl grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
+          <RosterRow width="max-w-3xl">
             {crew.map((m) => (
-              <MemberCard key={m.id} member={m} />
+              <div key={m.id} className={CARD_W}>
+                <MemberCard member={m} />
+              </div>
             ))}
             {crewOpenings.map((o) => (
-              <HiringCard key={o.id} opening={o} />
+              <div key={o.id} className={CARD_W}>
+                <HiringCard opening={o} />
+              </div>
             ))}
-          </div>
+          </RosterRow>
         </section>
       ) : null}
 
