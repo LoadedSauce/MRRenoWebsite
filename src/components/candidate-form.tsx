@@ -3,18 +3,19 @@
 import { useState } from "react";
 import { submitCandidate } from "@/app/actions/submit-candidate";
 
-// Open-role options mirror the hiring cards on /team. "Other" lets a candidate
-// apply for a role not currently listed.
-const ROLE_OPTIONS = [
-  "Sales Consultant",
+// Fallback role list, used only when the form is rendered somewhere that does
+// not pass `roles`. The live options come from public.job_listings via /team,
+// so the dropdown and the hiring cards can never disagree about what is open.
+const FALLBACK_ROLE_OPTIONS = [
   "Lead Carpenter",
   "Carpenter",
-  "Apprentice Carpenter",
-  "Lead Tile / Stone Installer",
-  "Tile Installer",
   "Painter",
-  "Other",
+  "Tile Installer",
+  "Sales",
+  "Project Coordinator",
 ];
+
+const OTHER_ROLE = "Other";
 
 const RESUME_MAX_BYTES = 5 * 1024 * 1024; // 5 MB
 
@@ -27,11 +28,25 @@ function readFileAsDataUrl(file: File): Promise<string> {
   });
 }
 
-export function CandidateForm() {
+export function CandidateForm({
+  roles,
+  initialRole = "",
+}: {
+  /** Open roles, in page order. Falls back to a static list when omitted. */
+  roles?: string[];
+  /** Preselected role, set when a visitor arrives from a hiring card. */
+  initialRole?: string;
+} = {}) {
+  // "Other" always trails the open roles so someone can apply speculatively.
+  const roleOptions = [
+    ...(roles && roles.length > 0 ? roles : FALLBACK_ROLE_OPTIONS),
+    OTHER_ROLE,
+  ];
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState(initialRole);
   const [summary, setSummary] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "submitting" | "done">("idle");
@@ -132,7 +147,7 @@ export function CandidateForm() {
           <select id="cf-role" value={role}
             onChange={(e) => setRole(e.target.value)} className={fieldClass}>
             <option value="">Select a role</option>
-            {ROLE_OPTIONS.map((r) => (
+            {roleOptions.map((r) => (
               <option key={r} value={r}>{r}</option>
             ))}
           </select>
