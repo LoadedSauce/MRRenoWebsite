@@ -10,8 +10,8 @@ import { loadPageContent, detectEditMode } from "@/lib/page-content/loader";
 import { EditableText } from "@/components/editable/EditableText";
 import { EditablePhoto } from "@/components/editable/EditablePhoto";
 import { EditModeOverlay } from "@/components/editable/EditModeOverlay";
-import { getActiveTeamMembers } from "@/lib/supabase/queries";
-import type { TeamMember, TeamSection } from "@/lib/supabase/types";
+import { getActiveTeamMembers, getActiveJobListings } from "@/lib/supabase/queries";
+import type { JobListing, TeamMember, TeamSection } from "@/lib/supabase/types";
 
 export const metadata: Metadata = buildTeamMetadata();
 export const revalidate = 3600;
@@ -75,6 +75,61 @@ function MemberCard({
   );
 }
 
+/**
+ * An open role, rendered in the same footprint as a MemberCard so the roster
+ * reads as one grid with gaps we are actively trying to fill -- rather than a
+ * job board bolted onto the bottom of the page.
+ *
+ * Driven by public.job_listings, so toggling a listing off in /admin/jobs
+ * removes it here with no code change. The card links to the application form
+ * further down this same page and preselects its own role, so a visitor never
+ * has to re-state what they just clicked.
+ */
+function HiringCard({ opening }: { opening: JobListing }) {
+  return (
+    <Link
+      href={`/team?role=${encodeURIComponent(opening.title)}#apply`}
+      className="group block rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
+      aria-label={`We are hiring a ${opening.title}. Apply now.`}
+    >
+      <figure>
+        {/*
+          Solid paper fill rather than a translucent orange: the sections
+          alternate white and soft-navy backgrounds, and a transparent tint
+          reads pink on one and muddy grey on the other. White plus the dashed
+          orange border says "empty slot" consistently on both.
+        */}
+        <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-md border-2 border-dashed border-orange bg-paper transition-colors duration-300 group-hover:bg-orange/[0.08]">
+          <div className="px-2 text-center">
+            <svg
+              className="mx-auto h-8 w-8 text-orange"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              aria-hidden="true"
+            >
+              <path d="M12 6v12M6 12h12" />
+            </svg>
+            <p className="mt-2 font-display text-[10px] font-semibold uppercase tracking-[0.18em] text-orange">
+              Now Hiring
+            </p>
+          </div>
+        </div>
+        <figcaption className="pt-3 text-center">
+          <h3 className="font-display text-xs font-bold uppercase tracking-wider text-ink">
+            {opening.title}
+          </h3>
+          <p className="mt-1 font-body text-xs italic text-orange underline-offset-2 group-hover:underline">
+            Apply now
+          </p>
+        </figcaption>
+      </figure>
+    </Link>
+  );
+}
+
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div className="mx-auto mb-6 flex max-w-3xl items-center gap-4">
@@ -118,12 +173,37 @@ export default async function TeamPage({
   // All roster data now lives in public.team_members. getActiveTeamMembers
   // already filters to active=true and orders by display_order. We further
   // bucket rows by section, preserving that display_order within each bucket.
-  const roster = await getActiveTeamMembers();
+  const [roster, openings] = await Promise.all([
+    getActiveTeamMembers(),
+    getActiveJobListings(),
+  ]);
+
   const bySection = (s: TeamSection) => roster.filter((m) => m.section === s);
   const owner = bySection(SECTION_OWNER)[0] ?? null;
   const cspc = bySection(SECTION_CSPC);
   const sales = bySection(SECTION_SALES);
   const crew = bySection(SECTION_CREW);
+
+  // Open roles sit in the section they would belong to once filled. Anything
+  // that is not one of the three rendered buckets (including an "Owner"
+  // listing, which the DB permits but this page has no slot for) falls back to
+  // Crew rather than being silently dropped.
+  const openingsIn = (s: TeamSection) =>
+    openings.filter((o) =>
+      s === SECTION_CREW
+        ? o.section === SECTION_CREW || o.section === SECTION_OWNER
+        : o.section === s
+    );
+  const cspcOpenings = openingsIn(SECTION_CSPC);
+  const salesOpenings = openingsIn(SECTION_SALES);
+  const crewOpenings = openingsIn(SECTION_CREW);
+
+  // Feeds the application form's role dropdown, so the options can never drift
+  // from the cards above them.
+  const openRoles = openings.map((o) => o.title);
+  const roleParam = typeof sp.role === "string" ? sp.role : undefined;
+  const initialRole =
+    roleParam && openRoles.includes(roleParam) ? roleParam : "";
 
   return (
     <PageShell>
@@ -182,36 +262,42 @@ export default async function TeamPage({
       {/* OWNER */}
       {owner ? (
         <section className="bg-paper px-6 py-12">
-          <div className="mx-auto w-[200px] max-w-[60vw]">
+          <div className="mx-auto w-[280px] max-w-[72vw]">
             <MemberCard member={owner} featured />
           </div>
         </section>
       ) : null}
 
       {/* CUSTOMER SERVICE, PRODUCTION & COORDINATION */}
-      {cspc.length > 0 ? (
+      {cspc.length > 0 || cspcOpenings.length > 0 ? (
         <section className="bg-soft-navy px-6 py-12">
           <div className="mx-auto grid max-w-3xl grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-4">
             {cspc.map((m) => (
               <MemberCard key={m.id} member={m} />
+            ))}
+            {cspcOpenings.map((o) => (
+              <HiringCard key={o.id} opening={o} />
             ))}
           </div>
         </section>
       ) : null}
 
       {/* SALES */}
-      {sales.length > 0 ? (
+      {sales.length > 0 || salesOpenings.length > 0 ? (
         <section className="bg-paper px-6 py-12">
           <div className="mx-auto grid max-w-md grid-cols-3 gap-x-5 gap-y-8">
             {sales.map((m) => (
               <MemberCard key={m.id} member={m} />
+            ))}
+            {salesOpenings.map((o) => (
+              <HiringCard key={o.id} opening={o} />
             ))}
           </div>
         </section>
       ) : null}
 
       {/* OUR CREW */}
-      {crew.length > 0 ? (
+      {crew.length > 0 || crewOpenings.length > 0 ? (
         <section className="bg-soft-navy px-6 py-14">
           <SectionLabel>
             <EditableText
@@ -223,6 +309,9 @@ export default async function TeamPage({
           <div className="mx-auto grid max-w-3xl grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
             {crew.map((m) => (
               <MemberCard key={m.id} member={m} />
+            ))}
+            {crewOpenings.map((o) => (
+              <HiringCard key={o.id} opening={o} />
             ))}
           </div>
         </section>
@@ -359,7 +448,7 @@ export default async function TeamPage({
           </p>
         </div>
         <div className="mt-8">
-          <CandidateForm />
+          <CandidateForm roles={openRoles} initialRole={initialRole} />
         </div>
       </section>
 
