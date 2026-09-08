@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { submitCandidate } from "@/app/actions/submit-candidate";
 
 // Fallback role list, used only when the form is rendered somewhere that does
@@ -51,6 +51,19 @@ export function CandidateForm({
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "submitting" | "done">("idle");
   const [error, setError] = useState<string | null>(null);
+
+  // Arriving from a hiring card on /team, the URL carries both ?role= and
+  // #apply. The hash alone is not enough: the App Router restores scroll to
+  // the top after hydration, so the visitor lands back at the hero having
+  // clicked "Apply now" and sees nothing happen. Scroll deliberately instead,
+  // and only when a role actually came through, so a normal visit to /team is
+  // untouched.
+  useEffect(() => {
+    if (!initialRole) return;
+    document
+      .getElementById("apply")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [initialRole]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
