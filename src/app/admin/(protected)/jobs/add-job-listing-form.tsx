@@ -1,6 +1,7 @@
 "use client";
 
 import { addJobListing } from "../../actions";
+import { JOB_SECTIONS } from "@/lib/supabase/types";
 
 export function AddJobListingForm() {
   return (
@@ -25,6 +26,26 @@ export function AddJobListingForm() {
             placeholder="Full-time position in Maple Grove. Experience with finish carpentry required..."
             className="w-full px-3 py-2 border border-faint rounded-md text-sm resize-y"
           />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-ink mb-1">
+            Show under
+          </label>
+          <select
+            name="section"
+            defaultValue="Crew"
+            className="w-full px-3 py-2 border border-faint rounded-md text-sm"
+          >
+            {JOB_SECTIONS.map((sec) => (
+              <option key={sec} value={sec}>
+                {sec}
+              </option>
+            ))}
+          </select>
+          <p className="mt-1 text-xs text-muted">
+            Which section of the Team page this opening&rsquo;s hiring card
+            appears in.
+          </p>
         </div>
         <button
           type="submit"
