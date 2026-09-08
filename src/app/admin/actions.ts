@@ -6,6 +6,7 @@ import {
   MAX_FEATURED_PORTFOLIO_ITEMS,
   MAX_FEATURED_PORTFOLIO_ITEMS_PER_SERVICE,
   TEAM_SECTIONS,
+  JOB_SECTIONS,
   QR_SLUG_PATTERN,
   type TeamSection,
 } from "@/lib/supabase/types";
@@ -121,22 +122,42 @@ export async function reorderTeamMembers(
 
 // -- JOB LISTINGS --
 
+function parseJobSection(raw: FormDataEntryValue | null): TeamSection {
+  const value = (raw as string) || "Crew";
+  return (JOB_SECTIONS as readonly string[]).includes(value)
+    ? (value as TeamSection)
+    : "Crew";
+}
+
 export async function addJobListing(formData: FormData) {
   const supabase = createServiceRoleClient();
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
-  await supabase.from("job_listings").insert({ title, description, active: true });
+  const section = parseJobSection(formData.get("section"));
+  await supabase
+    .from("job_listings")
+    .insert({ title, description, section, active: true });
   revalidatePath("/admin/jobs");
   revalidatePath("/careers");
+  // /team renders these as hiring cards (ISR 1h) -- bust it or a filled role
+  // keeps advertising itself.
+  revalidatePath("/team");
 }
 
 export async function updateJobListing(id: string, formData: FormData) {
   const supabase = createServiceRoleClient();
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
-  await supabase.from("job_listings").update({ title, description }).eq("id", id);
+  const section = parseJobSection(formData.get("section"));
+  await supabase
+    .from("job_listings")
+    .update({ title, description, section })
+    .eq("id", id);
   revalidatePath("/admin/jobs");
   revalidatePath("/careers");
+  // /team renders these as hiring cards (ISR 1h) -- bust it or a filled role
+  // keeps advertising itself.
+  revalidatePath("/team");
 }
 
 export async function toggleJobListing(id: string, active: boolean) {
@@ -144,6 +165,9 @@ export async function toggleJobListing(id: string, active: boolean) {
   await supabase.from("job_listings").update({ active }).eq("id", id);
   revalidatePath("/admin/jobs");
   revalidatePath("/careers");
+  // /team renders these as hiring cards (ISR 1h) -- bust it or a filled role
+  // keeps advertising itself.
+  revalidatePath("/team");
 }
 
 export async function deleteJobListing(id: string) {
@@ -151,6 +175,9 @@ export async function deleteJobListing(id: string) {
   await supabase.from("job_listings").delete().eq("id", id);
   revalidatePath("/admin/jobs");
   revalidatePath("/careers");
+  // /team renders these as hiring cards (ISR 1h) -- bust it or a filled role
+  // keeps advertising itself.
+  revalidatePath("/team");
 }
 
 // -- PORTFOLIO ITEMS --

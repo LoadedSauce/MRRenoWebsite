@@ -2,7 +2,12 @@
 
 import { useState, useTransition } from "react";
 import type { JobListing } from "@/lib/supabase/types";
-import { toggleJobListing, deleteJobListing, updateJobListing } from "../../actions";
+import {
+  toggleJobListing,
+  deleteJobListing,
+  updateJobListing,
+} from "../../actions";
+import { JOB_SECTIONS } from "@/lib/supabase/types";
 
 type FilterMode = "active" | "all";
 
@@ -125,6 +130,25 @@ function JobRow({ job }: { job: JobListing }) {
             rows={3}
             className="px-2 py-1 border border-faint rounded text-sm w-full resize-y"
           />
+          <label className="block">
+            <span className="block text-xs font-medium text-ink mb-1">
+              Show under
+            </span>
+            <select
+              name="section"
+              defaultValue={job.section ?? "Crew"}
+              className="px-2 py-1 border border-faint rounded text-sm w-full"
+            >
+              {JOB_SECTIONS.map((sec) => (
+                <option key={sec} value={sec}>
+                  {sec}
+                </option>
+              ))}
+              {JOB_SECTIONS.includes(job.section) ? null : (
+                <option value={job.section}>{job.section}</option>
+              )}
+            </select>
+          </label>
           <div className="flex gap-2">
             <button type="submit" className="text-xs bg-orange text-paper px-3 py-1 rounded">
               Save
@@ -152,6 +176,10 @@ function JobRow({ job }: { job: JobListing }) {
               )}
             </div>
             <p className="text-xs text-muted mt-1 line-clamp-2">{job.description}</p>
+            <p className="mt-1 text-[11px] text-muted">
+              Team page section:{" "}
+              <span className="text-ink">{job.section ?? "Crew"}</span>
+            </p>
           </div>
           <div className="flex items-center gap-2 shrink-0">
             {/* Switch */}
