@@ -2,6 +2,13 @@ import Link from "next/link";
 
 const cards = [
   {
+    label: "Leads",
+    href: "/admin/leads",
+    description:
+      "Every enquiry from the website, saved here the moment it is submitted and before anything is sent to Roofr. If Zapier ever goes down, nothing is lost -- the leads are still here, flagged so you can enter them by hand.",
+    color: "border-orange",
+  },
+  {
     label: "Team",
     href: "/admin/team",
     description:
