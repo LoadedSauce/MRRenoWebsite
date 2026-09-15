@@ -22,7 +22,37 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/client-reviews",
-        destination: "/",
+        // The home page carries the testimonials block; send people to it
+        // rather than dropping them at the top of the page.
+        destination: "/#reviews",
+        permanent: true,
+      },
+      // The remaining five legacy URLs. Each of these is in the old sitemap,
+      // so Google has them indexed and they 404 without a mapping -- verified
+      // on the live site: /our-services was already returning 404.
+      {
+        source: "/our-services",
+        destination: "/#services",
+        permanent: true,
+      },
+      {
+        source: "/our-portfolio",
+        destination: "/#projects",
+        permanent: true,
+      },
+      {
+        source: "/why-choose-us",
+        destination: "/process",
+        permanent: true,
+      },
+      {
+        source: "/financing-options",
+        destination: "/financing",
+        permanent: true,
+      },
+      {
+        source: "/meet-the-team",
+        destination: "/team",
         permanent: true,
       },
     ];
