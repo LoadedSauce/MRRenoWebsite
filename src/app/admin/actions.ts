@@ -7,6 +7,7 @@ import {
   MAX_FEATURED_PORTFOLIO_ITEMS_PER_SERVICE,
   TEAM_SECTIONS,
   JOB_SECTIONS,
+  LEAD_STATUSES,
   QR_SLUG_PATTERN,
   type TeamSection,
 } from "@/lib/supabase/types";
@@ -677,5 +678,45 @@ export async function deleteQrCode(id: string) {
   const supabase = createServiceRoleClient();
   await supabase.from("qr_codes").delete().eq("id", id);
   revalidatePath("/admin/qr-codes");
+  revalidatePath("/admin/reports");
+}
+
+// -- LEADS --
+
+/**
+ * Leads are the one table here the public writes to, and the one whose loss
+ * costs real money. Nothing on this screen deletes a lead: the only mutations
+ * are the two below, both of which are recoverable.
+ */
+
+export async function updateLeadStatus(id: string, status: string) {
+  const safe = (LEAD_STATUSES as readonly string[]).includes(status)
+    ? status
+    : "new";
+  const supabase = createServiceRoleClient();
+  await supabase.from("leads").update({ status: safe }).eq("id", id);
+  revalidatePath("/admin/leads");
+  revalidatePath("/admin/reports");
+}
+
+/**
+ * Manual completion of the Roofr handoff.
+ *
+ * When the Zap fails, the lead lives only in Supabase and somebody has to key
+ * it into Roofr by hand. Without a way to record that, the leads screen would
+ * keep flagging it forever and the real failures would get lost in the noise.
+ *
+ * This only records what a human did -- it does not push anything to Roofr.
+ */
+export async function markLeadSyncedToRoofr(id: string, synced: boolean) {
+  const supabase = createServiceRoleClient();
+  await supabase
+    .from("leads")
+    .update({
+      synced_to_roofr: synced,
+      roofr_synced_at: synced ? new Date().toISOString() : null,
+    })
+    .eq("id", id);
+  revalidatePath("/admin/leads");
   revalidatePath("/admin/reports");
 }
