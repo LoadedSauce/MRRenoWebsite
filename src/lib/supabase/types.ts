@@ -117,6 +117,61 @@ export const JOB_SECTIONS: readonly TeamSection[] = [
   "Crew",
 ];
 
+/** Matches public.leads schema. Written by the submitLead server action. */
+export interface Lead {
+  id: string;
+  created_at: string;
+  form_type: "consultation" | "contact";
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+  phone: string | null;
+  project_type: string | null;
+  project_details: string | null;
+  preferred_contact: string | null;
+  street_address: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  source_channel: string | null;
+  source_campaign: string | null;
+  landing_url: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_term: string | null;
+  utm_content: string | null;
+  gclid: string | null;
+  fbclid: string | null;
+  qr_code_slug: string | null;
+  qr_scan_id: string | null;
+  /** Storage paths in the PRIVATE lead-photos bucket, not public URLs. */
+  photo_urls: string[] | null;
+  lead_score: number | null;
+  status: string;
+  /** Set by the INT-001 Zap once the lead reaches Roofr. */
+  synced_to_roofr: boolean;
+  roofr_synced_at: string | null;
+}
+
+/** Pipeline states an admin can set by hand on the leads screen. */
+export const LEAD_STATUSES = [
+  "new",
+  "contacted",
+  "qualified",
+  "dead",
+] as const;
+
+/**
+ * How long a lead may sit unsynced before we treat it as a failed handoff.
+ *
+ * The INT-001 webhook fires on insert and normally reaches Roofr in seconds,
+ * so anything still unsynced after this long means the Zap did not run, and
+ * the lead exists ONLY in Supabase. That is precisely the case this screen
+ * has to make impossible to miss.
+ */
+export const ROOFR_SYNC_GRACE_MINUTES = 15;
+
 /** Matches public.candidates schema (migration 0008) */
 export interface Candidate {
   id: string;
